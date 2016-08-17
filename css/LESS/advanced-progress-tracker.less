@@ -3,8 +3,10 @@
 // Scroll Progress Tracker Stylesheet
 //-------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2016-08-16
+// Changed          2016-08-17
 // Authors          David Whitworth | David@Whitworth.de
+//-------------------------------------------------------------------------------------
+// Version 1.0
 //-------------------------------------------------------------------------------------
 // 2016-08-10       Created
 // 2016-08-12 DW    styled the trackers' final stops
@@ -23,6 +25,12 @@
 //                  added the "smaller" and "larger" classes to style smaller and
 //                  larger text
 // 2016-08-17 DW    added styles for .bold, .italic and .pullUp
+//-------------------------------------------------------------------------------------
+// Version 1.1
+//-------------------------------------------------------------------------------------
+// 2016-08-17 DW    added the "fixed" class to the horizontal tracker (for use with
+//                  the option horInHeader: false);
+//                  added the "historyVersion" class    
 //-------------------------------------------------------------------------------------
 // Copyright c 2016
 //-------------------------------------------------------------------------------------
@@ -78,21 +86,28 @@ hr {
 }
 .hot {
     margin-left: 20px;
-//    border: 1px solid fade(@color-highlight, 12%);
-//    border-radius: 5px;
-//    padding: 0 4px;
-//    text-shadow: 1px 1px 0 fade(@color-foreground, 70%);
     font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-weight: bold;
     color: @color-highlight;
-//    background-color: fade(@color-highlight, 8%);
 }
-.sourcecode {
+.sourcecode,
+.htmlTag,
+.htmlAttr,
+.htmlVal,
+.htmlComment,
+.javascript,
+.jsVal,
+.jsComment,
+.jsQuote,
+.jsConst {
+    font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 13px;
+}
+.sourcecode,
+.historyVersion {
     border: 1px solid fade(@color-foreground, 15%);
     padding: 8px 16px;
     text-overflow: ellipsis;
-    font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-size: 14px;
     background-color: fade(@color-foreground, 5%);
     overflow: hidden;
     .htmlTag {
@@ -123,16 +138,25 @@ hr {
         font-style: italic;
     }
 }
+.historyVersion {
+    margin-bottom: 16px;
+    &:last-of-type {
+        margin: 0;
+    }
+}
 /* GENERAL end */
 
 /* HORIZONTAL SCROLL PROGRESS TRACKER */
 .horizontalScrollProgress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    .gradient2Stops (top, to bottom, 0, 0%, 100%, @color-background, fade(@color-background, 0%));
+    padding-top: 29px;
+    height: 31px;
+    &.fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        .gradient2Stops (top, to bottom, 0, 0%, 100%, @color-background, fade(@color-background, 0%));
+    }
     &.bottom {
         top: auto;
         bottom: 0;
@@ -140,7 +164,6 @@ hr {
     }
     .scrollProgress {
         display: block;
-        margin-top: 29px;
         border: none;
         width: 100%;
         height: 2px;
@@ -244,7 +267,7 @@ hr {
         top: -11px;
     }
     .finalStopCircle {
-        top: -12px;
+        top: -13px;
         right: -10px;
     }
 }

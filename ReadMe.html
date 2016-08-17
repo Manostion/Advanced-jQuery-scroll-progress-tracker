@@ -16,6 +16,7 @@
                 horMobileOnly: true,
                 verTracker: true,
                 verPosition: 'right',
+                trackAllHeadlines: true,
                 addFinalStop: true,
                 finalStopTitle: 'Questions & Feedback',
                 scrollSpeed: 1200
@@ -27,30 +28,32 @@
         <div id="MainContent" class="centerAll">
             <div id="TrackScrollProgress">
                 <div class="trackThis">
-                    <h3 data-name="Introduction">Advanced jQuery scroll progress tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.0</p>
-                    <p>A relatively lightweight (~19KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
+                    <h1 data-name="Introduction">Advanced jQuery scroll progress tracker</h3>
+                    <p class="smaller pullUp bold">Ver. 1.1</p>
+                    <p>A relatively lightweight (~16KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
                     <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behaviour and appearance of each tracker individually.</p>
                 </div>
                 <hr />
                 <div class="trackThis">
                     <h3>Options</h3>
-<!-- If you discovered this, you now know features that are coming soon... =)
-
                     <p><b>trackAllHeadlines</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
-                    If set to true, any headline tag (h1, h2, h3,...) inside '.trackThis' will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
+                    If set to true, any headline tag (h1, h2, h3,...) inside '.trackThis' (or with the class "trackThis" - see the last point of "Setup" for further information) will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
                     <hr />
                     <p><b>horInHeader</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
                     If you activate this and have a header-tag on your website, the horizontal tracker will be created within your header¹. There are three options:</p>
                     <ul>
-                        <li><i><b>'top'</b></i> - Creates the tracker at the top of your header (i.e. before all other content).</li>
-                        <li><i><b>'bottom'</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).</li>
-                        <li><i><b>false</b></i> - Creates the tracker at the end of the site in a fixed container (default behaviour).</li>
+                        <li>
+                            <i><b>'top'</b></i> - Creates the tracker at the top of your header (i.e. before all other content).
+                        </li>
+                        <li>
+                            <i><b>'bottom'</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).
+                        </li>
+                        <li>
+                            <i><b>false</b></i> - Creates the tracker at the end of the site in a fixed container (default behaviour).
+                        </li>
                     </ul>
                     <p class="smaller">¹If you use this setting, you should make sure your header is set to position: fixed and you should also adjust this setting in the plugin's stylesheet.</p>
                     <hr />
-
--->
                     <p><b>mobileThreshold</b> - <i>default: <b>1024</b></i><br />
                     Treats the device as <i>small screen</i> if the viewport width is below or equal to this value, i.e. on default settings, if the viewport is at least 1025px wide, the device is treated as <i>large screen</i>, otherwise as <i>small screen</i>.<br />
                     This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
@@ -61,8 +64,12 @@
                     <p><b>horPosition</b> - <i>default: <b>'top'</b></i><br />
                     Defines where to display the <i>horizontal</i> tracker. There are two options:</p>
                     <ul>
-                        <li><i><b>'top'</b></i> - Displays the tracker above the content.</li>
-                        <li><i><b>'bottom'</b></i> - Displays the tracker below the content.</li>
+                        <li>
+                            <i><b>'top'</b></i> - Displays the tracker above the content.
+                        </li>
+                        <li>
+                            <i><b>'bottom'</b></i> - Displays the tracker below the content.
+                        </li>
                     </ul>
                     <hr />
                     <p><b>horMobile</b> - <i>default: <b>true</b></i><br />
@@ -79,8 +86,12 @@
                     <p><b>verPosition</b> - <i>default: <b>'left'</b></i><br />
                     Defines where to display the <i>vertical</i> tracker. There are two options:</p>
                     <ul>
-                        <li><i><b>'left'</b></i> - Displays the tracker on the far left of the viewport.</li>
-                        <li><i><b>'right'</b></i> - Displays the tracker on the far right of the viewport.</li>
+                        <li>
+                            <i><b>'left'</b></i> - Displays the tracker on the far left of the viewport.
+                        </li>
+                        <li>
+                            <i><b>'right'</b></i> - Displays the tracker on the far right of the viewport.
+                        </li>
                     </ul>
                     <hr />
                     <p><b>verMobile</b> - <i>default: <b>false</b></i><br />
@@ -107,9 +118,16 @@
                     <p><b>horTitlesOffset</b> - <i>default: <b>'bottom'</b></i><br />
                     Defines if and how the titles of the <i>horizontal</i> progress tracker should be offset from the tracker itself. There are three options:</p>
                     <ul>
-                        <li><i><b>'top'</b></i> - Displays the titles above the tracker.</li>
-                        <li><i><b>'bottom'</b></i> - Displays the titles below the tracker.</li>
-                        <li><i><b>false</b></i> - Displays the titles on top of the tracker.¹<br /><br /><span class="smaller">¹<b>false</b> will automatically be overridden with <b>'bottom'</b> on small screens ('top' and 'bottom' still work normally on small screens)!</span></li>
+                        <li>
+                            <i><b>'top'</b></i> - Displays the titles above the tracker.
+                        </li>
+                        <li>
+                            <i><b>'bottom'</b></i> - Displays the titles below the tracker.
+                        </li>
+                        <li>
+                            <i><b>false</b></i> - Displays the titles on top of the tracker.¹<br /><br />
+                            <span class="smaller">¹<b>false</b> will automatically be overridden with <b>'bottom'</b> on small screens ('top' and 'bottom' still work normally on small screens)!</span>
+                        </li>
                     </ul>
                     <hr />
                     <p><b>horOnlyActiveTitle</b> - <i>default: <b>true</b></i><br />
@@ -178,6 +196,7 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horMobileOnly: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verTracker: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verPosition: <span class="jsQuote">'right'</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trackAllHeadlines: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addFinalStop: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Questions & Feedback'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrollSpeed: <span class="jsVal">1200</span><br />
@@ -225,6 +244,27 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlTag">&lt;h3&gt;</span>section headline<span class="htmlTag">&lt;/h3&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span><br />
+                    </div>
+                </div>
+                <hr />
+                <div class="trackThis">
+                    <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.1</span><br />
+                        <p>
+                            <span class="underline">Added option <b>horInHeader</b></span>
+                            <br /><span class="smaller">
+                                It is now possible to put the <i>horizontal</i> tracker inside an existing <span class="htmlTag">&lt;header&gt;</span>.
+                                <br />It is also possible to define where in the header it should be positioned by using either <span class="jsQuote">'top'</span> or <span class="jsQuote">'bottom'</span> as the option's value.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Added option <b>trackAllHeadlines</b></span>
+                            <br /><span class="smaller">
+                                In addition to searching for each <span class="htmlTag">&lt;h3&gt;</span> in the tracked area, it is now also possible to search for <i>any</i> headline instead. That way, for example, the very first section could have a <span class="htmlTag">&lt;h1&gt;</span> (as seen in this ReadMe) but still give it's title to the tracker. However if you'd for example like to use <span class="htmlTag">&lt;h4&gt;</span>-headlines <i>within</i> your tracked areas, you should handle this option with care (Though it would be possible to achieve both by putting the <span class="htmlTag">&lt;h4&gt;</span> inside a not-tracked area (i.e. one without the class <span class="htmlVal">"trackThis"</span>).
+                            </span>
+                        </p>
                     </div>
                 </div>
                 <hr />

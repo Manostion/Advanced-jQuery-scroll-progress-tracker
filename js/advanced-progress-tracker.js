@@ -6,6 +6,8 @@
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //-------------------------------------------------------------------------------------
+// Version 1.0
+//-------------------------------------------------------------------------------------
 // 2016-08-10       Created
 // 2016-08-11 DW    added automated Stops for each article within the tracked area;
 //                  added article headlines to the stops of vertical Trackers
@@ -35,7 +37,18 @@
 //                  "trackThis" and automatically generates the necessary
 //                  structure around them if true
 //-------------------------------------------------------------------------------------
+// Version 1.1
+//-------------------------------------------------------------------------------------
+// 2016-08-17 DW    added an option to track all headlines instead of h3 only;
+//                  added the option to place the horizontal tracker inside an existing
+//                  header tag on the site
+//-------------------------------------------------------------------------------------
 // Copyright © 2016
+//-------------------------------------------------------------------------------------
+// Ideas for later:
+//-------------------------------------------------------------------------------------
+// [ ] Predefine several styles for the trackers (for example "beam", "bar" etc.)
+// [ ] Add option to ONLY track area within viewport (i.e. past sections turn inactive again)
 //-------------------------------------------------------------------------------------
 
 $.fn.progressTracker = function(options) {
@@ -43,9 +56,11 @@ $.fn.progressTracker = function(options) {
     var settings = $.extend({
         mobileThreshold: 1024,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
         horTracker: true,               // displays a HORIZONTAL scroll progress tracker
+        horInHeader: false,             // creates the HORIZONTAL tracker within an existing header if true
+                                        // ---> naturally, you need to have a header in your markup for this to work; if this is active, then horPosition will be ignored
         horPosition: 'top',             // creates the HORIZONTAL tracker at the top of the page if set to 'top', at the bottom if set to 'bottom'
         horMobile: true,                // displays the HORIZONTAL tracker also on small screen devices if true
-        horMobileOnly: false,           // hides the HORIZONTAL tracker on large screens if true;
+        horMobileOnly: false,           // hides the HORIZONTAL tracker on large screens if true
                                         // ---> useful if you want to use the VERTICAL tracker for large devices and the HORIZONTAL tracker for small screen; overrides 'horMobile: false'
         verTracker: false,              // displays a VERTICAL scroll progress tracker
         verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
@@ -64,6 +79,7 @@ $.fn.progressTracker = function(options) {
         horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
                                         // ---> only makes sense if horTitles is true; this is automatically forced on small screen devices(!)
         verTitles: true,                // adds the headline (h3) of each section to the VERTICAL tracker if true
+        trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
         addFinalStop: false,            // adds a final stop to the very end of the progress tracker(s) if true
                                         // ---> only makes sense if horStops and/or verStops is true; works with horNumbering/verNumbering
         finalStopTitle: '',             // adds a title to the final stop at the end of the progress tracker(s) if not ''
@@ -108,16 +124,22 @@ $.fn.progressTracker = function(options) {
     // CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG end //
     
     $(document).ready(function () {
-        // CONVERT DOCUMENT IF H3 HAS CLASS 'trackThis' //
-        if ($('h3.trackThis').length) {
+        if (settings.trackAllHeadlines) {
+            $('h1, h2, h3, h4, h5, h6').addClass('ptSectionTitle');
+        } else {
+            $('h3').addClass('ptSectionTitle');
+        }
+        
+        // CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis' //
+        if ($('.ptSectionTitle.trackThis').length) {
             var i = 0;
-            $('h3.trackThis').each(function() {
+            $('.ptSectionTitle.trackThis').each(function() {
                 i ++;
                 $(this).removeClass('trackThis').wrap('<div id="Section' + i + '" class="trackThis"></div>');
                 var nextBreak = false;
                 while (!nextBreak) {
                     if ($('#Section' + i).next().length) {
-                        if ($('#Section' + i).next()[0] != $('#Section' + i).siblings('h3.trackThis')[0]) {
+                        if ($('#Section' + i).next()[0] != $('#Section' + i).siblings('.ptSectionTitle.trackThis')[0]) {
                             $('#Section' + i).append($('#Section' + i).next());
                         }
                         else {
@@ -130,18 +152,32 @@ $.fn.progressTracker = function(options) {
                 }
             });
         }
-        // CONVERT DOCUMENT IF H3 HAS CLASS 'trackThis' //
+        // CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis' end //
 
         if ($('#TrackScrollProgress').length) {
             trackedArea = $('#TrackScrollProgress');
         } else {
             trackedArea = $(document);
         }
-        headlineMargin = ($('#TrackScrollProgress .trackThis > h3:first').outerHeight(true) - $('#TrackScrollProgress .trackThis > h3:first').outerHeight()) / 2;
+        headlineMargin = (trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight(true) - trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight()) / 2;
         
         // GENERATE TRACKER HTML STRUCTURE //
         if (settings.horTracker) {
-            $('body').append('<div class="horizontalScrollProgress"></div>');
+            // GENERATE HORIZONTAL TRACKER IN HEADER //
+            if (settings.horInHeader && $('header').length) {
+                if (settings.horInHeader == 'bottom') {
+                    $('header').append('<div class="horizontalScrollProgress"></div>');
+                } else {
+                    $('header').prepend('<div class="horizontalScrollProgress"></div>');
+                }
+                if (settings.horMobileOnly) {
+                    $('.horizontalScrollProgress').addClass('mobileOnly');
+                }
+            } else {
+                $('body').append('<div class="horizontalScrollProgress fixed"></div>');
+            }
+            // GENERATE HORIZONTAL TRACKER IN HEADER end //
+            
             if ('max' in document.createElement('progress')) {
                 // generate html5 progress-tag if it is supported by the browser
                 $('.horizontalScrollProgress').append('<progress class="scrollProgress"></progress>');
@@ -151,11 +187,13 @@ $.fn.progressTracker = function(options) {
                 $('.horizontalScrollProgress').append('<div class="scrollProgressContainer centerAll"><span class="scrollProgressBar"></span></div>');
                 horizontalTracker = $('.scrollProgressContainer');
             }
-            if (settings.horPosition == 'bottom') {
+            if (settings.horPosition == 'bottom' && !settings.horInHeader) {
                 $('.horizontalScrollProgress').addClass('bottom');
                 $('body').css('padding-bottom', $('.horizontalScrollProgress').height());
             } else {
-                $('body').css('padding-top', $('.horizontalScrollProgress').height());
+                if (!settings.horInHeader) {
+                    $('body').css('padding-top', $('.horizontalScrollProgress').height());
+                }
             }
 
             head = $('.horizontalScrollProgress').height();
@@ -355,27 +393,27 @@ $.fn.progressTracker = function(options) {
         setScrollStops();
         // CREATE SCROLLSTOPS AND TITLES //
         function setScrollStops() {
-            $('#TrackScrollProgress .trackThis').each(function(index) {
-                var sectionHeadline = $(this).children('h3'),
-                    sectionTitle,
+            trackedArea.find('.trackThis').each(function(index) {
+                var sectionHeadline = $(this).children('.ptSectionTitle'),
+                    ptSectionTitle,
                     sectionId = index + 1,
                     scrollHorStops = $('.scrollStopContainer'),
                     scrollVerStops = $('.vertScrollStopContainer'),
                     scrollStopTitles = $('.scrollStopTitles'),
                     scrollVerStopTitles = $('.vertScrollStopTitles');
                     if (sectionHeadline.attr('data-name')) {
-                        sectionTitle = sectionHeadline.attr('data-name');
+                        ptSectionTitle = sectionHeadline.attr('data-name');
                     } else {
-                        sectionTitle = sectionHeadline.text();
+                        ptSectionTitle = sectionHeadline.text();
                     }
                 
                 $(this).attr('id', 'Section' + sectionId);
-                $(this).children('h3').attr({ id: 'SectionHeadline' + sectionId});
+                $(this).children('.ptSectionTitle').attr({ id: 'SectionHeadline' + sectionId});
                 
                 scrollHorStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '"></div>');
                 scrollVerStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '"></div>');
-                scrollStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
-                scrollVerStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
+                scrollStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + ptSectionTitle + '</div>');
+                scrollVerStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + ptSectionTitle + '</div>');
                 
                 
                 if (settings.horNumbering) {
@@ -453,10 +491,10 @@ $.fn.progressTracker = function(options) {
     });
     // POSITION SCROLL STOPS AND TITLES //
     function moveScrollStops() {
-        $('#TrackScrollProgress .trackThis').each(function(index) {
+        trackedArea.find('.trackThis').each(function(index) {
             var section = $(this),
-                sectionHeadline = section.children('h3'),
-                sectionTitle = sectionHeadline.text(),
+                sectionHeadline = section.children('.ptSectionTitle'),
+                ptSectionTitle = sectionHeadline.text(),
                 sectionTopSubtract = trackedArea.offset().top,
                 sectionTop = section.offset().top - sectionTopSubtract,
                 sectionId = index + 1,
@@ -476,11 +514,11 @@ $.fn.progressTracker = function(options) {
             scrollStopTitles.children('.stopTitle.onlyActive').css('left', '-8px').addClass('reached');
             scrollVerStopTitles.children('.stop' + sectionId).css('top', sectionStop + '%');
             
-            if ($(window).scrollTop() <= $('#TrackScrollProgress .trackThis:first').offset().top - sectionTopSubtract + $('#TrackScrollProgress .trackThis:first').children('h3').outerHeight() + headlineMargin/2) {
+            if ($(window).scrollTop() <= trackedArea.find('.trackThis:first').offset().top - sectionTopSubtract + trackedArea.find('.trackThis:first').children('.ptSectionTitle').outerHeight() + headlineMargin/2) {
                 scrollStopTitles.children('.stopTitle.onlyActive').text('');
             }
             if ($(window).scrollTop() >= sectionTop + sectionHeadline.outerHeight() + headlineMargin) {
-                scrollStopTitles.children('.stopTitle.onlyActive').text(sectionTitle);
+                scrollStopTitles.children('.stopTitle.onlyActive').text(ptSectionTitle);
                 var viewportBottom = $(window).scrollTop() + $(window).height();
                 if (settings.finalStopTitle != '') {
                     if ($(window).width() <= settings.mobileThreshold) {
