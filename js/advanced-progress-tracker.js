@@ -41,44 +41,48 @@
 //-------------------------------------------------------------------------------------
 // 2016-08-17 DW    added an option to track all headlines instead of h3 only;
 //                  added the option to place the horizontal tracker inside an existing
-//                  header tag on the site
+//                  header tag on the site;
+//                  changed the order of the options and categorized them
 //-------------------------------------------------------------------------------------
 // Copyright © 2016
-//-------------------------------------------------------------------------------------
-// Ideas for later:
-//-------------------------------------------------------------------------------------
-// [ ] Predefine several styles for the trackers (for example "beam", "bar" etc.)
-// [ ] Add option to ONLY track area within viewport (i.e. past sections turn inactive again)
 //-------------------------------------------------------------------------------------
 
 $.fn.progressTracker = function(options) {
     // DEFINE DEFAULT OPTIONS //
     var settings = $.extend({
-        mobileThreshold: 1024,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
+        // HORIZONTAL tracker --> //
         horTracker: true,               // displays a HORIZONTAL scroll progress tracker
         horInHeader: false,             // creates the HORIZONTAL tracker within an existing header if true
                                         // ---> naturally, you need to have a header in your markup for this to work; if this is active, then horPosition will be ignored
         horPosition: 'top',             // creates the HORIZONTAL tracker at the top of the page if set to 'top', at the bottom if set to 'bottom'
+        horStyle: 'beam',               // Sets the style of the HORIZONTAL tracker
         horMobile: true,                // displays the HORIZONTAL tracker also on small screen devices if true
         horMobileOnly: false,           // hides the HORIZONTAL tracker on large screens if true
                                         // ---> useful if you want to use the VERTICAL tracker for large devices and the HORIZONTAL tracker for small screen; overrides 'horMobile: false'
-        verTracker: false,              // displays a VERTICAL scroll progress tracker
-        verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
-        verMobile: false,               // displays the VERTICAL tracker also on small screen devices if true
-        verMobileOnly: false,           // hides the VERTICAL tracker on large screens if true;
-                                        // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
         horStops: true,                 // adds stops for each section to the HORIZONTAL tracker if true
-        verStops: true,                 // adds stops for each section to the VERTICAL tracker if true
         horNumbering: true,             // adds numbers to the stops of the HORIZONTAL TRACKER if true
                                         // ---> only makes sense if horStops is true
-        verNumbering: false,            // adds numbers to the stops of the VERTICAL TRACKER if true
-                                        // ---> only makes sense if verStops is true
         horTitles: false,               // adds the headline (h3) of each section to the HORIZONTAL tracker if true
         horTitlesOffset: 'bottom',      // moves the titles of the horizontal tracker off the progress bar if set to 'top' or 'bottom' (they overlay the bar if false)
                                         // ---> only makes sense if horTitles is true; this is automatically set to 'bottom' on small screen devices(!) if set to false
         horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
                                         // ---> only makes sense if horTitles is true; this is automatically forced on small screen devices(!)
+        // <-- HORIZONTAL tracker //
+        
+        // VERTICAL tracker --> //
+        verTracker: false,              // displays a VERTICAL scroll progress tracker
+        verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
+        verMobile: false,               // displays the VERTICAL tracker also on small screen devices if true
+        verMobileOnly: false,           // hides the VERTICAL tracker on large screens if true;
+                                        // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
+        verStops: true,                 // adds stops for each section to the VERTICAL tracker if true
+        verNumbering: false,            // adds numbers to the stops of the VERTICAL TRACKER if true
+                                        // ---> only makes sense if verStops is true
         verTitles: true,                // adds the headline (h3) of each section to the VERTICAL tracker if true
+        // <-- VERTICAL tracker //
+        
+        // General --> //
+        mobileThreshold: 1024,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
         trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
         addFinalStop: false,            // adds a final stop to the very end of the progress tracker(s) if true
                                         // ---> only makes sense if horStops and/or verStops is true; works with horNumbering/verNumbering
@@ -94,6 +98,7 @@ $.fn.progressTracker = function(options) {
                                         // ---> only makes sense if horStops/verStops and/or horTitles/verTitles and linking is true
         trackViewport: true             // if true the tracker(s) show the scroll position based on the BOTTOM of the viewport, if false the TOP of the viewport serves as the basis
                                         // ---> if the tracked area or even it's last section isn't as high (or higher) as the viewport, then the tracker(s) won't reach 100% if this is set to false
+        // <-- General //
     }, options);
     // DEFINE DEFAULT OPTIONS end //
     
