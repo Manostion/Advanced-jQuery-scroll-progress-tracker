@@ -1,0 +1,117 @@
+//-------------------------------------------------------------------------------------
+// LESS settings
+//-------------------------------------------------------------------------------------
+// Created          2016-08-10
+// Changed          2016-08-16
+// Authors          David Whitworth | David@Whitworth.de
+//-------------------------------------------------------------------------------------
+// 2016-08-10       Created
+// 2016-08-15 DW    added the colors for the sourcecode blocks of the ReadMe;
+// 2016-08-16 DW    added the sourcecode color for comments;
+//                  removed a theme and adjusted the remaining three a bit
+//-------------------------------------------------------------------------------------
+// Copyright © 2016
+//-------------------------------------------------------------------------------------
+
+// COLORS
+    // general
+    @color-black: #000000;
+    @color-white: #ffffff;
+    @color-anthracite: lighten(@color-black, 15%);
+    @color-lightgray: darken(@color-white, 10%);
+    @color-red: #e70000;
+    @color-green: #58f448;
+    @color-blue: #4c88c6;
+    @color-orange: #fc8b00;
+    @color-magenta: #e50051;
+    
+    // sourcecode
+    @color-sc-blue: #0000ff;
+    @color-sc-red: #ff0000;
+    @color-sc-purple: #8000ff;
+    @color-sc-darkblue: #000080;
+    @color-sc-green: #008000;
+    
+    // Dynamic text color (based on background color)
+    .dynText (@a) when (lightness(@a) >= 50%) {
+        color: @color-anthracite;
+    }
+    .dynText (@a) when (lightness(@a) < 50%) {
+        color: @color-lightgray;
+    }
+    .dynText (@a) {
+        background-color: @a;
+    }
+    
+    // Dynamic background color (based on text color)
+    .dynBack (@a) when (lightness(@a) >= 50%) {
+        background-color: lighten(@color-anthracite, 15%);
+    }
+    .dynBack (@a) when (lightness(@a) < 50%) {
+        background-color: @color-lightgray;
+    }
+    .dynBack (@a) {
+        color: @a;
+    }
+    
+    // Theme colors (configuration)
+//  Theme:          DEFAULT
+//  Main color:     orange
+    @color-main-DEFAULT: @color-orange;
+    @color-navi-DEFAULT: @color-white;
+    @color-foreground-DEFAULT: @color-black;
+    @color-background-DEFAULT: @color-white;
+    @color-highlight-DEFAULT: @color-red;
+    
+//  Theme:          DARK
+//  Main color:     black
+    @color-main-DARK: @color-anthracite;
+    @color-navi-DARK: darken(@color-lightgray, 10%);
+    @color-foreground-DARK: darken(@color-lightgray, 10%);
+    @color-background-DARK: @color-black;
+    @color-highlight-DARK: @color-red;
+
+//  Theme:          BLUE
+//  Main color:     blue
+    @color-main-BLUE: @color-blue;
+    @color-navi-BLUE: darken(@color-lightgray, 10%);
+    @color-foreground-BLUE: darken(@color-blue, 30%);
+    @color-background-BLUE: lighten(@color-blue, 42%);
+    @color-highlight-BLUE: @color-green;
+
+    // Theme colors (selection)
+    // ——— INSERT THEME NAME HERE!!
+    @color-main:
+        @color-main-DEFAULT;           // <—— Change this!
+    @color-foreground:
+        @color-foreground-DEFAULT;     // <—— Change this!
+    @color-background:
+        @color-background-DEFAULT;     // <—— Change this!
+    @color-highlight:
+        @color-highlight-DEFAULT;      // <—— Change this!
+        
+// COLORS end
+//———————————————————————————————————————————————————————————————————————————
+// PARAMETERS
+    // box-model
+    .box-shadow (@offset-x: 0, @offset-y: 0, @blur: 12px, @spread: 0, @opacity: 30%) {
+        box-shadow: @offset-x @offset-y @blur @spread fade(@color-black, @opacity);
+    }
+    
+    // Gradients
+    .gradient2Stops (@origin: top, @direction: to bottom, @type: 0, @1stStop: 0%, @2ndStop: 100%, @color1: @color-main, @color2: darken(@color1, 12%)) {
+        background: @color1; /* Old browsers */
+        background: -moz-linear-gradient(@origin, @color1 @1stStop, @color2 @2ndStop); /* FF3.6-15 */
+        background: -webkit-linear-gradient(@origin, @color1 @1stStop, @color2 @2ndStop); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(@direction, @color1 @1stStop, @color2 @2ndStop); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color1', endColorstr='@color2',GradientType=@type ); /* IE6-8 */
+    }
+    .gradient3Stops (@origin: top, @direction: to bottom, @type: 0, @1stStop: 0%, @2ndStop: 50%, @3rdStop: 100%, @color2: lighten(@color1, 30%), @color1: @color-main, @color3: darken(@color1, 20%)) {
+        background: @color1; /* Old browsers */
+        background: -moz-linear-gradient(@origin, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* FF3.6-15 */
+        background: -webkit-linear-gradient(@origin, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(@direction, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color2', endColorstr='@color3',GradientType=@type ); /* IE6-8 */
+    }
+    
+// PARAMETERS end

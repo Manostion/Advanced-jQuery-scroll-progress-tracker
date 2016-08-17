@@ -1,0 +1,336 @@
+/*
+//-------------------------------------------------------------------------------------
+// Scroll Progress Tracker Stylesheet
+//-------------------------------------------------------------------------------------
+// Created          2016-08-10
+// Changed          2016-08-16
+// Authors          David Whitworth | David@Whitworth.de
+//-------------------------------------------------------------------------------------
+// 2016-08-10       Created
+// 2016-08-12 DW    styled the trackers' final stops
+// 2016-08-13 DW    added the class for the mobile only option;
+//                  added styles for too long headlines on mobile devices
+// 2016-08-15 DW    changed various style-data;
+//                  added styling for sourcecode blocks
+// 2016-08-16 DW    adjusted styling to better fit the new options horTracker
+//                  and verTracker;
+//                  added styling for the options horPosition and verPosition;
+//                  added the hack font to sourcecode blocks;
+//                  included the "smallDevice" class to bind the responsive webdesign
+//                  to the plugin's "mobileThreshold" setting;
+//                  moved the titles of the vertical tracker closer to the bullets,
+//                  then spaced with padding (this creates seamless links);
+//                  added the "smaller" and "larger" classes to style smaller and
+//                  larger text
+// 2016-08-17 DW    added styles for .bold, .italic and .pullUp
+//-------------------------------------------------------------------------------------
+// Copyright c 2016
+//-------------------------------------------------------------------------------------
+*/
+
+@import '_settings.less';
+
+/* GENERAL */
+body {
+    margin: 0;
+    padding: 24px 16px;
+    color: @color-foreground;
+    background-color: @color-background;
+}
+h3 {
+    font-size: 24px;
+}
+hr {
+    margin-top: 24px;
+    border: 2px solid fade(@color-foreground, 10%);
+}
+.centerAll {
+    margin: 0 auto;
+    max-width: 960px;
+}
+.trackThis {
+    hr {
+        margin-top: 0px;
+        border-top: 1px solid fade(@color-foreground, 7%);
+        border-bottom: none;
+    }
+}
+.larger {
+    font-size: 1.5em;
+}
+.smaller {
+    font-size: 0.8em;
+}
+.pullUp {
+    margin-top: -20px;
+}
+.bold {
+    font-weight: bold;
+}
+.italic {
+    font-style: italic;
+}
+.underline {
+    text-decoration: underline;
+}
+.mobileOnly {
+    display: none !important;
+}
+.hot {
+    margin-left: 20px;
+//    border: 1px solid fade(@color-highlight, 12%);
+//    border-radius: 5px;
+//    padding: 0 4px;
+//    text-shadow: 1px 1px 0 fade(@color-foreground, 70%);
+    font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-weight: bold;
+    color: @color-highlight;
+//    background-color: fade(@color-highlight, 8%);
+}
+.sourcecode {
+    border: 1px solid fade(@color-foreground, 15%);
+    padding: 8px 16px;
+    text-overflow: ellipsis;
+    font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 14px;
+    background-color: fade(@color-foreground, 5%);
+    overflow: hidden;
+    .htmlTag {
+        color: @color-sc-blue;
+    }
+    .htmlAttr,
+    .jsVal {
+        color: @color-sc-red;
+    }
+    .htmlVal {
+        color: @color-sc-purple;
+    }
+    .htmlComment,
+    .jsComment {
+        color: @color-sc-green;
+    }
+    .javascript {
+        margin: 0 -16px;
+        padding: 0 16px;
+        background-color: fade(desaturate(@color-blue, 25%), 20%);
+    }
+    .jsQuote {
+        color: lighten(@color-black, 50%);
+    }
+    .jsConst {
+        color: @color-sc-darkblue;
+        text-shadow: 0.5px 0 0 @color-sc-darkblue;
+        font-style: italic;
+    }
+}
+/* GENERAL end */
+
+/* HORIZONTAL SCROLL PROGRESS TRACKER */
+.horizontalScrollProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    .gradient2Stops (top, to bottom, 0, 0%, 100%, @color-background, fade(@color-background, 0%));
+    &.bottom {
+        top: auto;
+        bottom: 0;
+        .gradient2Stops (top, to bottom, 0, 0%, 100%, fade(@color-background, 0%), @color-background);
+    }
+    .scrollProgress {
+        display: block;
+        margin-top: 29px;
+        border: none;
+        width: 100%;
+        height: 2px;
+        color: @color-main;
+        background-color: fade(@color-foreground, 30%);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        &::-webkit-progress-bar {
+            background-color: fade(@color-foreground, 30%);
+        }
+        &::-webkit-progress-value {
+            .gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
+        }
+        &::-moz-progress-bar {
+            .gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
+        }
+        .scrollProgressContainer {
+            display: block;
+            margin-top: 29px;
+            width: 100%;
+            height: 2px;
+            color: @color-main;
+            background-color: fade(@color-foreground, 30%);
+            .scrollProgressBar {
+                display: block;
+                width: 0%;
+                height: inherit;
+                background-color: @color-red;
+            }
+        }
+    }
+}
+/* HORIZONTAL SCROLL PROGRESS TRACKER end */
+
+/* VERTICAL SCROLL PROGRESS TRACKER */
+.verticalScrollProgress {
+    display: block;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    bottom: 50px;
+    width: 200px;
+    &.right {
+        right: 50px;
+        left: auto;
+    }
+    &.untitled {
+        width: 20px;
+    }
+    .verticalScrollProgressContainer {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 2px;
+        height: 100%;
+        background-color: fade(@color-foreground, 30%);
+        .verticalScrollProgressBar {
+            height: 0%;
+            .gradient3Stops (top, to bottom, 0, 0%, calc(~'100% - 5px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
+        }
+    }
+}
+/* VERTICAL SCROLL PROGRESS TRACKER end */
+
+/* SCROLL STOPS */
+.scrollStopContainer,
+.vertScrollStopContainer {
+    position: relative;
+    .stopCircle,
+    .finalStopCircle {
+        position: absolute;
+        border: 2px solid fade(@color-foreground, 50%);
+        border-radius: 10px;
+        width: 16px;
+        height: 16px;
+        text-align: center;
+        text-decoration: none;
+        line-height: 16px;
+        color: fade(@color-foreground, 50%);
+        background-color: @color-background;
+        cursor: pointer;
+        &.reached,
+        &.hover {
+            color: @color-foreground;
+            border-color: @color-highlight;
+        }
+    }
+    .finalStopCircle {
+        border-width: 3px;
+        border-radius: 12px;
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
+    }
+}
+.scrollStopContainer {
+    .stopCircle {
+        top: -11px;
+    }
+    .finalStopCircle {
+        top: -12px;
+        right: -10px;
+    }
+}
+.vertScrollStopContainer {
+    height: 100%;
+    .stopCircle {
+        left: -9px;
+    }
+    .finalStopCircle {
+        left: -10px;
+        bottom: -18px;
+    }
+}
+/* SCROLL STOPS end */
+
+/* SCROLL STOP TITLES */
+.scrollStopTitles,
+.vertScrollStopTitles {
+    display: block;
+    position: absolute;
+    .stopTitle,
+    .finalStopTitle {
+        position: absolute;
+        color: fade(@color-foreground, 50%);
+        cursor: pointer;
+        &.reached,
+        &.hover {
+            color: @color-foreground;
+        }
+        &.ellipsis {
+            max-width: calc(~'100%');
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+}
+.scrollStopTitles {
+    top: 0;
+    right: 0;
+    left: 0;
+    .stopTitle,
+    .finalStopTitle {
+        &.invisible {
+            display: none;
+        }
+    }
+    .finalStopTitle {
+        right: 0;
+    }
+}
+.vertScrollStopTitles {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 190px;
+    .stopTitle,
+    .finalStopTitle {
+        line-height: 14px;
+        margin-top: 2px;
+        padding-left: 10px;
+    }
+    .finalStopTitle {
+        bottom: -12px;
+    }
+}
+/* SCROLL STOP TITLES end */
+
+/* FAKE RESPONSIVE WEB DESIGN */
+&.smallDevice {
+    &.horizontalScrollProgress {
+            background-color: fade(@color-background, 95%);
+    }
+    &.desktopOnly {
+        display: none !important;
+    }
+    &.mobileOnly {
+        display: block !important;
+    }
+    &.scrollProgress,
+    &.scrollProgressContainer,
+    &.scrollStopContainer,
+    &.scrollStopTitles {
+        margin-left: 16px;
+        margin-right: 16px;
+        width: calc(~'100% - 32px') !important;
+    }
+}
+/* FAKE RESPONSIVE WEB DESIGN */
