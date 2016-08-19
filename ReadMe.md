@@ -58,7 +58,7 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ### Credits
 
-I'd like to thank Rene Mansveld for providing me with the "headline only markup"-solution.
+I'd like to thank Rene Mansveld (r.mansveld@spider-it.de) for providing me with the "headline only markup"-solution.
 
 ### Questions & Feedback
 
