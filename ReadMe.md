@@ -2,7 +2,7 @@
 
 Dynamic Scroll Progress Tracker plugin for jQuery
 
-© 2016 David Whitworth (david@whitworth.de)
+(c) 2016 David Whitworth (david@whitworth.de)
 
 Released under the GNU General Public License (GPL)
 
@@ -58,7 +58,7 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ### Credits
 
-I'd like to thank René Mansveld for providing me with the "headline only markup"-solution.
+I'd like to thank Rene Mansveld for providing me with the "headline only markup"-solution.
 
 ### Questions & Feedback
 
