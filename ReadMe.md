@@ -1,4 +1,4 @@
-# Advanced jQuery Scroll Progress Tracker v1.0
+# Advanced jQuery Scroll Progress Tracker v1.1
 
 Dynamic Scroll Progress Tracker plugin for jQuery
 
@@ -8,7 +8,7 @@ Released under the GNU General Public License (GPL)
 
 ### Description
 
-A relatively lightweight (~19KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.
+A relatively lightweight (~22KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.
 
 Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behaviour and appearance of each tracker individually.
 
@@ -39,6 +39,22 @@ Or with custom options...
 You can find a more detailed introduction that uses the script here:
 
 http://whitworth.de/ProgressTracker/ReadMe.html
+
+### Update history
+
+**Version 1.1**
+##### Fixes:
+
+- Fixed the combination of horOnlyActiveTitles and horStops: false
+- Fixed the behavior of horOnlyActiveTitles, linking and skipHeadlines
+
+##### New features:
+
+- Added title-attribute to the bullets of the *horizontal* tracker
+- Added option **horInHeader**
+- Added option **horCenter**
+- Added options and styles for **horStyle** and **verStyle**
+- Added option **trackAllHeadlines**
 
 ### Credits
 
