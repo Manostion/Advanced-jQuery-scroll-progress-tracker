@@ -1,4 +1,4 @@
-# Advanced jQuery Scroll Progress Tracker v1.1.1
+# Advanced jQuery Scroll Progress Tracker v1.1.2
 
 Dynamic Scroll Progress Tracker plugin for jQuery
 
@@ -41,6 +41,12 @@ You can find a more detailed introduction that uses the script here:
 http://whitworth.de/ProgressTracker/ReadMe.html
 
 ### Update history
+
+**Version 1.1.2**
+##### Fixes:
+
+- Adjusted the default value for mobileThreshold and the max-width of .centerAll to prevent collisions with the vertical tracker
+- Repositions the vertical tracker as soon as the available space allows it
 
 **Version 1.1.1**
 ##### Fixes:

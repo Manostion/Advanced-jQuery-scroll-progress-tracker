@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>About | AjSPT v1.1.1</title>
+        <title>About | AjSPT v1.1.2</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
@@ -11,7 +11,6 @@
         <script>
             $('body').progressTracker({
                 horStops: false,
-                horNumbering: false,
                 horTitles: true,
                 horMobileOnly: true,
                 verTracker: true,
@@ -29,7 +28,7 @@
             <div id="TrackScrollProgress">
                 <div class="trackThis">
                     <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.1.1</p>
+                    <p class="smaller pullUp bold">Ver. 1.1.2</p>
                     <p>A relatively lightweight (~22KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
                     <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behavior and appearance of each tracker individually.</p>
                 </div>
@@ -225,7 +224,6 @@
                         <div class="javascript">
                             &nbsp;&nbsp;&nbsp;&nbsp;$(<span class="jsQuote">'body'</span>).progressTracker({<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horStops: <span class="jsConst">false</span>,<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horNumbering: <span class="jsConst">false</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horTitles: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horMobileOnly: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verTracker: <span class="jsConst">true</span>,<br />
@@ -283,6 +281,17 @@
                 <hr />
                 <div class="trackThis">
                     <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.1.2</span><br />
+                        <p class="bold larger">Fixes:</p>
+                        <p>
+                            <span class="underline">Increased the default value for <b>mobileThreshold</b>.</span>
+                            <br /><span class="smaller">
+                                Up until now the <i>horizontal</i> tracker would overlap the content if the viewport was too narrow to contain both, but too wide to be considered a 'small screen'. The default value for <b>mobileThreshold</b> along with the max-width of <span class="htmlAttr">.centerAll</span> has been adjusted to prevent that.
+                                <br />Additionally, the <i>vertical</i> tracker now moves 50px closer to the content as soon as the viewport is wide enough to fit the content + the tracker + 50px.
+                            </span>
+                        </p>
+                    </div>
                     <div class="historyVersion">
                         <span class="bold">Version 1.1.1</span><br />
                         <p class="bold larger">Fixes:</p>

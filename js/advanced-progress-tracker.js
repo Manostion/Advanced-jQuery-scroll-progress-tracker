@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //-------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2016-08-16
+// Changed          2016-08-20
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //-------------------------------------------------------------------------------------
@@ -48,17 +48,22 @@
 // 2016-08-19 DW    adds the according class if a horStyle/verStyle is set;
 //                  fixed the values for linking, horOnlyActiveTitles / skipHeadlines
 //                  fixed the title for horOnlyActiveTitle not showing up when horStops
-//                  is set to false - it is now bound to horTitles as it should be
+//                  is set to false - it is now bound to horTitles as it should be;
+//                  increased the default value for mobileThreshold, so that the
+//                  vertical tracker always fits next to the content
+// 2016-08-20 DW    moves the vertical tracker 50px closer to the content as soon as
+//                  there is enough space;
+//                  edited comments to further clean up the script
 //-------------------------------------------------------------------------------------
-// Copyright © 2016
+// Copyright (c) 2016
 //-------------------------------------------------------------------------------------
 
 $.fn.progressTracker = function(options) {
-    // DEFINE DEFAULT OPTIONS //
+    // Default Options -->
     var settings = $.extend({
         // HORIZONTAL tracker -->
         horTracker: true,               // displays a HORIZONTAL scroll progress tracker
-        horInHeader: false,             // creates the HORIZONTAL tracker within an existing header if true
+        horInHeader: false,             // creates the HORIZONTAL tracker within an existing <header> if true
                                         // ---> naturally, you need to have a header in your markup for this to work; if this is active, then horPosition will be ignored
         horPosition: 'top',             // creates the HORIZONTAL tracker at the top of the page if set to 'top', at the bottom if set to 'bottom'
         horCenter: true,                // makes the HORIZONTAL tracker span the full width of the viewport if set to false
@@ -69,12 +74,12 @@ $.fn.progressTracker = function(options) {
                                         // ---> useful if you want to use the VERTICAL tracker for large devices and the HORIZONTAL tracker for small screen; overrides 'horMobile: false'
         horStops: true,                 // adds stops for each section to the HORIZONTAL tracker if true
         horNumbering: true,             // adds numbers to the stops of the HORIZONTAL TRACKER if true
-                                        // ---> only makes sense if horStops is true
+                                        // ---> only used if horStops is true
         horTitles: false,               // adds the headline (h3) of each section to the HORIZONTAL tracker if true
         horTitlesOffset: 'bottom',      // moves the titles of the horizontal tracker off the progress bar if set to 'top' or 'bottom' (they overlay the bar if false)
-                                        // ---> only makes sense if horTitles is true; this is automatically set to 'bottom' on small screen devices(!) if set to false
+                                        // ---> only used if horTitles is true; this is automatically set to 'bottom' on small screen devices(!) if set to false
         horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
-                                        // ---> only makes sense if horTitles is true; this is automatically forced on small screen devices(!)
+                                        // ---> only used if horTitles is true; this is automatically forced on small screen devices(!)
         // <-- HORIZONTAL tracker
         
         // VERTICAL tracker -->
@@ -87,31 +92,31 @@ $.fn.progressTracker = function(options) {
                                         // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
         verStops: true,                 // adds stops for each section to the VERTICAL tracker if true
         verNumbering: false,            // adds numbers to the stops of the VERTICAL TRACKER if true
-                                        // ---> only makes sense if verStops is true
+                                        // ---> only used if verStops is true
         verTitles: true,                // adds the headline (h3) of each section to the VERTICAL tracker if true
         // <-- VERTICAL tracker
         
         // General -->
-        mobileThreshold: 1024,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
-        trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
+        mobileThreshold: 1300,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
+        trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) within .trackThis will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
         addFinalStop: false,            // adds a final stop to the very end of the progress tracker(s) if true
-                                        // ---> only makes sense if horStops and/or verStops is true; works with horNumbering/verNumbering
+                                        // ---> only used if horStops and/or verStops is true; works with horNumbering/verNumbering
         finalStopTitle: '',             // adds a title to the final stop at the end of the progress tracker(s) if not ''
-                                        // ---> only makes sense if addFinalStop and horTitles/verTitles are true; works without addFinalStop only on the HORIZONTAL tracker and only if horOnlyActiveTitle is true
+                                        // ---> only used if addFinalStop and horTitles/verTitles are true; works without addFinalStop only on the HORIZONTAL tracker and only if horOnlyActiveTitle is true
         hovering: true,                 // adds a hover effect to the stops if true
-                                        // ---> only makes sense if horStops/verStops and/or horTitles/verTitles is true
+                                        // ---> only used if horStops/verStops and/or horTitles/verTitles is true
         linking: true,                  // clicking on a stop animates the page to that section if true
-                                        // ---> only makes sense if horStops/verStops and/or horTitles/verTitles is true
+                                        // ---> only used if horStops/verStops and/or horTitles/verTitles is true
         skipHeadlines: false,           // clicking on a stop will scroll to right after the headline if true
-                                        // ---> only makes sense if horStops/verStops and/or horTitles/verTitles and linking is true; this setting is automatically applied on small screen devices if horTitles is set to true
+                                        // ---> only used if horStops/verStops and/or horTitles/verTitles and linking is true; this setting is automatically applied on small screen devices if horTitles is set to true
         scrollSpeed: 800,               // sets the duration of the scrolling animation in milliseconds; set to 0 to scroll w/o animation
-                                        // ---> only makes sense if horStops/verStops and/or horTitles/verTitles and linking is true
+                                        // ---> only used if horStops/verStops and/or horTitles/verTitles and linking is true
         trackViewport: true,            // if true the tracker(s) show the scroll position based on the BOTTOM of the viewport, if false the TOP of the viewport serves as the basis
                                         // ---> if the tracked area or even it's last section isn't as high (or higher) as the viewport, then the tracker(s) won't reach 100% if this is set to false
         trackViewportOnly: false        // turns section stops and titles inactive again, when the corresponding section leaves the viewport
         // <-- General
     }, options);
-    // <-- DEFINE DEFAULT OPTIONS
+    // <-- Default options
     
     var linkingScrollTop,
         head,
@@ -122,7 +127,7 @@ $.fn.progressTracker = function(options) {
         trackerSize,
         headlineMargin;
     
-    // CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG -->
+    // Calculate 'max' and current 'value' for the progress-tag -->
     getScrollProgressMax = function() {
         return trackedArea.outerHeight() + headlineMargin;
     };
@@ -137,7 +142,7 @@ $.fn.progressTracker = function(options) {
             return $(window).scrollTop() - trackedArea.offset().top + head;
         };
     }
-    // <-- CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG
+    // <-- Calculate 'max' and current 'value' for the progress-tag
     
     $(document).ready(function () {
         if (settings.trackAllHeadlines) {
@@ -146,7 +151,7 @@ $.fn.progressTracker = function(options) {
             $('h3').addClass('ptSectionTitle');
         }
         
-        // CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis' -->
+        // Convert document if headline has class 'trackThis' -->
         if ($('.ptSectionTitle.trackThis').length) {
             var i = 0;
             $('.ptSectionTitle.trackThis').each(function() {
@@ -168,7 +173,7 @@ $.fn.progressTracker = function(options) {
                 }
             });
         }
-        // <-- CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis'
+        // <-- Convert document if headline has class 'trackThis'
 
         if ($('#TrackScrollProgress').length) {
             trackedArea = $('#TrackScrollProgress');
@@ -177,9 +182,9 @@ $.fn.progressTracker = function(options) {
         }
         headlineMargin = (trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight(true) - trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight()) / 2;
         
-        // GENERATE TRACKER HTML STRUCTURE -->
+        // Generate tracker html structure -->
         if (settings.horTracker) {
-            // GENERATE HORIZONTAL TRACKER IN HEADER -->
+            // Generate HORIZONTAL tracker IN HEADER -->
             if (settings.horInHeader && $('header').length) {
                 if (settings.horInHeader == 'bottom') {
                     $('header').append('<div class="horizontalScrollProgress"></div>');
@@ -192,14 +197,14 @@ $.fn.progressTracker = function(options) {
             } else {
                 $('body').append('<div class="horizontalScrollProgress fixed"></div>');
             }
-            // <-- GENERATE HORIZONTAL TRACKER IN HEADER
+            // <-- Generate HORIZONTAL tracker IN HEADER
             
             if ('max' in document.createElement('progress')) {
-                // generate html5 progress-tag if it is supported by the browser
+                // Generate html5 progress-tag if it is supported by the browser -->
                 $('.horizontalScrollProgress').append('<progress class="scrollProgress"></progress>');
                 horizontalTracker = $('.scrollProgress');
             } else {
-                // generate fallback solution for older browsers where the progress-tag is NOT supported
+                // Generate fallback solution for older browsers where the progress-tag is NOT supported -->
                 $('.horizontalScrollProgress').append('<div class="scrollProgressContainer"><span class="scrollProgressBar"></span></div>');
                 horizontalTracker = $('.scrollProgressContainer');
             }
@@ -216,7 +221,7 @@ $.fn.progressTracker = function(options) {
         } else {
             head = 0;
         }
-        // HORIZONTAL TRACKER -->
+        // HORIZONTAL tracker -->
         if (settings.horTracker) {
             if ($('.scrollProgress').length) {
                 $('.scrollProgress').attr('value', '0');
@@ -256,9 +261,9 @@ $.fn.progressTracker = function(options) {
                 
             }
         }
-        // <-- HORIZONTAL TRACKER
+        // <-- HORIZONTAL tracker
 
-        // VERTICAL TRACKER -->
+        // VERTICAL tracker -->
         if (settings.verTracker) {
             $('body').append('<div class="verticalScrollProgress"><div class="verticalScrollProgressContainer"><div class="verticalScrollProgressBar"></div></div></div>');
             if (settings.verPosition == 'right') {
@@ -288,13 +293,13 @@ $.fn.progressTracker = function(options) {
                 $('.verticalScrollProgress').addClass('styleFill');
             }
         }
-        // <-- VERTICAL TRACKER
+        // <-- VERTICAL tracker
 
-        // <-- GENERATE TRACKER HTML STRUCTURE
+        // <-- GENERATE tracker html structure
         
-        // HORIZONTAL TRACKER FUNCTIONALITY -->
+        // HORIZONTAL tracker functionality -->
         if ($('.scrollProgress').length) {
-            // <progress> tag is supported
+            // <progress> tag is supported -->
             var scrollProgress = $('.scrollProgress');
                 scrollProgress.attr('max', getScrollProgressMax());
             $(document).scroll(function () {
@@ -314,7 +319,7 @@ $.fn.progressTracker = function(options) {
                 scrollProgress.attr('max', getScrollProgressMax()).attr('value', getScrollProgressValue());
             });
         } else {
-            // <progress> tag is not supported (older browsers)
+            // <progress> tag is not supported (older browsers) -->
             var scrollProgress = $('#ScrollProgressBar'),
                 scrollProgressMax = getScrollProgressMax(),
                 scrollProgressValue, scrollProgressWidth,
@@ -347,9 +352,9 @@ $.fn.progressTracker = function(options) {
                 setScrollProgressWidth();
             });
         }
-        // <-- HORIZONTAL TRACKER FUNCTIONALITY
+        // <-- HORIZONTAL tracker functionality
         
-        // VERTICAL TRACKER FUNCTIONALITY -->
+        // VERTICAL tracker functionality -->
         var verticalScrollProgress = $('.verticalScrollProgressBar'),
             scrollProgressMax = getScrollProgressMax(),
             scrollProgressValue, scrollProgressHeight,
@@ -401,8 +406,9 @@ $.fn.progressTracker = function(options) {
             setScrollProgressHeight();
             moveScrollStops();
             
-            // FAKE RESPONSIVE WEBDESIGN ("SMALL SCREENS") //
+            // Fake responsive webdesign ("small screens") -->
             if ($(window).width() <= settings.mobileThreshold) {
+                // is mobile
                 $('.horizontalScrollProgress, .scrollProgress, .scrollProgressContainer, .scrollStopContainer, .scrollStopTitles, .verticalScrollProgress').addClass('smallDevice');
                 if (!settings.horOnlyActiveTitle) {
                     $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'none');
@@ -412,6 +418,7 @@ $.fn.progressTracker = function(options) {
                     }
                 }
             } else {
+                // is not mobile
                 $('.horizontalScrollProgress, .scrollProgress, .scrollProgressContainer, .scrollStopContainer, .scrollStopTitles, .verticalScrollProgress').removeClass('smallDevice');
                 if (settings.horOnlyActiveTitle) {
                     $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'none');
@@ -421,12 +428,25 @@ $.fn.progressTracker = function(options) {
                     $('.scrollStopTitles').children('.onlyActive').css('display', 'none');
                 }
             }
-            // FAKE RESPONSIVE WEBDESIGN ("SMALL SCREENS") end //
+            if ($(window).width() >= (settings.mobileThreshold + 100)) {
+                if (settings.verPosition == 'right') {
+                    $('.verticalScrollProgress').css('right', '50px');
+                } else {
+                    $('.verticalScrollProgress').css('left', '50px');
+                }
+            } else {
+                if (settings.verPosition == 'right') {
+                    $('.verticalScrollProgress').css('right', '0');
+                } else {
+                    $('.verticalScrollProgress').css('left', '0');
+                }
+            }
+            // <-- Fake responsive webdesign ("small screens")
         });
-        // <-- VERTICAL TRACKER
+        // <-- VERTICAL tracker
 
         setScrollStops();
-        // CREATE SCROLLSTOPS AND TITLES //
+        // Create scrollstops and titles -->
         function setScrollStops() {
             trackedArea.find('.trackThis').each(function(index) {
                 var sectionHeadline = $(this).children('.ptSectionTitle'),
@@ -469,9 +489,9 @@ $.fn.progressTracker = function(options) {
             $('.scrollStopContainer').append($('.scrollStopContainer > .finalStopCircle'));
             $(window).resize();
         }
-        // CREATE SCROLLSTOPS AND TITLES end //
+        // <-- Create scrollstops and titles
         
-        // LINKING MODE FUNCTIONALITY //
+        // Linking mode functionality -->
         if (settings.linking) {
             $('.stopCircle, .stopTitle').click(function () {
                 if (settings.skipHeadlines) {
@@ -492,9 +512,9 @@ $.fn.progressTracker = function(options) {
                 }, settings.scrollSpeed);
             });
         }
-        // LINKING MODE FUNCTIONALITY end //
+        // <-- Linking mode functionality
         
-        // HOVER-EFFECT //
+        // Hover-effect -->
         if (settings.hovering) {
             var itemIndex;
             $('.scrollStopContainer .stopCircle, .scrollStopTitles .stopTitle').hover(function() {
@@ -522,10 +542,10 @@ $.fn.progressTracker = function(options) {
                 $('.finalStopCircle, .finalStopTitle').removeClass('hover');
             });
         }
-        // HOVER-EFFECT end //
+        // <-- Hover-effect
         $(document).scroll();
     });
-    // POSITION SCROLL STOPS AND TITLES //
+    // Position scroll stops and titles -->
     function moveScrollStops() {
         trackedArea.find('.trackThis').each(function(index) {
             var section = $(this),
@@ -607,5 +627,5 @@ $.fn.progressTracker = function(options) {
             }
         });
     }
-    // POSITION SCROLL STOPS AND TITLES end //
+    // <-- Position scroll stops and titles
 };

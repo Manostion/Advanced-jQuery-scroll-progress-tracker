@@ -34,8 +34,10 @@
 //                  increased the font-size of h1-headlines
 // 2016-08-19 DW    Added the "fill" class to the trackers and styled them accordingly;
 //                  adjusted the dimensions of .finalStopCircle to make it symmetrical
+// 2016-08-20 DW    Adjusted the max-width of .centerAll to prevent collisions with the
+//                  vertical tracker
 //-------------------------------------------------------------------------------------
-// Copyright c 2016
+// Copyright (c) 2016
 //-------------------------------------------------------------------------------------
 */
 
@@ -63,7 +65,7 @@ img {
 }
 .centerAll {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 900px;
 }
 .trackThis {
     hr {
@@ -212,11 +214,11 @@ img {
     display: block;
     position: fixed;
     top: 50px;
-    left: 50px;
+    left: 0;
     bottom: 50px;
     width: 200px;
     &.verRight {
-        right: 50px;
+        right: 0;
         left: auto;
     }
     &.untitled {
@@ -444,8 +446,6 @@ img {
     &.scrollProgressContainer,
     &.scrollStopContainer,
     &.scrollStopTitles {
-        margin-left: 16px;
-        margin-right: 16px;
         width: calc(~'100% - 32px');
     }
     &.scrollStopContainer {
