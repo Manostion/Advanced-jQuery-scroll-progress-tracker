@@ -39,10 +39,16 @@
 //-------------------------------------------------------------------------------------
 // Version 1.1
 //-------------------------------------------------------------------------------------
-// 2016-08-17 DW    added an option to track all headlines instead of h3 only;
+// 2016-08-17 DW    added an option to track all headlines instead of h3 only and
+//                  adjusted RM's routine accordingly;
 //                  added the option to place the horizontal tracker inside an existing
 //                  header tag on the site;
-//                  changed the order of the options and categorized them
+//                  cleaned up the script (changed the order of the options and
+//                  categorized them)
+// 2016-08-19 DW    adds the according class if a horStyle/verStyle is set;
+//                  fixed the values for linking, horOnlyActiveTitles / skipHeadlines
+//                  fixed the title for horOnlyActiveTitle not showing up when horStops
+//                  is set to false - it is now bound to horTitles as it should be
 //-------------------------------------------------------------------------------------
 // Copyright © 2016
 //-------------------------------------------------------------------------------------
@@ -50,12 +56,14 @@
 $.fn.progressTracker = function(options) {
     // DEFINE DEFAULT OPTIONS //
     var settings = $.extend({
-        // HORIZONTAL tracker --> //
+        // HORIZONTAL tracker -->
         horTracker: true,               // displays a HORIZONTAL scroll progress tracker
         horInHeader: false,             // creates the HORIZONTAL tracker within an existing header if true
                                         // ---> naturally, you need to have a header in your markup for this to work; if this is active, then horPosition will be ignored
         horPosition: 'top',             // creates the HORIZONTAL tracker at the top of the page if set to 'top', at the bottom if set to 'bottom'
-        horStyle: 'beam',               // Sets the style of the HORIZONTAL tracker
+        horCenter: true,                // makes the HORIZONTAL tracker span the full width of the viewport if set to false
+        horStyle: 'fill',               // Sets the style of the HORIZONTAL tracker
+                                        // ---> 'beam', 'fill'
         horMobile: true,                // displays the HORIZONTAL tracker also on small screen devices if true
         horMobileOnly: false,           // hides the HORIZONTAL tracker on large screens if true
                                         // ---> useful if you want to use the VERTICAL tracker for large devices and the HORIZONTAL tracker for small screen; overrides 'horMobile: false'
@@ -67,11 +75,13 @@ $.fn.progressTracker = function(options) {
                                         // ---> only makes sense if horTitles is true; this is automatically set to 'bottom' on small screen devices(!) if set to false
         horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
                                         // ---> only makes sense if horTitles is true; this is automatically forced on small screen devices(!)
-        // <-- HORIZONTAL tracker //
+        // <-- HORIZONTAL tracker
         
-        // VERTICAL tracker --> //
+        // VERTICAL tracker -->
         verTracker: false,              // displays a VERTICAL scroll progress tracker
         verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
+        verStyle: 'beam',               // Sets the style of the VERTICAL tracker
+                                        // ---> 'beam', 'fill'
         verMobile: false,               // displays the VERTICAL tracker also on small screen devices if true
         verMobileOnly: false,           // hides the VERTICAL tracker on large screens if true;
                                         // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
@@ -79,9 +89,9 @@ $.fn.progressTracker = function(options) {
         verNumbering: false,            // adds numbers to the stops of the VERTICAL TRACKER if true
                                         // ---> only makes sense if verStops is true
         verTitles: true,                // adds the headline (h3) of each section to the VERTICAL tracker if true
-        // <-- VERTICAL tracker //
+        // <-- VERTICAL tracker
         
-        // General --> //
+        // General -->
         mobileThreshold: 1024,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
         trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
         addFinalStop: false,            // adds a final stop to the very end of the progress tracker(s) if true
@@ -96,11 +106,12 @@ $.fn.progressTracker = function(options) {
                                         // ---> only makes sense if horStops/verStops and/or horTitles/verTitles and linking is true; this setting is automatically applied on small screen devices if horTitles is set to true
         scrollSpeed: 800,               // sets the duration of the scrolling animation in milliseconds; set to 0 to scroll w/o animation
                                         // ---> only makes sense if horStops/verStops and/or horTitles/verTitles and linking is true
-        trackViewport: true             // if true the tracker(s) show the scroll position based on the BOTTOM of the viewport, if false the TOP of the viewport serves as the basis
+        trackViewport: true,            // if true the tracker(s) show the scroll position based on the BOTTOM of the viewport, if false the TOP of the viewport serves as the basis
                                         // ---> if the tracked area or even it's last section isn't as high (or higher) as the viewport, then the tracker(s) won't reach 100% if this is set to false
-        // <-- General //
+        trackViewportOnly: false        // turns section stops and titles inactive again, when the corresponding section leaves the viewport
+        // <-- General
     }, options);
-    // DEFINE DEFAULT OPTIONS end //
+    // <-- DEFINE DEFAULT OPTIONS
     
     var linkingScrollTop,
         head,
@@ -111,7 +122,7 @@ $.fn.progressTracker = function(options) {
         trackerSize,
         headlineMargin;
     
-    // CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG //
+    // CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG -->
     getScrollProgressMax = function() {
         return trackedArea.outerHeight() + headlineMargin;
     };
@@ -126,7 +137,7 @@ $.fn.progressTracker = function(options) {
             return $(window).scrollTop() - trackedArea.offset().top + head;
         };
     }
-    // CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG end //
+    // <-- CALCULATE 'MAX' AND CURRENT 'VALUE' FOR THE PROGRESS-TAG
     
     $(document).ready(function () {
         if (settings.trackAllHeadlines) {
@@ -135,7 +146,7 @@ $.fn.progressTracker = function(options) {
             $('h3').addClass('ptSectionTitle');
         }
         
-        // CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis' //
+        // CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis' -->
         if ($('.ptSectionTitle.trackThis').length) {
             var i = 0;
             $('.ptSectionTitle.trackThis').each(function() {
@@ -157,7 +168,7 @@ $.fn.progressTracker = function(options) {
                 }
             });
         }
-        // CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis' end //
+        // <-- CONVERT DOCUMENT IF HEADLINE HAS CLASS 'trackThis'
 
         if ($('#TrackScrollProgress').length) {
             trackedArea = $('#TrackScrollProgress');
@@ -166,9 +177,9 @@ $.fn.progressTracker = function(options) {
         }
         headlineMargin = (trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight(true) - trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight()) / 2;
         
-        // GENERATE TRACKER HTML STRUCTURE //
+        // GENERATE TRACKER HTML STRUCTURE -->
         if (settings.horTracker) {
-            // GENERATE HORIZONTAL TRACKER IN HEADER //
+            // GENERATE HORIZONTAL TRACKER IN HEADER -->
             if (settings.horInHeader && $('header').length) {
                 if (settings.horInHeader == 'bottom') {
                     $('header').append('<div class="horizontalScrollProgress"></div>');
@@ -181,7 +192,7 @@ $.fn.progressTracker = function(options) {
             } else {
                 $('body').append('<div class="horizontalScrollProgress fixed"></div>');
             }
-            // GENERATE HORIZONTAL TRACKER IN HEADER end //
+            // <-- GENERATE HORIZONTAL TRACKER IN HEADER
             
             if ('max' in document.createElement('progress')) {
                 // generate html5 progress-tag if it is supported by the browser
@@ -189,7 +200,7 @@ $.fn.progressTracker = function(options) {
                 horizontalTracker = $('.scrollProgress');
             } else {
                 // generate fallback solution for older browsers where the progress-tag is NOT supported
-                $('.horizontalScrollProgress').append('<div class="scrollProgressContainer centerAll"><span class="scrollProgressBar"></span></div>');
+                $('.horizontalScrollProgress').append('<div class="scrollProgressContainer"><span class="scrollProgressBar"></span></div>');
                 horizontalTracker = $('.scrollProgressContainer');
             }
             if (settings.horPosition == 'bottom' && !settings.horInHeader) {
@@ -205,20 +216,22 @@ $.fn.progressTracker = function(options) {
         } else {
             head = 0;
         }
-        
+        // HORIZONTAL TRACKER -->
         if (settings.horTracker) {
-            $('.scrollProgress').addClass('centerAll').attr('value', '0');
+            if ($('.scrollProgress').length) {
+                $('.scrollProgress').attr('value', '0');
+            }
             if (settings.horTitles) {
-                $('<div class="scrollStopTitles centerAll"></div>').insertAfter(horizontalTracker);
+                $('<div class="scrollStopTitles"></div>').insertAfter(horizontalTracker);
+                $('.scrollStopTitles').append('<div class="stopTitle onlyActive" style="font-weight: bold;"></div>');
             } else {
                 horizontalTracker.addClass('untitled');
             }
             if (settings.horStops) {
-                $('<div class="scrollStopContainer centerAll"></div>').insertAfter(horizontalTracker);
-                $('.scrollStopTitles').append('<div class="stopTitle onlyActive" style="font-weight: bold;"></div>');
+                $('<div class="scrollStopContainer"></div>').insertAfter(horizontalTracker);
             }
             if (settings.addFinalStop) {
-                $('.scrollStopContainer').append('<div class="finalStopCircle"></div>');
+                $('.scrollStopContainer').append('<div class="finalStopCircle" title="' + settings.finalStopTitle + '"></div>');
                 if (!settings.horOnlyActiveTitle) {
                     $('.scrollStopTitles').append('<div class="finalStopTitle">' + settings.finalStopTitle + '</div>');
                 }
@@ -233,11 +246,23 @@ $.fn.progressTracker = function(options) {
                 $('.scrollStopContainer').removeClass('desktopOnly').addClass('mobileOnly');
                 $('.scrollStopTitles').removeClass('desktopOnly').addClass('mobileOnly');
             }
-       }
+            if (settings.horStyle == 'fill') {
+                $('.horizontalScrollProgress').addClass('styleFill');
+            }
+            if (settings.horCenter) {
+                horizontalTracker.addClass('centerAll');
+                $('.scrollStopTitles').addClass('centerAll');
+                $('.scrollStopContainer').addClass('centerAll');
+                
+            }
+        }
+        // <-- HORIZONTAL TRACKER
+
+        // VERTICAL TRACKER -->
         if (settings.verTracker) {
             $('body').append('<div class="verticalScrollProgress"><div class="verticalScrollProgressContainer"><div class="verticalScrollProgressBar"></div></div></div>');
             if (settings.verPosition == 'right') {
-                $('.verticalScrollProgress').addClass('right');
+                $('.verticalScrollProgress').addClass('verRight');
             }
 
             var verticalTracker = $('.verticalScrollProgress');
@@ -259,11 +284,16 @@ $.fn.progressTracker = function(options) {
                 $('.vertScrollStopContainer').append('<div class="finalStopCircle"></div>');
                 $('.vertScrollStopTitles').append('<div class="finalStopTitle">' + settings.finalStopTitle + '</div>');
             }
+            if (settings.verStyle == 'fill') {
+                $('.verticalScrollProgress').addClass('styleFill');
+            }
         }
-        // GENERATE TRACKER HTML STRUCTURE end //
+        // <-- VERTICAL TRACKER
+
+        // <-- GENERATE TRACKER HTML STRUCTURE
         
-        // HORIZONTAL PROGRESS TRACKER //
-        if ('max' in document.createElement('progress')) {
+        // HORIZONTAL TRACKER FUNCTIONALITY -->
+        if ($('.scrollProgress').length) {
             // <progress> tag is supported
             var scrollProgress = $('.scrollProgress');
                 scrollProgress.attr('max', getScrollProgressMax());
@@ -317,9 +347,9 @@ $.fn.progressTracker = function(options) {
                 setScrollProgressWidth();
             });
         }
-        // HORIZONTAL PROGRESS TRACKER end //
+        // <-- HORIZONTAL TRACKER FUNCTIONALITY
         
-        // VERTICAL SCROLL PROGRESS TRACKER //
+        // VERTICAL TRACKER FUNCTIONALITY -->
         var verticalScrollProgress = $('.verticalScrollProgressBar'),
             scrollProgressMax = getScrollProgressMax(),
             scrollProgressValue, scrollProgressHeight,
@@ -393,7 +423,7 @@ $.fn.progressTracker = function(options) {
             }
             // FAKE RESPONSIVE WEBDESIGN ("SMALL SCREENS") end //
         });
-        // VERTICAL SCROLL PROGRESS TRACKER end //
+        // <-- VERTICAL TRACKER
 
         setScrollStops();
         // CREATE SCROLLSTOPS AND TITLES //
@@ -415,7 +445,7 @@ $.fn.progressTracker = function(options) {
                 $(this).attr('id', 'Section' + sectionId);
                 $(this).children('.ptSectionTitle').attr({ id: 'SectionHeadline' + sectionId});
                 
-                scrollHorStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '"></div>');
+                scrollHorStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '" title="' + sectionHeadline.text() + '"></div>');
                 scrollVerStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '"></div>');
                 scrollStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + ptSectionTitle + '</div>');
                 scrollVerStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + ptSectionTitle + '</div>');
@@ -436,6 +466,7 @@ $.fn.progressTracker = function(options) {
                     }
                 }
             });
+            $('.scrollStopContainer').append($('.scrollStopContainer > .finalStopCircle'));
             $(window).resize();
         }
         // CREATE SCROLLSTOPS AND TITLES end //
@@ -444,15 +475,15 @@ $.fn.progressTracker = function(options) {
         if (settings.linking) {
             $('.stopCircle, .stopTitle').click(function () {
                 if (settings.skipHeadlines) {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
+                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height() - headlineMargin;
                 } else if ($(window).width() <= settings.mobileThreshold && settings.horTitles) {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
+                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height() - headlineMargin;
                 } else {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + 1;
+                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top - head;
                 }
 
                 $('html, body').animate( {
-                    scrollTop: linkingScrollTop - head
+                    scrollTop: linkingScrollTop - head + 1
                 }, settings.scrollSpeed);
             });
             $('.finalStopCircle, .finalStopTitle').click(function () {
@@ -516,13 +547,18 @@ $.fn.progressTracker = function(options) {
             scrollHorStops.children('.stop' + sectionId).css('left', sectionStop + '%');
             scrollVerStops.children('.stop' + sectionId).css('top', sectionStop + '%');
             scrollStopTitles.children('.stop' + sectionId).css('left', sectionStop + '%');
-            scrollStopTitles.children('.stopTitle.onlyActive').css('left', '-8px').addClass('reached');
+            scrollStopTitles.children('.stopTitle.onlyActive').addClass('reached');
+            if (settings.horStyle == 'beam') {
+                scrollStopTitles.children('.stopTitle.onlyActive').css('left', '-8px');
+            } else {
+                scrollStopTitles.children('.stopTitle.onlyActive').css('left', '0');
+            }
             scrollVerStopTitles.children('.stop' + sectionId).css('top', sectionStop + '%');
             
-            if ($(window).scrollTop() <= trackedArea.find('.trackThis:first').offset().top - sectionTopSubtract + trackedArea.find('.trackThis:first').children('.ptSectionTitle').outerHeight() + headlineMargin/2) {
+            if ($(window).scrollTop() <= trackedArea.find('.trackThis:first').offset().top - sectionTopSubtract + trackedArea.find('.trackThis:first').children('.ptSectionTitle').outerHeight() - 1) {
                 scrollStopTitles.children('.stopTitle.onlyActive').text('');
             }
-            if ($(window).scrollTop() >= sectionTop + sectionHeadline.outerHeight() + headlineMargin) {
+            if ($(window).scrollTop() >= sectionTop + sectionHeadline.outerHeight()) {
                 scrollStopTitles.children('.stopTitle.onlyActive').text(ptSectionTitle);
                 var viewportBottom = $(window).scrollTop() + $(window).height();
                 if (settings.finalStopTitle != '') {
@@ -554,6 +590,9 @@ $.fn.progressTracker = function(options) {
             } else {
                 scrollStopTitles.children('.stopTitle').css('margin-top', '18px').css('margin-left', '25px');
                 scrollStopTitles.children('.finalStopTitle').css('margin-top', '18px').css('margin-right', '16px');
+            }
+            if (settings.horStyle == 'fill') {
+                scrollStopTitles.children('.onlyActive').css('margin-top', '0');
             }
             
             if (getScrollProgressValue() >= sectionTop) {

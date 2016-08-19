@@ -5,10 +5,16 @@
 // Changed          2016-08-16
 // Authors          David Whitworth | David@Whitworth.de
 //-------------------------------------------------------------------------------------
+// Version 1.0
+//-------------------------------------------------------------------------------------
 // 2016-08-10       Created
 // 2016-08-15 DW    added the colors for the sourcecode blocks of the ReadMe;
 // 2016-08-16 DW    added the sourcecode color for comments;
 //                  removed a theme and adjusted the remaining three a bit
+//-------------------------------------------------------------------------------------
+// Version 1.1
+//-------------------------------------------------------------------------------------
+// 2016-08-19 DW    adjusted the DARK theme
 //-------------------------------------------------------------------------------------
 // Copyright © 2016
 //-------------------------------------------------------------------------------------
@@ -58,7 +64,6 @@
 //  Theme:          DEFAULT
 //  Main color:     orange
     @color-main-DEFAULT: @color-orange;
-    @color-navi-DEFAULT: @color-white;
     @color-foreground-DEFAULT: @color-black;
     @color-background-DEFAULT: @color-white;
     @color-highlight-DEFAULT: @color-red;
@@ -66,15 +71,13 @@
 //  Theme:          DARK
 //  Main color:     black
     @color-main-DARK: @color-anthracite;
-    @color-navi-DARK: darken(@color-lightgray, 10%);
     @color-foreground-DARK: darken(@color-lightgray, 10%);
     @color-background-DARK: @color-black;
-    @color-highlight-DARK: @color-red;
+    @color-highlight-DARK: @color-orange;
 
 //  Theme:          BLUE
 //  Main color:     blue
     @color-main-BLUE: @color-blue;
-    @color-navi-BLUE: darken(@color-lightgray, 10%);
     @color-foreground-BLUE: darken(@color-blue, 30%);
     @color-background-BLUE: lighten(@color-blue, 42%);
     @color-highlight-BLUE: @color-green;
@@ -89,7 +92,6 @@
         @color-background-DEFAULT;     // <—— Change this!
     @color-highlight:
         @color-highlight-DEFAULT;      // <—— Change this!
-        
 // COLORS end
 //———————————————————————————————————————————————————————————————————————————
 // PARAMETERS

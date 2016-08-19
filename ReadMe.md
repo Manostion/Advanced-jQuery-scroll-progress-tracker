@@ -19,9 +19,9 @@ Using the various options it is also possible to display one tracker (for exampl
 3. Include jQuery (if you haven't already) followed by advanced-progress-tracker.js or advanced-progress-tracker.min.js in the `head`
 4. Initialize the plugin below the included scripts, like so:
    
-        <script type='text/javascript'>
-            $('body').progressTracker();
-        </script>
+    <script type='text/javascript'>
+        $('body').progressTracker();
+    </script>
 
 Or with custom options...
 

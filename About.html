@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>instructions | Advanced jQuery scroll progress tracker</title>
+        <title>About | AjSPT v1.1</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
@@ -10,12 +10,13 @@
         <script src="js/advanced-progress-tracker.min.js"></script>
         <script>
             $('body').progressTracker({
+                horStops: false,
                 horNumbering: false,
                 horTitles: true,
-                horTitlesOffset: 'top',
                 horMobileOnly: true,
                 verTracker: true,
                 verPosition: 'right',
+                trackAllHeadlines: true,
                 addFinalStop: true,
                 finalStopTitle: 'Questions & Feedback',
                 scrollSpeed: 1200
@@ -27,42 +28,76 @@
         <div id="MainContent" class="centerAll">
             <div id="TrackScrollProgress">
                 <div class="trackThis">
-                    <h3 data-name="Introduction">Advanced jQuery scroll progress tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.0</p>
-                    <p>A relatively lightweight (~19KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
-                    <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behaviour and appearance of each tracker individually.</p>
+                    <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
+                    <p class="smaller pullUp bold">Ver. 1.1</p>
+                    <p>A relatively lightweight (~20KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
+                    <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behavior and appearance of each tracker individually.</p>
                 </div>
                 <hr />
                 <div class="trackThis">
                     <h3>Options</h3>
-<!-- If you discovered this, you now know features that are coming soon... =)
-
-                    <p><b>trackAllHeadlines</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
-                    If set to true, any headline tag (h1, h2, h3,...) inside '.trackThis' will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
-                    <hr />
+<!-- New! in current version -->
                     <p><b>horInHeader</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
                     If you activate this and have a header-tag on your website, the horizontal tracker will be created within your header¹. There are three options:</p>
                     <ul>
-                        <li><i><b>'top'</b></i> - Creates the tracker at the top of your header (i.e. before all other content).</li>
-                        <li><i><b>'bottom'</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).</li>
-                        <li><i><b>false</b></i> - Creates the tracker at the end of the site in a fixed container (default behaviour).</li>
+                        <li>
+                            <i><b>'top'</b></i> - Creates the tracker at the top of your header (i.e. before all other content).
+                        </li>
+                        <li>
+                            <i><b>'bottom'</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).
+                        </li>
+                        <li>
+                            <i><b>false</b></i> - Creates the tracker at the end of the site in a fixed container (default behavior).
+                        </li>
                     </ul>
-                    <p class="smaller">¹If you use this setting, you should make sure your header is set to position: fixed and you should also adjust this setting in the plugin's stylesheet.</p>
+                    <p class="smaller">¹If you use this setting, you should make sure your header is set to position: fixed.</p>
                     <hr />
-
--->
-                    <p><b>mobileThreshold</b> - <i>default: <b>1024</b></i><br />
-                    Treats the device as <i>small screen</i> if the viewport width is below or equal to this value, i.e. on default settings, if the viewport is at least 1025px wide, the device is treated as <i>large screen</i>, otherwise as <i>small screen</i>.<br />
-                    This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
+                    <p><b>horCenter</b> - <i>default: <b>true</b></i><span class="hot">New!</span><br />
+                    Setting this to false allows you to stretch the <i>horizontal</i> tracker to the width of the viewport.<br />This is the default behavior on small screens (and will thus be ignored if <b>horMobileOnly</b> is set to true)</p>
                     <hr />
+                    <p><b>horStyle</b> - <i>default: <b>'fill'</b></i><span class="hot">New!</span><br />
+                    This option enables you to change the way the <i>horizontal</i> tracker looks. There are two options (more will be added):</p>
+                    <ul>
+                        <li>
+                            <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
+                            <br /><img src="images/horStyle-Beam.png" alt="" />
+                        </li>
+                        <li>
+                            <i><b>'fill'</b></i> - The tracker will be displayed as a thick bar that contains titles within and has the bullets slightly overlapping it.
+                            <br /><img src="images/horStyle-Fill.png" alt="" />
+                        </li>
+                    </ul>
+                    <hr />
+                    <p><b>verStyle</b> - <i>default: <b>'beam'</b></i><span class="hot">New!</span><br />
+                    This option enables you to change the way the <i>vertical</i> tracker looks. There are two options (more will be added):</p>
+                    <ul>
+                        <li>
+                            <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
+                            <br /><img src="images/verStyle-Beam.png" alt="" />
+                        </li>
+                        <li>
+                            <i><b>'fill'</b></i> - The tracker will be displayed as a thick bar that contains the bullets within.
+                            <br /><img src="images/verStyle-Fill.png" alt="" />
+                        </li>
+                    </ul>
+                    <hr />
+                    <p><b>trackAllHeadlines</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
+                    If set to true, any headline tag (h1, h2, h3,...) inside '.trackThis'¹ will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
+                    <p class="smaller">¹or with the class "trackThis" - see the last point under "Setup" for further information.</span>
+                    <hr />
+<!-- Horizontal tracker -->
                     <p><b>horTracker</b> - <i>default: <b>true</b></i><br />
                     Displays a <i>horizontal</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
                     <p><b>horPosition</b> - <i>default: <b>'top'</b></i><br />
                     Defines where to display the <i>horizontal</i> tracker. There are two options:</p>
                     <ul>
-                        <li><i><b>'top'</b></i> - Displays the tracker above the content.</li>
-                        <li><i><b>'bottom'</b></i> - Displays the tracker below the content.</li>
+                        <li>
+                            <i><b>'top'</b></i> - Displays the tracker above the content.
+                        </li>
+                        <li>
+                            <i><b>'bottom'</b></i> - Displays the tracker below the content.
+                        </li>
                     </ul>
                     <hr />
                     <p><b>horMobile</b> - <i>default: <b>true</b></i><br />
@@ -73,14 +108,46 @@
                     This is useful if you want to use the <i>vertical</i> tracker for large devices and the <i>horizontal</i> tracker for small screen<br />
                     overrides horMobile: false</p>
                     <hr />
+                    <p><b>horStops</b> - <i>default: <b>true</b></i><br />
+                    Adds bullets to the <i>horizontal</i> progress tracker for each section of your content if set to true.</p>
+                    <hr />
+                    <p><b>horNumbering</b> - <i>default: <b>true</b></i><br />
+                    If set to true the bullets of the <i>horizontal</i> tracker will be numbered. Naturally this only works while <b>horStops</b> is true.</p>
+                    <hr />
+                    <p><b>horTitles</b> - <i>default: <b>false</b></i><br />
+                    Adds the text of each section's headline (h2) to the <i>horizontal</i> progress tracker if set to true. The way these titles are displayed can be further adjusted with additional settings (see below).</p>
+                    <hr />
+                    <p><b>horTitlesOffset</b> - <i>default: <b>'bottom'</b></i><br />
+                    Defines if and how the titles of the <i>horizontal</i> progress tracker should be offset from the tracker itself. There are three options:</p>
+                    <ul>
+                        <li>
+                            <i><b>'top'</b></i> - Displays the titles above the tracker.
+                        </li>
+                        <li>
+                            <i><b>'bottom'</b></i> - Displays the titles below the tracker.
+                        </li>
+                        <li>
+                            <i><b>false</b></i> - Displays the titles on top of the tracker.¹<br /><br />
+                            <span class="smaller">¹<b>false</b> will automatically be overridden with <b>'bottom'</b> on small screens ('top' and 'bottom' still work normally on small screens)!</span>
+                        </li>
+                    </ul>
+                    <hr />
+                    <p><b>horOnlyActiveTitle</b> - <i>default: <b>true</b></i><br />
+                    If set to true, only the headline of the current setion will be shown at all times, instead of each headline. This is necessary if the sections are too short, because if the tracker's stops are too closely together, the titles will overlap. This option is automatically forced on small screens.</p>
+                    <hr />
+<!-- Vertical tracker -->
                     <p><b>verTracker</b> - <i>default: <b>false</b></i><br />
                     Displays a <i>vertical</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
                     <p><b>verPosition</b> - <i>default: <b>'left'</b></i><br />
                     Defines where to display the <i>vertical</i> tracker. There are two options:</p>
                     <ul>
-                        <li><i><b>'left'</b></i> - Displays the tracker on the far left of the viewport.</li>
-                        <li><i><b>'right'</b></i> - Displays the tracker on the far right of the viewport.</li>
+                        <li>
+                            <i><b>'left'</b></i> - Displays the tracker on the far left of the viewport.
+                        </li>
+                        <li>
+                            <i><b>'right'</b></i> - Displays the tracker on the far right of the viewport.
+                        </li>
                     </ul>
                     <hr />
                     <p><b>verMobile</b> - <i>default: <b>false</b></i><br />
@@ -89,34 +156,19 @@
                     <p><b>verMobileOnly</b> - <i>default: <b>false</b></i><br />
                     The counterpart to <b>horMobileOnly</b> and only here for completeness. Usually it is not recommendable to actually set this to true.</p>
                     <hr />
-                    <p><b>horStops</b> - <i>default: <b>true</b></i><br />
-                    Adds bullets to the <i>horizontal</i> progress tracker for each section of your content if set to true.</p>
-                    <hr />
                     <p><b>verStops</b> - <i>default: <b>true</b></i><br />
                     Adds bullets to the <i>vertical</i> progress tracker for each section of your content if set to true.</p>
-                    <hr />
-                    <p><b>horNumbering</b> - <i>default: <b>true</b></i><br />
-                    If set to true the bullets of the <i>horizontal</i> tracker will be numbered. Naturally this only works while <b>horStops</b> is true.</p>
                     <hr />
                     <p><b>verNumbering</b> - <i>default: <b>false</b></i><br />
                     If set to true the bullets of the <i>vertical</i> tracker will be numbered. Naturally this only works while <b>verStops</b> is true.</p>
                     <hr />
-                    <p><b>horTitles</b> - <i>default: <b>false</b></i><br />
-                    Adds the text of each section's headline (h2) to the <i>horizontal</i> progress tracker if set to true. The way these titles are displayed can be further adjusted with additional settings (see below).</p>
-                    <hr />
-                    <p><b>horTitlesOffset</b> - <i>default: <b>'bottom'</b></i><br />
-                    Defines if and how the titles of the <i>horizontal</i> progress tracker should be offset from the tracker itself. There are three options:</p>
-                    <ul>
-                        <li><i><b>'top'</b></i> - Displays the titles above the tracker.</li>
-                        <li><i><b>'bottom'</b></i> - Displays the titles below the tracker.</li>
-                        <li><i><b>false</b></i> - Displays the titles on top of the tracker.¹<br /><br /><span class="smaller">¹<b>false</b> will automatically be overridden with <b>'bottom'</b> on small screens ('top' and 'bottom' still work normally on small screens)!</span></li>
-                    </ul>
-                    <hr />
-                    <p><b>horOnlyActiveTitle</b> - <i>default: <b>true</b></i><br />
-                    If set to true, only the headline of the current setion will be shown at all times, instead of each headline. This is necessary if the sections are too short, because if the tracker's stops are too closely together, the titles will overlap. This option is automatically forced on small screens.</p>
-                    <hr />
                     <p><b>verTitles</b> - <i>default: <b>true</b></i><br />
                     Adds the text of each section's headline (h2) to the <i>vertical</i> progress tracker if set to true. They will be displayed to the right of the progress bar and the bullets (if <b>verStops</b> is true) per default. This can be changed via the stylesheet.</p>
+                    <hr />
+<!-- General -->
+                    <p><b>mobileThreshold</b> - <i>default: <b>1024</b></i><br />
+                    Treats the device as <i>small screen</i> if the viewport width is below or equal to this value, i.e. on default settings, if the viewport is at least 1025px wide, the device is treated as <i>large screen</i>, otherwise as <i>small screen</i>.<br />
+                    This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
                     <hr />
                     <p><b>addFinalStop</b> - <i>default: <b>false</b></i><br />
                     If set to true this option adds an additional bullet to the very end of the tracker(s). By default this final bullet is a little bigger than the others but this can be changed via the stylesheet.<br />
@@ -145,10 +197,10 @@
                 <hr />
                 <div class="trackThis">
                     <h3>Setup</h3>
-                    <p>1. Include the advanced-progress-tracker.min.css in the head</p>
+                    <p>1. Include the scrollProgressTracker.min.css in the head</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;link</span>
-                        <span class="htmlAttr">href</span>=<span class="htmlVal">"css/advanced-progress-tracker.min.css"</span>
+                        <span class="htmlAttr">href</span>=<span class="htmlVal">"css/scrollProgressTracker.min.css"</span>
                         <span class="htmlAttr">rel</span>=<span class="htmlVal">"stylesheet"</span>
                         <span class="htmlTag"> /&gt;</span>
                     </div>
@@ -172,12 +224,13 @@
                         <span class="htmlTag">&lt;script&gt;</span>
                         <div class="javascript">
                             &nbsp;&nbsp;&nbsp;&nbsp;$(<span class="jsQuote">'body'</span>).progressTracker({<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horStops: <span class="jsConst">false</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horNumbering: <span class="jsConst">false</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horTitles: <span class="jsConst">true</span>,<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horTitlesOffset: <span class="jsQuote">'top'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horMobileOnly: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verTracker: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verPosition: <span class="jsQuote">'right'</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trackAllHeadlines: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addFinalStop: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Questions & Feedback'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrollSpeed: <span class="jsVal">1200</span><br />
@@ -225,6 +278,66 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlTag">&lt;h3&gt;</span>section headline<span class="htmlTag">&lt;/h3&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span><br />
+                    </div>
+                </div>
+                <hr />
+                <div class="trackThis">
+                    <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.1</span><br />
+                        <p class="bold larger">Fixes:</p>
+                        <p>
+                            <span class="underline">Fixed the combination of <b>horOnlyActiveTitles</b> and <b>horStops: false</b></span>
+                            <br /><span class="smaller">
+                                There was a bug where the title of the <i>horizontal</i> tracker did not show up for <b>horOnlyActiveTitle</b> when <b>horStops</b> was set to <span class="jsConst">false</span>.
+                                <br />It is now bound to <b>horTitles</b> instead, as it should be.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Fixed the behavior of <b>horOnlyActiveTitles</b>, <b>linking</b> and <b>skipHeadlines</b></span>
+                            <br /><span class="smaller">
+                                There was a minor mistake in the calculations for when to update the title of the <i>horizontal</i> tracker when on small screens and/or when <b>horOnlyActiveTitles</b> is set to <span class="jsConst">true</span> and for where to scroll when <b>skipHeadlines</b> is set to <span class="jsConst">true</span>. These values are now calculated correctly and the titles show up where you'd expect them to.
+                            </span>
+                        </p>
+                        <hr />
+                        <p class="bold larger">New features:</p>
+                        <p>
+                            <span class="underline">Added title-attribute to the bullets of the <i>horizontal</i> tracker</span>
+                            <br /><span class="smaller">
+                                Before, when <b>horOnlyActiveTitles</b> was set to <span class="jsConst">true</span>, you basically had to guess what each stop represented. Now there will be a tooltip when you hover over them with a mouse cursor.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Added option <b>horInHeader</b></span>
+                            <br /><span class="smaller">
+                                It is now possible to put the <i>horizontal</i> tracker inside an existing <span class="htmlTag">&lt;header&gt;</span>.
+                                <br />It is also possible to define where in the header it should be positioned by using either <span class="jsQuote">'top'</span> or <span class="jsQuote">'bottom'</span> as the option's value.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Added option <b>horCenter</b></span>
+                            <br /><span class="smaller">
+                                It is now possible to make the <i>horizontal</i> tracker span the full width of the viewport (aka the window/screen) by setting <b>horCenter</b> to <span class="jsConst">false</span>.
+                                <br />On small screens this is the default behavior!
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Added options and styles for <b>horStyle</b> and <b>verStyle</b></span>
+                            <br /><span class="smaller">
+                                By changing the value of <b>horStyle</b>/<b>verStyle</b>, the style of the tracker(s) can now easily be changed.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Added option <b>trackAllHeadlines</b></span>
+                            <br /><span class="smaller">
+                                In addition to searching for each <span class="htmlTag">&lt;h3&gt;</span> in the tracked area, it is now also possible to search for <i>any</i> headline instead. That way, for example, the very first section could have a <span class="htmlTag">&lt;h1&gt;</span> (as seen in this ReadMe) but still give it's title to the tracker. However if you'd for example like to use <span class="htmlTag">&lt;h4&gt;</span>-headlines <i>within</i> your tracked areas, you should handle this option with care (Though it would be possible to achieve both by putting the <span class="htmlTag">&lt;h4&gt;</span> inside a not-tracked area (i.e. one without the class <span class="htmlVal">"trackThis"</span>).
+                            </span>
+                        </p>
                     </div>
                 </div>
                 <hr />
