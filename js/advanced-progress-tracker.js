@@ -53,7 +53,8 @@
 //                  vertical tracker always fits next to the content
 // 2016-08-20 DW    moves the vertical tracker 50px closer to the content as soon as
 //                  there is enough space;
-//                  edited comments to further clean up the script
+//                  edited comments to further clean up the script;
+//                  revised all the calculations to eliminate redundancy and bugs
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -129,7 +130,7 @@ $.fn.progressTracker = function(options) {
     
     // Calculate 'max' and current 'value' for the progress-tag -->
     getScrollProgressMax = function() {
-        return trackedArea.outerHeight() + headlineMargin;
+        return trackedArea.outerHeight();
     };
     if (settings.trackViewport) {
         trackerSize = $(window).scrollTop() + $(window).height();
@@ -181,7 +182,7 @@ $.fn.progressTracker = function(options) {
             trackedArea = $(document);
         }
         headlineMargin = (trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight(true) - trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight()) / 2;
-        
+        trackedArea.find('.trackThis:first').children('.ptSectionTitle').css('margin-top', '0');
         // Generate tracker html structure -->
         if (settings.horTracker) {
             // Generate HORIZONTAL tracker IN HEADER -->
@@ -194,8 +195,14 @@ $.fn.progressTracker = function(options) {
                 if (settings.horMobileOnly) {
                     $('.horizontalScrollProgress').addClass('mobileOnly');
                 }
+                head = $('header').outerHeight();
             } else {
                 $('body').append('<div class="horizontalScrollProgress fixed"></div>');
+                if (settings.horPosition == 'bottom') {
+                    head = 0;
+                } else {
+                    head = $('.horizontalScrollProgress').height();
+                }
             }
             // <-- Generate HORIZONTAL tracker IN HEADER
             
@@ -216,10 +223,7 @@ $.fn.progressTracker = function(options) {
                     $('body').css('padding-top', $('.horizontalScrollProgress').height());
                 }
             }
-
-            head = $('.horizontalScrollProgress').height();
-        } else {
-            head = 0;
+            
         }
         // HORIZONTAL tracker -->
         if (settings.horTracker) {
@@ -495,11 +499,11 @@ $.fn.progressTracker = function(options) {
         if (settings.linking) {
             $('.stopCircle, .stopTitle').click(function () {
                 if (settings.skipHeadlines) {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height() - headlineMargin;
+                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
                 } else if ($(window).width() <= settings.mobileThreshold && settings.horTitles) {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height() - headlineMargin;
+                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
                 } else {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top - head;
+                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + parseFloat($('#SectionHeadline' + $(this).attr('data-index')).css('margin-top')) - head;
                 }
 
                 $('html, body').animate( {
@@ -544,6 +548,7 @@ $.fn.progressTracker = function(options) {
         }
         // <-- Hover-effect
         $(document).scroll();
+        console.log(getScrollProgressMax());
     });
     // Position scroll stops and titles -->
     function moveScrollStops() {
@@ -552,9 +557,9 @@ $.fn.progressTracker = function(options) {
                 sectionHeadline = section.children('.ptSectionTitle'),
                 ptSectionTitle = sectionHeadline.text(),
                 sectionTopSubtract = trackedArea.offset().top,
-                sectionTop = section.offset().top - sectionTopSubtract,
+                sectionRelativeTop = section.offset().top - trackedArea.offset().top,
                 sectionId = index + 1,
-                sectionStop = (sectionTop/getScrollProgressMax()) * 100,
+                sectionStop = (sectionRelativeTop / getScrollProgressMax()) * 100,
                 scrollHorStops = $('.scrollStopContainer'),
                 scrollVerStops = $('.vertScrollStopContainer'),
                 scrollStopTitles = $('.scrollStopTitles'),
@@ -575,10 +580,10 @@ $.fn.progressTracker = function(options) {
             }
             scrollVerStopTitles.children('.stop' + sectionId).css('top', sectionStop + '%');
             
-            if ($(window).scrollTop() <= trackedArea.find('.trackThis:first').offset().top - sectionTopSubtract + trackedArea.find('.trackThis:first').children('.ptSectionTitle').outerHeight() - 1) {
+            if ($(window).scrollTop() <= trackedArea.find('.trackThis:first').offset().top + trackedArea.find('.trackThis:first').children('.ptSectionTitle').outerHeight() - head) {
                 scrollStopTitles.children('.stopTitle.onlyActive').text('');
             }
-            if ($(window).scrollTop() >= sectionTop + sectionHeadline.outerHeight()) {
+            if ($(window).scrollTop() >= section.offset().top + section.children('.ptSectionTitle').outerHeight() - head) {
                 scrollStopTitles.children('.stopTitle.onlyActive').text(ptSectionTitle);
                 var viewportBottom = $(window).scrollTop() + $(window).height();
                 if (settings.finalStopTitle != '') {
@@ -615,7 +620,7 @@ $.fn.progressTracker = function(options) {
                 scrollStopTitles.children('.onlyActive').css('margin-top', '0');
             }
             
-            if (getScrollProgressValue() >= sectionTop) {
+            if (getScrollProgressValue() >= sectionRelativeTop) {
                 $('.stop' + sectionId).addClass('reached');
             } else {
                 $('.stop' + sectionId).removeClass('reached');

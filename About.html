@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>About | AjSPT v1.1.2</title>
+        <title>About | AjSPT v1.1.3</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
@@ -17,7 +17,7 @@
                 verPosition: 'right',
                 trackAllHeadlines: true,
                 addFinalStop: true,
-                finalStopTitle: 'Questions & Feedback',
+                finalStopTitle: 'Credits, Questions & Feedback',
                 scrollSpeed: 1200
             });
         </script>
@@ -25,10 +25,11 @@
 
     <body>
         <div id="MainContent" class="centerAll">
+            <div style="height: 150px;"></div>
             <div id="TrackScrollProgress">
                 <div class="trackThis">
                     <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.1.2</p>
+                    <p class="smaller pullUp bold">Ver. 1.1.3</p>
                     <p>A relatively lightweight (~22KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
                     <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behavior and appearance of each tracker individually.</p>
                 </div>
@@ -230,7 +231,7 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verPosition: <span class="jsQuote">'right'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trackAllHeadlines: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addFinalStop: <span class="jsConst">true</span>,<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Questions & Feedback'</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Credits, Questions & Feedback'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrollSpeed: <span class="jsVal">1200</span><br />
                             &nbsp;&nbsp;&nbsp;&nbsp;});
                         </div>
@@ -281,6 +282,16 @@
                 <hr />
                 <div class="trackThis">
                     <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.1.3</span><br />
+                        <p class="bold larger">Fixes:</p>
+                        <p>
+                            <span class="underline">Revised the whole calculation.</span>
+                            <br /><span class="smaller">
+                                Sadly, even after all my previous "fixes", the calculations for most of the values were still awefully off <i>(and seemed to be working with the right set of options, which is why I didn't notice it sooner)</i>. After investing quite some time and thought, they should now finally all work correctly.
+                            </span>
+                        </p>
+                    </div>
                     <div class="historyVersion">
                         <span class="bold">Version 1.1.2</span><br />
                         <p class="bold larger">Fixes:</p>
@@ -357,7 +368,7 @@
                     </div>
                 </div>
                 <hr />
-                <div class="trackThis">
+                <div>
                     <h3>Credits</h3>
                     <p>I'd like to thank René Mansveld (<a href="mailto:R.Mansveld@Spider-IT.de">R.Mansveld@Spider-IT.de</a>) for providing me with the "headline only markup"-solution
                     <br /><i>(see above: last point under "Setup")</i>.</p>
@@ -369,6 +380,9 @@
                     <p>Also, please, feel free to send me links to websites where you used this! <span class="larger">☺</span></p>
                 </div>
             </div>
+<!--
+            <div style="height: 150px;"></div>
+-->
         </div>
     </body>
 </html>

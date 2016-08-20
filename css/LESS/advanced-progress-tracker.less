@@ -35,7 +35,9 @@
 // 2016-08-19 DW    Added the "fill" class to the trackers and styled them accordingly;
 //                  adjusted the dimensions of .finalStopCircle to make it symmetrical
 // 2016-08-20 DW    Adjusted the max-width of .centerAll to prevent collisions with the
-//                  vertical tracker
+//                  vertical tracker;
+//                  adjusted the position of the stopd for the horizontal tracker with
+//                  the "fill" style
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -290,7 +292,7 @@ img {
     }
     .finalStopCircle {
         left: -11px;
-        bottom: -4px;
+        bottom: -3px;
     }
 }
 .styleFill {
@@ -388,10 +390,10 @@ img {
         .scrollStopContainer {
             width: calc(~'100% - 38px');
             .stopCircle {
-                top: -6px;
+                top: -8px;
             }
             .finalStopCircle {
-                top: -8px;
+                top: -10px;
             }
         }
         .scrollStopTitles {

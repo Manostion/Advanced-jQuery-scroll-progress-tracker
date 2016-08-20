@@ -1,4 +1,4 @@
-# Advanced jQuery Scroll Progress Tracker v1.1.2
+# Advanced jQuery Scroll Progress Tracker v1.1.3
 
 Dynamic Scroll Progress Tracker plugin for jQuery
 
@@ -18,21 +18,22 @@ Using the various options it is also possible to display one tracker (for exampl
 2. Include the advanced-progress-tracker.css or advanced-progress-tracker.min.css in the `head`
 3. Include jQuery (if you haven't already) followed by advanced-progress-tracker.js or advanced-progress-tracker.min.js in the `head`
 4. Initialize the plugin below the included scripts, like so:
-   
-    <script type='text/javascript'>
-        $('body').progressTracker();
-    </script>
+
+
+<script type='text/javascript'>
+    $('body').progressTracker();
+</script>
 
 Or with custom options...
 
-    <script type='text/javascript'>
-        $('body').progressTracker({
-            horNumbering: false,
-            horTitles: true,
-            horMobileOnly: true,
-            verTracker: true,
-        });
-    </script>
+<script type='text/javascript'>
+    $('body').progressTracker({
+        horNumbering: false,
+        horTitles: true,
+        horMobileOnly: true,
+        verTracker: true,
+    });
+</script>
 
 ### Live-Demo
 
@@ -41,6 +42,11 @@ You can find a more detailed introduction that uses the script here:
 http://whitworth.de/ProgressTracker/ReadMe.html
 
 ### Update history
+
+**Version 1.1.3**
+##### Fixes:
+
+- Revised all the calculations to eliminate redundancy and bugs
 
 **Version 1.1.2**
 ##### Fixes:
