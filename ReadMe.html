@@ -1,9 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>ReadMe | AjSPT v1.1.3</title>
+        <title>ReadMe | AjSPT v1.1.4</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <style>
+            /*
+            //-------------------------------------------------------------------------------------
+            // Scroll Progress Tracker ReadMe Stylesheet
+            //-------------------------------------------------------------------------------------
+            // Created          2016-08-22
+            // Changed          2016-08-22
+            // Authors          David Whitworth | David@Whitworth.de
+            //-------------------------------------------------------------------------------------
+            // 2016-08-22       Created
+            // 2016-08-22 DW    moved all plugin unrelated styles from the plugin's stylesheet here
+            //-------------------------------------------------------------------------------------
+            // Copyright (c) 2016
+            //-------------------------------------------------------------------------------------
+            */
+            h1 {
+              font-size: 38px;
+            }
+            h3 {
+              font-size: 24px;
+            }
+            hr {
+              margin-top: 24px;
+              border: 2px solid rgba(0, 0, 0, 0.1);
+            }
+            img {
+              max-width: calc(100% - 44px);
+            }
+            .larger {
+              font-size: 1.5em;
+            }
+            .smaller {
+              font-size: 0.8em;
+            }
+            .pullUp {
+              margin-top: -20px;
+            }
+            .hot {
+              margin-left: 20px;
+              font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+              font-weight: bold;
+              color: #e70000;
+            }
+            .sourcecode,
+            .htmlTag,
+            .htmlAttr,
+            .htmlVal,
+            .htmlComment,
+            .javascript,
+            .jsVal,
+            .jsComment,
+            .jsQuote,
+            .jsConst {
+              font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+              font-size: 13px;
+            }
+            .sourcecode,
+            .historyVersion {
+              border: 1px solid rgba(0, 0, 0, 0.15);
+              padding: 8px 16px;
+              text-overflow: ellipsis;
+              background-color: rgba(0, 0, 0, 0.05);
+              overflow: hidden;
+            }
+            .sourcecode .htmlTag,
+            .historyVersion .htmlTag {
+              color: #0000ff;
+            }
+            .sourcecode .htmlAttr,
+            .historyVersion .htmlAttr,
+            .sourcecode .jsVal,
+            .historyVersion .jsVal {
+              color: #ff0000;
+            }
+            .sourcecode .htmlVal,
+            .historyVersion .htmlVal {
+              color: #8000ff;
+            }
+            .sourcecode .htmlComment,
+            .historyVersion .htmlComment,
+            .sourcecode .jsComment,
+            .historyVersion .jsComment {
+              color: #008000;
+            }
+            .sourcecode .javascript,
+            .historyVersion .javascript {
+              margin: 0 -16px;
+              padding: 0 16px;
+              background-color: rgba(106, 136, 169, 0.2);
+            }
+            .sourcecode .jsQuote,
+            .historyVersion .jsQuote {
+              color: #808080;
+            }
+            .sourcecode .jsConst,
+            .historyVersion .jsConst {
+              color: #000080;
+              text-shadow: 1px 0 0 #000080;
+              font-style: italic;
+            }
+            .historyVersion {
+              margin-bottom: 16px;
+            }
+            .historyVersion:last-of-type {
+              margin: 0;
+            }
+        </style>
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
         <link href="http://cdn.jsdelivr.net/font-hack/2.020/css/hack.min.css" rel="stylesheet" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -24,16 +131,16 @@
     </head>
 
     <body>
-        <div id="MainContent" class="centerAll">
+        <div id="MainContent" class="spt-centerAll">
             <div id="TrackScrollProgress">
-                <div class="trackThis">
+                <div class="spt-trackThis">
                     <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.1.3</p>
-                    <p>A relatively lightweight (~22KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
+                    <p class="smaller pullUp bold">Ver. 1.1.4</p>
+                    <p>A relatively lightweight (min size ~24KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
                     <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behavior and appearance of each tracker individually.</p>
                 </div>
                 <hr />
-                <div class="trackThis">
+                <div class="spt-trackThis">
                     <h3>Options</h3>
 <!-- New! in current version -->
                     <p><b>horInHeader</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
@@ -59,11 +166,11 @@
                     <ul>
                         <li>
                             <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
-                            <br /><img src="images/horStyle-Beam.png" alt="" />
+                            <br /><img src="http://whitworth.de/ProgressTracker/images/horStyle-Beam.png" alt="" />
                         </li>
                         <li>
                             <i><b>'fill'</b></i> - The tracker will be displayed as a thick bar that contains titles within and has the bullets slightly overlapping it.
-                            <br /><img src="images/horStyle-Fill.png" alt="" />
+                            <br /><img src="http://whitworth.de/ProgressTracker/images/horStyle-Fill.png" alt="" />
                         </li>
                     </ul>
                     <hr />
@@ -72,17 +179,17 @@
                     <ul>
                         <li>
                             <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
-                            <br /><img src="images/verStyle-Beam.png" alt="" />
+                            <br /><img src="http://whitworth.de/ProgressTracker/images/verStyle-Beam.png" alt="" />
                         </li>
                         <li>
                             <i><b>'fill'</b></i> - The tracker will be displayed as a thick bar that contains the bullets within.
-                            <br /><img src="images/verStyle-Fill.png" alt="" />
+                            <br /><img src="http://whitworth.de/ProgressTracker/images/verStyle-Fill.png" alt="" />
                         </li>
                     </ul>
                     <hr />
                     <p><b>trackAllHeadlines</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
-                    If set to true, any headline tag (h1, h2, h3,...) inside '.trackThis'¹ will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
-                    <p class="smaller">¹or with the class "trackThis" - see the last point under "Setup" for further information.</span>
+                    If set to true, any headline tag (h1, h2, h3,...) inside '.spt-trackThis'¹ will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
+                    <p class="smaller">¹or with the class "spt-trackThis" - see the last point under "Setup" for further information.</span>
                     <hr />
 <!-- Horizontal tracker -->
                     <p><b>horTracker</b> - <i>default: <b>true</b></i><br />
@@ -194,7 +301,7 @@
                     If set to true, the scroll position of the whole viewport will be displayed on the tracker(s) instead of the top of the viewport. In other words, if this is active the <i>bottom</i> of your screen is decisive, otherwise the <i>top</i> is.</p>
                 </div>
                 <hr />
-                <div class="trackThis">
+                <div class="spt-trackThis">
                     <h3>Setup</h3>
                     <p>1. Include the advanced-progress-tracker.min.css in the head</p>
                     <div class="sourcecode">
@@ -243,17 +350,17 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span>
                     </div>
-                    <p>In order for <b>horStops</b>/<b>verStops</b> to work, you need to define sections with the class "trackThis".</p>
+                    <p>In order for <b>horStops</b>/<b>verStops</b> to work, you need to define sections with the class "spt-trackThis".</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;div</span>
-                        <span class="htmlAttr">class</span>=<span class="htmlVal">"trackThis"</span><span class="htmlTag">&gt;</span><br />
+                        <span class="htmlAttr">class</span>=<span class="htmlVal">"spt-trackThis"</span><span class="htmlTag">&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span>
                     </div>
                     <p>In order for <b>horTitles</b>/<b>verTitles</b> to work, you also need to have h3-headlines within your sections.</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;div</span>
-                        <span class="htmlAttr">class</span>=<span class="htmlVal">"trackThis"</span><span class="htmlTag">&gt;</span><br />
+                        <span class="htmlAttr">class</span>=<span class="htmlVal">"spt-trackThis"</span><span class="htmlTag">&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlTag">&lt;h3&gt;</span>section headline<span class="htmlTag">&lt;/h3&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span>
@@ -263,24 +370,45 @@
                         <span class="htmlTag">&lt;h3</span>
                         <span class="htmlAttr">data-name</span>=<span class="htmlVal">"Introduction"</span><span class="htmlTag">&gt;</span>Advanced jQuery scroll progress tracker<span class="htmlTag">&lt;/h3&gt;</span><br />
                     </div>
-                    <p>In some cases, for example if a content management system (cms) is used, it can be difficult to create custom containers. To compensate this, you can alternatively just attach the class "trackThis" to the headline. The structure above will then automatically be created, i.e. a &lt;div class="trackThis"&gt; will automatically be created around the h3 and the content and the class "trackThis" will be removed from the h3 <i>(thanks to R. Mansveld)</i>.</p>
+                    <p>In some cases, for example if a content management system (cms) is used, it can be difficult to create custom containers. To compensate this, you can alternatively just attach the class "spt-trackThis" to the headline. The structure above will then automatically be created, i.e. a &lt;div class="spt-trackThis"&gt; will automatically be created around the h3 and the content and the class "spt-trackThis" will be removed from the h3 <i>(thanks to R. Mansveld)</i>.</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;h3</span>
-                        <span class="htmlAttr">class</span>=<span class="htmlVal">"trackThis"</span><span class="htmlTag">&gt;</span>section headline<span class="htmlTag">&lt;/h3&gt;</span><br />
+                        <span class="htmlAttr">class</span>=<span class="htmlVal">"spt-trackThis"</span><span class="htmlTag">&gt;</span>section headline<span class="htmlTag">&lt;/h3&gt;</span><br />
                         <span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                     </div>
                     ...will automatically be converted to...
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;div</span>
-                        <span class="htmlAttr">class</span>=<span class="htmlVal">"trackThis"</span><span class="htmlTag">&gt;</span><br />
+                        <span class="htmlAttr">class</span>=<span class="htmlVal">"spt-trackThis"</span><span class="htmlTag">&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlTag">&lt;h3&gt;</span>section headline<span class="htmlTag">&lt;/h3&gt;</span><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span><br />
                     </div>
                 </div>
                 <hr />
-                <div class="trackThis">
+                <div class="spt-trackThis">
                     <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.1.4</span><br />
+                        <p class="bold larger">Changes:</p>
+                        <p>
+                            <span class="underline">Changed the names of all classes and ids.</span>
+                            <br /><span class="smaller">
+                                To prevent any possible conflicts with other plugins, the names of all classes and ids have been changed to a more unique format.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Reduced the package size.</span>
+                            <br /><span class="smaller">
+                                In order to keep the package as small and tidy as possible:
+                                <ul>
+                                    <li>All the styles that are irrelevant for the plugin (i.e. the styles for this ReadMe) have been removed from the stylesheet.</li>
+                                    <li>The images used in the <b>Options</b> section are now stored online.</li>
+                                </ul>
+                            </span>
+                        </p>
+                    </div>
                     <div class="historyVersion">
                         <span class="bold">Version 1.1.3</span><br />
                         <p class="bold larger">Fixes:</p>
@@ -297,7 +425,7 @@
                         <p>
                             <span class="underline">Increased the default value for <b>mobileThreshold</b>.</span>
                             <br /><span class="smaller">
-                                Up until now the <i>horizontal</i> tracker would overlap the content if the viewport was too narrow to contain both, but too wide to be considered a 'small screen'. The default value for <b>mobileThreshold</b> along with the max-width of <span class="htmlAttr">.centerAll</span> has been adjusted to prevent that.
+                                Up until now the <i>horizontal</i> tracker would overlap the content if the viewport was too narrow to contain both, but too wide to be considered a 'small screen'. The default value for <b>mobileThreshold</b> along with the max-width of <span class="htmlAttr">.spt-centerAll</span> has been adjusted to prevent that.
                                 <br />Additionally, the <i>vertical</i> tracker now moves 50px closer to the content as soon as the viewport is wide enough to fit the content + the tracker + 50px.
                             </span>
                         </p>
@@ -361,7 +489,7 @@
                         <p>
                             <span class="underline">Added option <b>trackAllHeadlines</b></span>
                             <br /><span class="smaller">
-                                In addition to searching for each <span class="htmlTag">&lt;h3&gt;</span> in the tracked area, it is now also possible to search for <i>any</i> headline instead. That way, for example, the very first section could have a <span class="htmlTag">&lt;h1&gt;</span> (as seen in this ReadMe) but still give it's title to the tracker. However if you'd for example like to use <span class="htmlTag">&lt;h4&gt;</span>-headlines <i>within</i> your tracked areas, you should handle this option with care (Though it would be possible to achieve both by putting the <span class="htmlTag">&lt;h4&gt;</span> inside a not-tracked area (i.e. one without the class <span class="htmlVal">"trackThis"</span>).
+                                In addition to searching for each <span class="htmlTag">&lt;h3&gt;</span> in the tracked area, it is now also possible to search for <i>any</i> headline instead. That way, for example, the very first section could have a <span class="htmlTag">&lt;h1&gt;</span> (as seen in this ReadMe) but still give it's title to the tracker. However if you'd for example like to use <span class="htmlTag">&lt;h4&gt;</span>-headlines <i>within</i> your tracked areas, you should handle this option with care (Though it would be possible to achieve both by putting the <span class="htmlTag">&lt;h4&gt;</span> inside a not-tracked area (i.e. one without the class <span class="htmlVal">"spt-trackThis"</span>).
                             </span>
                         </p>
                     </div>

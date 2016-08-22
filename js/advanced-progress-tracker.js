@@ -99,7 +99,7 @@ $.fn.progressTracker = function(options) {
         
         // General -->
         mobileThreshold: 1300,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
-        trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) within .trackThis will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
+        trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) within .spt-trackThis will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
         addFinalStop: false,            // adds a final stop to the very end of the progress tracker(s) if true
                                         // ---> only used if horStops and/or verStops is true; works with horNumbering/verNumbering
         finalStopTitle: '',             // adds a title to the final stop at the end of the progress tracker(s) if not ''
@@ -147,21 +147,21 @@ $.fn.progressTracker = function(options) {
     
     $(document).ready(function () {
         if (settings.trackAllHeadlines) {
-            $('h1, h2, h3, h4, h5, h6').addClass('ptSectionTitle');
+            $('h1, h2, h3, h4, h5, h6').addClass('spt-sectionTitle');
         } else {
-            $('h3').addClass('ptSectionTitle');
+            $('h3').addClass('spt-sectionTitle');
         }
         
-        // Convert document if headline has class 'trackThis' -->
-        if ($('.ptSectionTitle.trackThis').length) {
+        // Convert document if headline has class 'spt-trackThis' -->
+        if ($('.spt-sectionTitle.spt-trackThis').length) {
             var i = 0;
-            $('.ptSectionTitle.trackThis').each(function() {
+            $('.spt-sectionTitle.spt-trackThis').each(function() {
                 i ++;
-                $(this).removeClass('trackThis').wrap('<div id="Section' + i + '" class="trackThis"></div>');
+                $(this).removeClass('spt-trackThis').wrap('<div id="Section' + i + '" class="spt-trackThis"></div>');
                 var nextBreak = false;
                 while (!nextBreak) {
                     if ($('#Section' + i).next().length) {
-                        if ($('#Section' + i).next()[0] != $('#Section' + i).siblings('.ptSectionTitle.trackThis')[0]) {
+                        if ($('#Section' + i).next()[0] != $('#Section' + i).siblings('.spt-sectionTitle.spt-trackThis')[0]) {
                             $('#Section' + i).append($('#Section' + i).next());
                         }
                         else {
@@ -174,94 +174,94 @@ $.fn.progressTracker = function(options) {
                 }
             });
         }
-        // <-- Convert document if headline has class 'trackThis'
+        // <-- Convert document if headline has class 'spt-trackThis'
 
         if ($('#TrackScrollProgress').length) {
             trackedArea = $('#TrackScrollProgress');
         } else {
             trackedArea = $(document);
         }
-        headlineMargin = (trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight(true) - trackedArea.find('.trackThis').children('.ptSectionTitle:first').outerHeight()) / 2;
-        trackedArea.find('.trackThis:first').children('.ptSectionTitle').css('margin-top', '0');
+        headlineMargin = (trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight(true) - trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight()) / 2;
+        trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle').css('margin-top', '0');
         // Generate tracker html structure -->
         if (settings.horTracker) {
             // Generate HORIZONTAL tracker IN HEADER -->
             if (settings.horInHeader && $('header').length) {
                 if (settings.horInHeader == 'bottom') {
-                    $('header').append('<div class="horizontalScrollProgress"></div>');
+                    $('header').append('<div class="spt-horizontalScrollProgress"></div>');
                 } else {
-                    $('header').prepend('<div class="horizontalScrollProgress"></div>');
+                    $('header').prepend('<div class="spt-horizontalScrollProgress"></div>');
                 }
                 if (settings.horMobileOnly) {
-                    $('.horizontalScrollProgress').addClass('mobileOnly');
+                    $('.spt-horizontalScrollProgress').addClass('spt-mobileOnly');
                 }
                 head = $('header').outerHeight();
             } else {
-                $('body').append('<div class="horizontalScrollProgress fixed"></div>');
+                $('body').append('<div class="spt-horizontalScrollProgress spt-fixed"></div>');
                 if (settings.horPosition == 'bottom') {
                     head = 0;
                 } else {
-                    head = $('.horizontalScrollProgress').height();
+                    head = $('.spt-horizontalScrollProgress').height();
                 }
             }
             // <-- Generate HORIZONTAL tracker IN HEADER
             
             if ('max' in document.createElement('progress')) {
                 // Generate html5 progress-tag if it is supported by the browser -->
-                $('.horizontalScrollProgress').append('<progress class="scrollProgress"></progress>');
-                horizontalTracker = $('.scrollProgress');
+                $('.spt-horizontalScrollProgress').append('<progress class="spt-scrollProgress"></progress>');
+                horizontalTracker = $('.spt-scrollProgress');
             } else {
                 // Generate fallback solution for older browsers where the progress-tag is NOT supported -->
-                $('.horizontalScrollProgress').append('<div class="scrollProgressContainer"><span class="scrollProgressBar"></span></div>');
-                horizontalTracker = $('.scrollProgressContainer');
+                $('.spt-horizontalScrollProgress').append('<div class="spt-scrollProgressContainer"><span class="spt-scrollProgressBar"></span></div>');
+                horizontalTracker = $('.spt-scrollProgressContainer');
             }
             if (settings.horPosition == 'bottom' && !settings.horInHeader) {
-                $('.horizontalScrollProgress').addClass('bottom');
-                $('body').css('padding-bottom', $('.horizontalScrollProgress').height());
+                $('.spt-horizontalScrollProgress').addClass('spt-bottom');
+                $('body').css('padding-bottom', $('.spt-horizontalScrollProgress').height());
             } else {
                 if (!settings.horInHeader) {
-                    $('body').css('padding-top', $('.horizontalScrollProgress').height());
+                    $('body').css('padding-top', $('.spt-horizontalScrollProgress').height());
                 }
             }
             
         }
         // HORIZONTAL tracker -->
         if (settings.horTracker) {
-            if ($('.scrollProgress').length) {
-                $('.scrollProgress').attr('value', '0');
+            if ($('.spt-scrollProgress').length) {
+                $('.spt-scrollProgress').attr('value', '0');
             }
             if (settings.horTitles) {
-                $('<div class="scrollStopTitles"></div>').insertAfter(horizontalTracker);
-                $('.scrollStopTitles').append('<div class="stopTitle onlyActive" style="font-weight: bold;"></div>');
+                $('<div class="spt-scrollStopTitles"></div>').insertAfter(horizontalTracker);
+                $('.spt-scrollStopTitles').append('<div class="spt-stopTitle spt-onlyActive" style="font-weight: bold;"></div>');
             } else {
-                horizontalTracker.addClass('untitled');
+                horizontalTracker.addClass('spt-untitled');
             }
             if (settings.horStops) {
-                $('<div class="scrollStopContainer"></div>').insertAfter(horizontalTracker);
+                $('<div class="spt-scrollStopContainer"></div>').insertAfter(horizontalTracker);
             }
             if (settings.addFinalStop) {
-                $('.scrollStopContainer').append('<div class="finalStopCircle" title="' + settings.finalStopTitle + '"></div>');
+                $('.spt-scrollStopContainer').append('<div class="spt-finalStopCircle" title="' + settings.finalStopTitle + '"></div>');
                 if (!settings.horOnlyActiveTitle) {
-                    $('.scrollStopTitles').append('<div class="finalStopTitle">' + settings.finalStopTitle + '</div>');
+                    $('.spt-scrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
                 }
             }
             if (!settings.horMobile) {
-                horizontalTracker.addClass('desktopOnly');
-                $('.scrollStopContainer').addClass('desktopOnly');
-                $('.scrollStopTitles').addClass('desktopOnly');
+                horizontalTracker.addClass('spt-desktopOnly');
+                $('.spt-scrollStopContainer').addClass('spt-desktopOnly');
+                $('.spt-scrollStopTitles').addClass('spt-desktopOnly');
             }
             if (settings.horMobileOnly) {
-                horizontalTracker.removeClass('desktopOnly').addClass('mobileOnly');
-                $('.scrollStopContainer').removeClass('desktopOnly').addClass('mobileOnly');
-                $('.scrollStopTitles').removeClass('desktopOnly').addClass('mobileOnly');
+                horizontalTracker.removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
+                $('.spt-scrollStopContainer').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
+                $('.spt-scrollStopTitles').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
             }
             if (settings.horStyle == 'fill') {
-                $('.horizontalScrollProgress').addClass('styleFill');
+                $('.spt-horizontalScrollProgress').addClass('spt-styleFill');
             }
             if (settings.horCenter) {
-                horizontalTracker.addClass('centerAll');
-                $('.scrollStopTitles').addClass('centerAll');
-                $('.scrollStopContainer').addClass('centerAll');
+                horizontalTracker.addClass('spt-centerAll');
+                $('.spt-scrollStopTitles').addClass('spt-centerAll');
+                $('.spt-scrollStopContainer').addClass('spt-centerAll');
                 
             }
         }
@@ -269,32 +269,32 @@ $.fn.progressTracker = function(options) {
 
         // VERTICAL tracker -->
         if (settings.verTracker) {
-            $('body').append('<div class="verticalScrollProgress"><div class="verticalScrollProgressContainer"><div class="verticalScrollProgressBar"></div></div></div>');
+            $('body').append('<div class="spt-verticalScrollProgress"><div class="spt-verticalScrollProgressContainer"><div class="spt-verticalScrollProgressBar"></div></div></div>');
             if (settings.verPosition == 'right') {
-                $('.verticalScrollProgress').addClass('verRight');
+                $('.spt-verticalScrollProgress').addClass('spt-verRight');
             }
 
-            var verticalTracker = $('.verticalScrollProgress');
+            var verticalTracker = $('.spt-verticalScrollProgress');
             if (!settings.verMobile) {
-                verticalTracker.addClass('desktopOnly');
+                verticalTracker.addClass('spt-desktopOnly');
             }
             if (settings.verMobileOnly) {
-                verticalTracker.removeClass('desktopOnly').addClass('mobileOnly');
+                verticalTracker.removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
             }
             if (settings.verStops) {
-                verticalTracker.append('<div class="vertScrollStopContainer"></div>');
+                verticalTracker.append('<div class="spt-vertScrollStopContainer"></div>');
             }
             if (settings.verTitles) {
-                verticalTracker.append('<div class="vertScrollStopTitles"></div>');
+                verticalTracker.append('<div class="spt-vertScrollStopTitles"></div>');
             } else {
-                verticalTracker.addClass('untitled');
+                verticalTracker.addClass('spt-untitled');
             }
             if (settings.addFinalStop) {
-                $('.vertScrollStopContainer').append('<div class="finalStopCircle"></div>');
-                $('.vertScrollStopTitles').append('<div class="finalStopTitle">' + settings.finalStopTitle + '</div>');
+                $('.spt-vertScrollStopContainer').append('<div class="spt-finalStopCircle"></div>');
+                $('.spt-vertScrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
             }
             if (settings.verStyle == 'fill') {
-                $('.verticalScrollProgress').addClass('styleFill');
+                $('.spt-verticalScrollProgress').addClass('spt-styleFill');
             }
         }
         // <-- VERTICAL tracker
@@ -302,9 +302,9 @@ $.fn.progressTracker = function(options) {
         // <-- GENERATE tracker html structure
         
         // HORIZONTAL tracker functionality -->
-        if ($('.scrollProgress').length) {
+        if ($('.spt-scrollProgress').length) {
             // <progress> tag is supported -->
-            var scrollProgress = $('.scrollProgress');
+            var scrollProgress = $('.spt-scrollProgress');
                 scrollProgress.attr('max', getScrollProgressMax());
             $(document).scroll(function () {
                 if (settings.trackViewport) {
@@ -324,7 +324,7 @@ $.fn.progressTracker = function(options) {
             });
         } else {
             // <progress> tag is not supported (older browsers) -->
-            var scrollProgress = $('#ScrollProgressBar'),
+            var scrollProgress = $('.spt-scrollProgressBar'),
                 scrollProgressMax = getScrollProgressMax(),
                 scrollProgressValue, scrollProgressWidth,
                 getScrollProgressWidth = function() {
@@ -359,7 +359,7 @@ $.fn.progressTracker = function(options) {
         // <-- HORIZONTAL tracker functionality
         
         // VERTICAL tracker functionality -->
-        var verticalScrollProgress = $('.verticalScrollProgressBar'),
+        var verticalScrollProgress = $('.spt-verticalScrollProgressBar'),
             scrollProgressMax = getScrollProgressMax(),
             scrollProgressValue, scrollProgressHeight,
             getScrollProgressHeight = function() {
@@ -388,20 +388,20 @@ $.fn.progressTracker = function(options) {
             }
             if ($(window).width() <= settings.mobileThreshold) {
                 if (settings.horTitles) {
-                    $('.scrollStopTitles').children('.onlyActive').addClass('ellipsis');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').addClass('spt-ellipsis');
                 }
                 if (!settings.horOnlyActiveTitle) {
-                    $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'none');
-                    $('.scrollStopTitles').children('.onlyActive').css('display', 'block');
+                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
                 }
             } else {
-                $('.scrollStopTitles').children('.stopTitle, .onlyActive').removeClass('ellipsis');
+                $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-onlyActive').removeClass('spt-ellipsis');
                 if (settings.horOnlyActiveTitle) {
-                    $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'none');
-                    $('.scrollStopTitles').children('.onlyActive').css('display', 'block');
+                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
                 } else {
-                    $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'block');
-                    $('.scrollStopTitles').children('.onlyActive').css('display', 'none');
+                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
                 }
             }
         });
@@ -413,36 +413,36 @@ $.fn.progressTracker = function(options) {
             // Fake responsive webdesign ("small screens") -->
             if ($(window).width() <= settings.mobileThreshold) {
                 // is mobile
-                $('.horizontalScrollProgress, .scrollProgress, .scrollProgressContainer, .scrollStopContainer, .scrollStopTitles, .verticalScrollProgress').addClass('smallDevice');
+                $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress').addClass('spt-smallDevice');
                 if (!settings.horOnlyActiveTitle) {
-                    $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'none');
-                    $('.scrollStopTitles').children('.onlyActive').css('display', 'block');
+                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
                     if (!settings.horTitlesOffset) {
-                        $('.scrollStopTitles').children('.onlyActive').css('margin-top', '38px').css('margin-left', '8px');
+                        $('.spt-scrollStopTitles').children('.spt-onlyActive').css('margin-top', '38px').css('margin-left', '8px');
                     }
                 }
             } else {
                 // is not mobile
-                $('.horizontalScrollProgress, .scrollProgress, .scrollProgressContainer, .scrollStopContainer, .scrollStopTitles, .verticalScrollProgress').removeClass('smallDevice');
+                $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress').removeClass('spt-smallDevice');
                 if (settings.horOnlyActiveTitle) {
-                    $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'none');
-                    $('.scrollStopTitles').children('.onlyActive').css('display', 'block');
+                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
                 } else {
-                    $('.scrollStopTitles').children('.stopTitle, .finalStopTitle').css('display', 'block');
-                    $('.scrollStopTitles').children('.onlyActive').css('display', 'none');
+                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
                 }
             }
             if ($(window).width() >= (settings.mobileThreshold + 100)) {
                 if (settings.verPosition == 'right') {
-                    $('.verticalScrollProgress').css('right', '50px');
+                    $('.spt-verticalScrollProgress').css('right', '50px');
                 } else {
-                    $('.verticalScrollProgress').css('left', '50px');
+                    $('.spt-verticalScrollProgress').css('left', '50px');
                 }
             } else {
                 if (settings.verPosition == 'right') {
-                    $('.verticalScrollProgress').css('right', '0');
+                    $('.spt-verticalScrollProgress').css('right', '0');
                 } else {
-                    $('.verticalScrollProgress').css('left', '0');
+                    $('.spt-verticalScrollProgress').css('left', '0');
                 }
             }
             // <-- Fake responsive webdesign ("small screens")
@@ -452,52 +452,52 @@ $.fn.progressTracker = function(options) {
         setScrollStops();
         // Create scrollstops and titles -->
         function setScrollStops() {
-            trackedArea.find('.trackThis').each(function(index) {
-                var sectionHeadline = $(this).children('.ptSectionTitle'),
-                    ptSectionTitle,
+            trackedArea.find('.spt-trackThis').each(function(index) {
+                var sectionHeadline = $(this).children('.spt-sectionTitle'),
+                    sectionTitle,
                     sectionId = index + 1,
-                    scrollHorStops = $('.scrollStopContainer'),
-                    scrollVerStops = $('.vertScrollStopContainer'),
-                    scrollStopTitles = $('.scrollStopTitles'),
-                    scrollVerStopTitles = $('.vertScrollStopTitles');
+                    scrollHorStops = $('.spt-scrollStopContainer'),
+                    scrollVerStops = $('.spt-vertScrollStopContainer'),
+                    scrollStopTitles = $('.spt-scrollStopTitles'),
+                    scrollVerStopTitles = $('.spt-vertScrollStopTitles');
                     if (sectionHeadline.attr('data-name')) {
-                        ptSectionTitle = sectionHeadline.attr('data-name');
+                        sectionTitle = sectionHeadline.attr('data-name');
                     } else {
-                        ptSectionTitle = sectionHeadline.text();
+                        sectionTitle = sectionHeadline.text();
                     }
                 
                 $(this).attr('id', 'Section' + sectionId);
-                $(this).children('.ptSectionTitle').attr({ id: 'SectionHeadline' + sectionId});
+                $(this).children('.spt-sectionTitle').attr({ id: 'SectionHeadline' + sectionId});
                 
-                scrollHorStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '" title="' + sectionHeadline.text() + '"></div>');
-                scrollVerStops.append('<div class="stopCircle stop' + sectionId + '" data-index="' + sectionId + '"></div>');
-                scrollStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + ptSectionTitle + '</div>');
-                scrollVerStopTitles.append('<div class="stopTitle stop' + sectionId + '" data-index="' + sectionId + '">' + ptSectionTitle + '</div>');
+                scrollHorStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '" title="' + sectionHeadline.text() + '"></div>');
+                scrollVerStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '"></div>');
+                scrollStopTitles.append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
+                scrollVerStopTitles.append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
                 
                 
                 if (settings.horNumbering) {
-                    scrollHorStops.children('.stopCircle.stop' + sectionId).append(sectionId);
+                    scrollHorStops.children('.spt-stopCircle.spt-stop' + sectionId).append(sectionId);
                     if (settings.addFinalStop) {
-                        var numStops = scrollHorStops.children('.stopCircle').length + 1;
-                        scrollHorStops.children('.finalStopCircle').text(numStops);
+                        var numStops = scrollHorStops.children('.spt-stopCircle').length + 1;
+                        scrollHorStops.children('.spt-finalStopCircle').text(numStops);
                     }
                 }
                 if (settings.verNumbering) {
-                    scrollVerStops.children('.stopCircle.stop' + sectionId).append(sectionId);
+                    scrollVerStops.children('.spt-stopCircle.spt-stop' + sectionId).append(sectionId);
                     if (settings.addFinalStop) {
-                        var numStops = scrollVerStops.children('.stopCircle').length + 1;
-                        scrollVerStops.children('.finalStopCircle').text(numStops);
+                        var numStops = scrollVerStops.children('.spt-stopCircle').length + 1;
+                        scrollVerStops.children('.spt-finalStopCircle').text(numStops);
                     }
                 }
             });
-            $('.scrollStopContainer').append($('.scrollStopContainer > .finalStopCircle'));
+            $('.spt-scrollStopContainer').append($('.spt-scrollStopContainer > .spt-finalStopCircle'));
             $(window).resize();
         }
         // <-- Create scrollstops and titles
         
         // Linking mode functionality -->
         if (settings.linking) {
-            $('.stopCircle, .stopTitle').click(function () {
+            $('.spt-stopCircle, .spt-stopTitle').click(function () {
                 if (settings.skipHeadlines) {
                     linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
                 } else if ($(window).width() <= settings.mobileThreshold && settings.horTitles) {
@@ -510,7 +510,7 @@ $.fn.progressTracker = function(options) {
                     scrollTop: linkingScrollTop - head + 1
                 }, settings.scrollSpeed);
             });
-            $('.finalStopCircle, .finalStopTitle').click(function () {
+            $('.spt-finalStopCircle, .spt-finalStopTitle').click(function () {
                 $('html, body').animate( {
                     scrollTop: trackedArea.offset().top + trackedArea.outerHeight() - ($(window).height() / 2)
                 }, settings.scrollSpeed);
@@ -521,29 +521,29 @@ $.fn.progressTracker = function(options) {
         // Hover-effect -->
         if (settings.hovering) {
             var itemIndex;
-            $('.scrollStopContainer .stopCircle, .scrollStopTitles .stopTitle').hover(function() {
+            $('.spt-scrollStopContainer .spt-stopCircle, .spt-scrollStopTitles .spt-stopTitle').hover(function() {
                 itemIndex = $(this).attr('data-index');
-                $('.stopCircle, .stopTitle').removeClass('hover');
-                $('.scrollStopContainer .stop' + itemIndex + ', .scrollStopTitles .stop' + itemIndex).addClass('hover');
+                $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
+                $('.spt-scrollStopContainer .spt-stop' + itemIndex + ', .spt-scrollStopTitles .spt-stop' + itemIndex).addClass('spt-hover');
             }, function() {
-                $('.stopCircle, .stopTitle').removeClass('hover');
+                $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
             });
-            $('.vertScrollStopContainer .stopCircle, .vertScrollStopTitles .stopTitle').hover(function() {
+            $('.spt-vertScrollStopContainer .spt-stopCircle, .spt-vertScrollStopTitles .spt-stopTitle').hover(function() {
                 itemIndex = $(this).attr('data-index');
-                $('.stopCircle, .stopTitle').removeClass('hover');
-                $('.vertScrollStopContainer .stop' + itemIndex + ', .vertScrollStopTitles .stop' + itemIndex).addClass('hover');
+                $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
+                $('.spt-vertScrollStopContainer .spt-stop' + itemIndex + ', .spt-vertScrollStopTitles .spt-stop' + itemIndex).addClass('spt-hover');
             }, function() {
-                $('.stopCircle, .stopTitle').removeClass('hover');
+                $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
             });
-            $('.scrollStopContainer .finalStopCircle, .scrollStopTitles .finalStopTitle').hover(function() {
-                $('.scrollStopContainer .finalStopCircle, .scrollStopTitles .finalStopTitle').addClass('hover');
+            $('.spt-scrollStopContainer .spt-finalStopCircle, .spt-scrollStopTitles .spt-finalStopTitle').hover(function() {
+                $('.spt-scrollStopContainer .spt-finalStopCircle, .spt-scrollStopTitles .spt-finalStopTitle').addClass('spt-hover');
             }, function() {
-                $('.finalStopCircle, .finalStopTitle').removeClass('hover');
+                $('.spt-finalStopCircle, .spt-finalStopTitle').removeClass('spt-hover');
             });
-            $('.vertScrollStopContainer .finalStopCircle, .vertScrollStopTitles .finalStopTitle').hover(function() {
-                $('.vertScrollStopContainer .finalStopCircle, .vertScrollStopTitles .finalStopTitle').addClass('hover');
+            $('.spt-vertScrollStopContainer .spt-finalStopCircle, .spt-vertScrollStopTitles .spt-finalStopTitle').hover(function() {
+                $('.spt-vertScrollStopContainer .spt-finalStopCircle, .spt-vertScrollStopTitles .spt-finalStopTitle').addClass('spt-hover');
             }, function() {
-                $('.finalStopCircle, .finalStopTitle').removeClass('hover');
+                $('.spt-finalStopCircle, .spt-finalStopTitle').removeClass('spt-hover');
             });
         }
         // <-- Hover-effect
@@ -552,83 +552,83 @@ $.fn.progressTracker = function(options) {
     });
     // Position scroll stops and titles -->
     function moveScrollStops() {
-        trackedArea.find('.trackThis').each(function(index) {
+        trackedArea.find('.spt-trackThis').each(function(index) {
             var section = $(this),
-                sectionHeadline = section.children('.ptSectionTitle'),
-                ptSectionTitle = sectionHeadline.text(),
+                sectionHeadline = section.children('.spt-sectionTitle'),
+                sectionTitle = sectionHeadline.text(),
                 sectionTopSubtract = trackedArea.offset().top,
                 sectionRelativeTop = section.offset().top - trackedArea.offset().top,
                 sectionId = index + 1,
                 sectionStop = (sectionRelativeTop / getScrollProgressMax()) * 100,
-                scrollHorStops = $('.scrollStopContainer'),
-                scrollVerStops = $('.vertScrollStopContainer'),
-                scrollStopTitles = $('.scrollStopTitles'),
-                scrollVerStopTitles = $('.vertScrollStopTitles');
+                scrollHorStops = $('.spt-scrollStopContainer'),
+                scrollVerStops = $('.spt-vertScrollStopContainer'),
+                scrollStopTitles = $('.spt-scrollStopTitles'),
+                scrollVerStopTitles = $('.spt-vertScrollStopTitles');
             
             if (sectionStop > 100) {
                 sectionStop = 100;
             }
             
-            scrollHorStops.children('.stop' + sectionId).css('left', sectionStop + '%');
-            scrollVerStops.children('.stop' + sectionId).css('top', sectionStop + '%');
-            scrollStopTitles.children('.stop' + sectionId).css('left', sectionStop + '%');
-            scrollStopTitles.children('.stopTitle.onlyActive').addClass('reached');
+            scrollHorStops.children('.spt-stop' + sectionId).css('left', sectionStop + '%');
+            scrollVerStops.children('.spt-stop' + sectionId).css('top', sectionStop + '%');
+            scrollStopTitles.children('.spt-stop' + sectionId).css('left', sectionStop + '%');
+            scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').addClass('spt-reached');
             if (settings.horStyle == 'beam') {
-                scrollStopTitles.children('.stopTitle.onlyActive').css('left', '-8px');
+                scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('left', '-8px');
             } else {
-                scrollStopTitles.children('.stopTitle.onlyActive').css('left', '0');
+                scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('left', '0');
             }
-            scrollVerStopTitles.children('.stop' + sectionId).css('top', sectionStop + '%');
+            scrollVerStopTitles.children('.spt-stop' + sectionId).css('top', sectionStop + '%');
             
-            if ($(window).scrollTop() <= trackedArea.find('.trackThis:first').offset().top + trackedArea.find('.trackThis:first').children('.ptSectionTitle').outerHeight() - head) {
-                scrollStopTitles.children('.stopTitle.onlyActive').text('');
+            if ($(window).scrollTop() <= trackedArea.find('.spt-trackThis:first').offset().top + trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle').outerHeight() - head) {
+                scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text('');
             }
-            if ($(window).scrollTop() >= section.offset().top + section.children('.ptSectionTitle').outerHeight() - head) {
-                scrollStopTitles.children('.stopTitle.onlyActive').text(ptSectionTitle);
+            if ($(window).scrollTop() >= section.offset().top + section.children('.spt-sectionTitle').outerHeight() - head) {
+                scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(sectionTitle);
                 var viewportBottom = $(window).scrollTop() + $(window).height();
                 if (settings.finalStopTitle != '') {
                     if ($(window).width() <= settings.mobileThreshold) {
                         if (($(window).scrollTop() + $(window).height()) >= (trackedArea.offset().top + trackedArea.height() + (headlineMargin * 2)) || ($(window).scrollTop() + $(window).height()) >= $(document).outerHeight()) {
-                            scrollStopTitles.children('.stopTitle.onlyActive').text(settings.finalStopTitle);
+                            scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(settings.finalStopTitle);
                         }
                     } else {
                         if (($(window).scrollTop() + $(window).height()) >= $(document).outerHeight()) {
-                            scrollStopTitles.children('.stopTitle.onlyActive').text(settings.finalStopTitle);
+                            scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(settings.finalStopTitle);
                         }
                     }
                 }
             }
             
             if (settings.horOnlyActiveTitle) {
-                scrollStopTitles.children('.stop' + sectionId).css('display', 'none');
-                scrollStopTitles.children('.stopTitle.onlyActive').css('display', 'block');
+                scrollStopTitles.children('.spt-stop' + sectionId).css('display', 'none');
+                scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('display', 'block');
             } else {
-                scrollStopTitles.children('.stop' + sectionId).css('display', 'block');
-                scrollStopTitles.children('.stopTitle.onlyActive').css('display', 'none');
+                scrollStopTitles.children('.spt-stop' + sectionId).css('display', 'block');
+                scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('display', 'none');
             }
 
             if (settings.horTitlesOffset == 'top') {
-                scrollStopTitles.children('.stopTitle').css('margin-left', '8px');
+                scrollStopTitles.children('.spt-stopTitle').css('margin-left', '8px');
             } else if (settings.horTitlesOffset == 'bottom') {
-                scrollStopTitles.children('.stopTitle').css('margin-top', '38px').css('margin-left', '8px');
-                scrollStopTitles.children('.finalStopTitle').css('margin-top', '38px');
+                scrollStopTitles.children('.spt-stopTitle').css('margin-top', '38px').css('margin-left', '8px');
+                scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', '38px');
             } else {
-                scrollStopTitles.children('.stopTitle').css('margin-top', '18px').css('margin-left', '25px');
-                scrollStopTitles.children('.finalStopTitle').css('margin-top', '18px').css('margin-right', '16px');
+                scrollStopTitles.children('.spt-stopTitle').css('margin-top', '18px').css('margin-left', '25px');
+                scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', '18px').css('margin-right', '16px');
             }
             if (settings.horStyle == 'fill') {
-                scrollStopTitles.children('.onlyActive').css('margin-top', '0');
+                scrollStopTitles.children('.spt-onlyActive').css('margin-top', '0');
             }
             
             if (getScrollProgressValue() >= sectionRelativeTop) {
-                $('.stop' + sectionId).addClass('reached');
+                $('.spt-stop' + sectionId).addClass('spt-reached');
             } else {
-                $('.stop' + sectionId).removeClass('reached');
+                $('.spt-stop' + sectionId).removeClass('spt-reached');
             }
             if (getScrollProgressValue() >= getScrollProgressMax()) {
-                $('.finalStopCircle, .finalStopTitle').addClass('reached');
+                $('.spt-finalStopCircle, .spt-finalStopTitle').addClass('spt-reached');
             } else {
-                $('.finalStopCircle, .finalStopTitle').removeClass('reached');
+                $('.spt-finalStopCircle, .spt-finalStopTitle').removeClass('spt-reached');
             }
         });
     }

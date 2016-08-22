@@ -28,7 +28,7 @@
 //-------------------------------------------------------------------------------------
 // Version 1.1
 //-------------------------------------------------------------------------------------
-// 2016-08-17 DW    added the "fixed" class to the horizontal tracker (for use with
+// 2016-08-17 DW    added the "spt-fixed" class to the horizontal tracker (for use with
 //                  the option horInHeader: false);
 //                  added the "historyVersion" class;
 //                  increased the font-size of h1-headlines
@@ -38,12 +38,15 @@
 //                  vertical tracker;
 //                  adjusted the position of the stopd for the horizontal tracker with
 //                  the "fill" style
+// 2016-08-22 DW    changed the names of all classes and ids to prevent possible
+//                  conflicts with other plugins;
+//                  moved all plugin unrelated styles to spt-readme.css
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
 */
 
-@import '_settings.less';
+@import '_spt-settings.less';
 
 /* GENERAL */
 body {
@@ -52,38 +55,16 @@ body {
     color: @color-foreground;
     background-color: @color-background;
 }
-h1 {
-    font-size: 38px;
-}
-h3 {
-    font-size: 24px;
-}
-hr {
-    margin-top: 24px;
-    border: 2px solid fade(@color-foreground, 10%);
-}
-img {
-    max-width: calc(~'100% - 44px');
-}
-.centerAll {
+.spt-centerAll {
     margin: 0 auto;
     max-width: 900px;
 }
-.trackThis {
+.spt-trackThis {
     hr {
         margin-top: 0px;
         border-top: 1px solid fade(@color-foreground, 7%);
         border-bottom: none;
     }
-}
-.larger {
-    font-size: 1.5em;
-}
-.smaller {
-    font-size: 0.8em;
-}
-.pullUp {
-    margin-top: -20px;
 }
 .bold {
     font-weight: bold;
@@ -94,88 +75,28 @@ img {
 .underline {
     text-decoration: underline;
 }
-.mobileOnly {
+.spt-mobileOnly {
     display: none !important;
-}
-.hot {
-    margin-left: 20px;
-    font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-weight: bold;
-    color: @color-highlight;
-}
-.sourcecode,
-.htmlTag,
-.htmlAttr,
-.htmlVal,
-.htmlComment,
-.javascript,
-.jsVal,
-.jsComment,
-.jsQuote,
-.jsConst {
-    font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-size: 13px;
-}
-.sourcecode,
-.historyVersion {
-    border: 1px solid fade(@color-foreground, 15%);
-    padding: 8px 16px;
-    text-overflow: ellipsis;
-    background-color: fade(@color-foreground, 5%);
-    overflow: hidden;
-    .htmlTag {
-        color: @color-sc-blue;
-    }
-    .htmlAttr,
-    .jsVal {
-        color: @color-sc-red;
-    }
-    .htmlVal {
-        color: @color-sc-purple;
-    }
-    .htmlComment,
-    .jsComment {
-        color: @color-sc-green;
-    }
-    .javascript {
-        margin: 0 -16px;
-        padding: 0 16px;
-        background-color: fade(desaturate(@color-blue, 25%), 20%);
-    }
-    .jsQuote {
-        color: lighten(@color-black, 50%);
-    }
-    .jsConst {
-        color: @color-sc-darkblue;
-        text-shadow: 1px 0 0 @color-sc-darkblue;
-        font-style: italic;
-    }
-}
-.historyVersion {
-    margin-bottom: 16px;
-    &:last-of-type {
-        margin: 0;
-    }
 }
 /* GENERAL end */
 
 /* HORIZONTAL SCROLL PROGRESS TRACKER */
-.horizontalScrollProgress {
+.spt-horizontalScrollProgress {
     padding-top: 29px;
     height: 31px;
-    &.fixed {
+    &.spt-fixed {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        .gradient2Stops (top, to bottom, 0, 0%, 100%, @color-background, fade(@color-background, 0%));
+        .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, @color-background, fade(@color-background, 0%));
     }
-    &.bottom {
+    &.spt-bottom {
         top: auto;
         bottom: 0;
-        .gradient2Stops (top, to bottom, 0, 0%, 100%, fade(@color-background, 0%), @color-background);
+        .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, fade(@color-background, 0%), @color-background);
     }
-    .scrollProgress {
+    .spt-scrollProgress {
         display: block;
         border: none;
         width: 100%;
@@ -189,18 +110,18 @@ img {
             background-color: fade(@color-foreground, 30%);
         }
         &::-webkit-progress-value {
-            .gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
+            .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
         }
         &::-moz-progress-bar {
-            .gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
+            .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
         }
-        .scrollProgressContainer {
+        .spt-scrollProgressContainer {
             display: block;
             width: 100%;
             height: 2px;
             color: @color-highlight;
             background-color: fade(@color-foreground, 30%);
-            .scrollProgressBar {
+            .spt-scrollProgressBar {
                 display: block;
                 width: 0%;
                 height: inherit;
@@ -212,21 +133,21 @@ img {
 /* HORIZONTAL SCROLL PROGRESS TRACKER end */
 
 /* VERTICAL SCROLL PROGRESS TRACKER */
-.verticalScrollProgress {
+.spt-verticalScrollProgress {
     display: block;
     position: fixed;
     top: 50px;
     left: 0;
     bottom: 50px;
     width: 200px;
-    &.verRight {
+    &.spt-verRight {
         right: 0;
         left: auto;
     }
-    &.untitled {
+    &.spt-untitled {
         width: 20px;
     }
-    .verticalScrollProgressContainer {
+    .spt-verticalScrollProgressContainer {
         display: block;
         position: absolute;
         top: 0;
@@ -234,21 +155,21 @@ img {
         left: 0;
         width: 2px;
         background-color: fade(@color-foreground, 30%);
-        .verticalScrollProgressBar {
+        .spt-verticalScrollProgressBar {
             height: 0;
             border-bottom: 3px solid @color-foreground;
-            .gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+            .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
         }
     }
 }
 /* VERTICAL SCROLL PROGRESS TRACKER end */
 
 /* SCROLL STOPS */
-.scrollStopContainer,
-.vertScrollStopContainer {
+.spt-scrollStopContainer,
+.spt-vertScrollStopContainer {
     position: relative;
-    .stopCircle,
-    .finalStopCircle {
+    .spt-stopCircle,
+    .spt-finalStopCircle {
         position: absolute;
         border: 2px solid fade(@color-foreground, 50%);
         border-radius: 10px;
@@ -260,13 +181,13 @@ img {
         color: fade(@color-foreground, 50%);
         background-color: @color-background;
         cursor: pointer;
-        &.reached,
-        &.hover {
+        &.spt-reached,
+        &.spt-hover {
             color: @color-foreground;
             border-color: @color-highlight;
         }
     }
-    .finalStopCircle {
+    .spt-finalStopCircle {
         border-width: 3px;
         border-radius: 12px;
         width: 18px;
@@ -274,36 +195,36 @@ img {
         line-height: 18px;
     }
 }
-.scrollStopContainer {
-    .stopCircle {
+.spt-scrollStopContainer {
+    .spt-stopCircle {
         top: -11px;
     }
-    .finalStopCircle {
+    .spt-finalStopCircle {
         top: -13px;
         right: 0;
     }
 }
-.vertScrollStopContainer {
+.spt-vertScrollStopContainer {
     position: absolute;
     top: 0;
     bottom: 0;
-    .stopCircle {
+    .spt-stopCircle {
         left: -9px;
     }
-    .finalStopCircle {
+    .spt-finalStopCircle {
         left: -11px;
         bottom: -3px;
     }
 }
-.styleFill {
-    .vertScrollStopContainer {
+.spt-styleFill {
+    .spt-vertScrollStopContainer {
         top: 2px;
         bottom: 20px;
-        .stopCircle,
-        .finalStopCircle {
+        .spt-stopCircle,
+        .spt-finalStopCircle {
             background-color: darken(@color-lightgray, 20%);
-            &.reached,
-            &.hover {
+            &.spt-reached,
+            &.spt-hover {
                 background-color: @color-background;
             }
         }
@@ -312,20 +233,20 @@ img {
 /* SCROLL STOPS end */
 
 /* SCROLL STOP TITLES */
-.scrollStopTitles,
-.vertScrollStopTitles {
+.spt-scrollStopTitles,
+.spt-vertScrollStopTitles {
     display: block;
     position: absolute;
-    .stopTitle,
-    .finalStopTitle {
+    .spt-stopTitle,
+    .spt-finalStopTitle {
         position: absolute;
         color: fade(@color-foreground, 50%);
         cursor: pointer;
-        &.reached,
-        &.hover {
+        &.spt-reached,
+        &.spt-hover {
             color: @color-foreground;
         }
-        &.ellipsis {
+        &.spt-ellipsis {
             max-width: calc(~'100%');
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -333,37 +254,37 @@ img {
         }
     }
 }
-.scrollStopTitles {
+.spt-scrollStopTitles {
     top: 0;
     right: 0;
     left: 0;
-    .stopTitle,
-    .finalStopTitle {
+    .spt-stopTitle,
+    .spt-finalStopTitle {
         &.invisible {
             display: none;
         }
     }
-    .finalStopTitle {
+    .spt-finalStopTitle {
         right: 0;
     }
 }
-.vertScrollStopTitles {
+.spt-vertScrollStopTitles {
     top: 0;
     right: 0;
     bottom: 0;
     width: 190px;
-    .stopTitle,
-    .finalStopTitle {
+    .spt-stopTitle,
+    .spt-finalStopTitle {
         line-height: 14px;
         margin-top: 2px;
         padding-left: 10px;
     }
-    .finalStopTitle {
+    .spt-finalStopTitle {
         bottom: 2px;
     }
 }
-.styleFill {
-    .vertScrollStopTitles {
+.spt-styleFill {
+    .spt-vertScrollStopTitles {
         top: 2px;
         bottom: 20px;
     }
@@ -371,33 +292,33 @@ img {
 /* SCROLL STOP TITLES end */
 
 /* HORIZONTAL STYLES --> */
-.horizontalScrollProgress {
-    &.styleFill {
+.spt-horizontalScrollProgress {
+    &.spt-styleFill {
         height: 30px;
         padding: 0;
-        .scrollProgress,
-        .scrollProgressContainer {
+        .spt-scrollProgress,
+        .spt-scrollProgressContainer {
             height: 30px;
         }
-        .scrollProgress {
+        .spt-scrollProgress {
             &::-webkit-progress-value {
-                .gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+                .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
             }
             &::-moz-progress-bar {
-                .gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+                .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
             }
         }
-        .scrollStopContainer {
+        .spt-scrollStopContainer {
             width: calc(~'100% - 38px');
-            .stopCircle {
+            .spt-stopCircle {
                 top: -8px;
             }
-            .finalStopCircle {
+            .spt-finalStopCircle {
                 top: -10px;
             }
         }
-        .scrollStopTitles {
-            .onlyActive {
+        .spt-scrollStopTitles {
+            .spt-onlyActive {
                 line-height: 28px;
                 color: @color-background;
             }
@@ -407,25 +328,25 @@ img {
 /* <-- HORIZONTAL STYLES */
 
 /* VERTICAL STYLES --> */
-.verticalScrollProgress {
-    &.styleFill {
-        .verticalScrollProgressContainer {
+.spt-verticalScrollProgress {
+    &.spt-styleFill {
+        .spt-verticalScrollProgressContainer {
             border: 2px solid fade(@color-foreground, 50%);
             border-radius: 6px;
             left: -13px;
             width: 25px;
             overflow: hidden;
-            .verticalScrollProgressBar {
+            .spt-verticalScrollProgressBar {
                 
             }
         }
-        .vertScrollStopContainer {
-            .finalStopCircle {
+        .spt-vertScrollStopContainer {
+            .spt-finalStopCircle {
                 bottom: -18px;
             }
         }
-        .vertScrollStopTitles {
-            .finalStopTitle {
+        .spt-vertScrollStopTitles {
+            .spt-finalStopTitle {
                 bottom: -13px;
             }
         }
@@ -434,24 +355,24 @@ img {
 /* <-- VERTICAL STYLES */
 
 /* FAKE RESPONSIVE WEB DESIGN --> */
-&.smallDevice {
-    &.horizontalScrollProgress {
+&.spt-smallDevice {
+    &.spt-horizontalScrollProgress {
             background-color: fade(@color-background, 95%);
     }
-    &.desktopOnly {
+    &.spt-desktopOnly {
         display: none !important;
     }
-    &.mobileOnly {
+    &.spt-mobileOnly {
         display: block !important;
     }
-    &.scrollProgress,
-    &.scrollProgressContainer,
-    &.scrollStopContainer,
-    &.scrollStopTitles {
+    &.spt-scrollProgress,
+    &.spt-scrollProgressContainer,
+    &.spt-scrollStopContainer,
+    &.spt-scrollStopTitles {
         width: calc(~'100% - 32px');
     }
-    &.scrollStopContainer {
-        .finalStopCircle {
+    &.spt-scrollStopContainer {
+        .spt-finalStopCircle {
             right: -6px;
         }
     }

@@ -15,11 +15,13 @@
 // Version 1.1
 //-------------------------------------------------------------------------------------
 // 2016-08-19 DW    adjusted the DARK theme
+// 2016-08-22 DW    changed the names of all classes and ids to prevent possible
+//                  conflicts with other plugins
 //-------------------------------------------------------------------------------------
 // Copyright © 2016
 //-------------------------------------------------------------------------------------
 
-// COLORS
+// COLORS -->
     // general
     @color-black: #000000;
     @color-white: #ffffff;
@@ -92,23 +94,18 @@
         @color-background-DEFAULT;     // <—— Change this!
     @color-highlight:
         @color-highlight-DEFAULT;      // <—— Change this!
-// COLORS end
+// <-- COLORS
 //———————————————————————————————————————————————————————————————————————————
-// PARAMETERS
-    // box-model
-    .box-shadow (@offset-x: 0, @offset-y: 0, @blur: 12px, @spread: 0, @opacity: 30%) {
-        box-shadow: @offset-x @offset-y @blur @spread fade(@color-black, @opacity);
-    }
-    
+// PARAMETERS -->
     // Gradients
-    .gradient2Stops (@origin: top, @direction: to bottom, @type: 0, @1stStop: 0%, @2ndStop: 100%, @color1: @color-main, @color2: darken(@color1, 12%)) {
+    .spt-gradient2Stops (@origin: top, @direction: to bottom, @type: 0, @1stStop: 0%, @2ndStop: 100%, @color1: @color-main, @color2: darken(@color1, 12%)) {
         background: @color1; /* Old browsers */
         background: -moz-linear-gradient(@origin, @color1 @1stStop, @color2 @2ndStop); /* FF3.6-15 */
         background: -webkit-linear-gradient(@origin, @color1 @1stStop, @color2 @2ndStop); /* Chrome10-25,Safari5.1-6 */
         background: linear-gradient(@direction, @color1 @1stStop, @color2 @2ndStop); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color1', endColorstr='@color2',GradientType=@type ); /* IE6-8 */
     }
-    .gradient3Stops (@origin: top, @direction: to bottom, @type: 0, @1stStop: 0%, @2ndStop: 50%, @3rdStop: 100%, @color2: lighten(@color1, 30%), @color1: @color-main, @color3: darken(@color1, 20%)) {
+    .spt-gradient3Stops (@origin: top, @direction: to bottom, @type: 0, @1stStop: 0%, @2ndStop: 50%, @3rdStop: 100%, @color2: lighten(@color1, 30%), @color1: @color-main, @color3: darken(@color1, 20%)) {
         background: @color1; /* Old browsers */
         background: -moz-linear-gradient(@origin, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* FF3.6-15 */
         background: -webkit-linear-gradient(@origin, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* Chrome10-25,Safari5.1-6 */
@@ -116,4 +113,4 @@
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color2', endColorstr='@color3',GradientType=@type ); /* IE6-8 */
     }
     
-// PARAMETERS end
+// <-- PARAMETERS
