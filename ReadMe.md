@@ -1,4 +1,4 @@
-Advanced jQuery Scroll Progress Tracker v1.1.3
+Advanced jQuery Scroll Progress Tracker v1.1.4
 ==============================================
 
 Dynamic Scroll Progress Tracker plugin for jQuery
