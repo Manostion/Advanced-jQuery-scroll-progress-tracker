@@ -28,7 +28,7 @@
 //-------------------------------------------------------------------------------------
 // Version 1.1
 //-------------------------------------------------------------------------------------
-// 2016-08-17 DW    added the "fixed" class to the horizontal tracker (for use with
+// 2016-08-17 DW    added the "spt-fixed" class to the horizontal tracker (for use with
 //                  the option horInHeader: false);
 //                  added the "historyVersion" class;
 //                  increased the font-size of h1-headlines
@@ -38,6 +38,9 @@
 //                  vertical tracker;
 //                  adjusted the position of the stopd for the horizontal tracker with
 //                  the "fill" style
+// 2016-08-22 DW    changed the names of all classes and ids to prevent possible
+//                  conflicts with other plugins;
+//                  moved all plugin unrelated styles to spt-readme.css
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -49,36 +52,14 @@ body {
   color: #000000;
   background-color: #ffffff;
 }
-h1 {
-  font-size: 38px;
-}
-h3 {
-  font-size: 24px;
-}
-hr {
-  margin-top: 24px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-}
-img {
-  max-width: calc(100% - 44px);
-}
-.centerAll {
+.spt-centerAll {
   margin: 0 auto;
   max-width: 900px;
 }
-.trackThis hr {
+.spt-trackThis hr {
   margin-top: 0px;
   border-top: 1px solid rgba(0, 0, 0, 0.07);
   border-bottom: none;
-}
-.larger {
-  font-size: 1.5em;
-}
-.smaller {
-  font-size: 0.8em;
-}
-.pullUp {
-  margin-top: -20px;
 }
 .bold {
   font-weight: bold;
@@ -89,85 +70,16 @@ img {
 .underline {
   text-decoration: underline;
 }
-.mobileOnly {
+.spt-mobileOnly {
   display: none !important;
-}
-.hot {
-  margin-left: 20px;
-  font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  font-weight: bold;
-  color: #e70000;
-}
-.sourcecode,
-.htmlTag,
-.htmlAttr,
-.htmlVal,
-.htmlComment,
-.javascript,
-.jsVal,
-.jsComment,
-.jsQuote,
-.jsConst {
-  font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  font-size: 13px;
-}
-.sourcecode,
-.historyVersion {
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  padding: 8px 16px;
-  text-overflow: ellipsis;
-  background-color: rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-.sourcecode .htmlTag,
-.historyVersion .htmlTag {
-  color: #0000ff;
-}
-.sourcecode .htmlAttr,
-.historyVersion .htmlAttr,
-.sourcecode .jsVal,
-.historyVersion .jsVal {
-  color: #ff0000;
-}
-.sourcecode .htmlVal,
-.historyVersion .htmlVal {
-  color: #8000ff;
-}
-.sourcecode .htmlComment,
-.historyVersion .htmlComment,
-.sourcecode .jsComment,
-.historyVersion .jsComment {
-  color: #008000;
-}
-.sourcecode .javascript,
-.historyVersion .javascript {
-  margin: 0 -16px;
-  padding: 0 16px;
-  background-color: rgba(106, 136, 169, 0.2);
-}
-.sourcecode .jsQuote,
-.historyVersion .jsQuote {
-  color: #808080;
-}
-.sourcecode .jsConst,
-.historyVersion .jsConst {
-  color: #000080;
-  text-shadow: 1px 0 0 #000080;
-  font-style: italic;
-}
-.historyVersion {
-  margin-bottom: 16px;
-}
-.historyVersion:last-of-type {
-  margin: 0;
 }
 /* GENERAL end */
 /* HORIZONTAL SCROLL PROGRESS TRACKER */
-.horizontalScrollProgress {
+.spt-horizontalScrollProgress {
   padding-top: 29px;
   height: 31px;
 }
-.horizontalScrollProgress.fixed {
+.spt-horizontalScrollProgress.spt-fixed {
   position: fixed;
   top: 0;
   left: 0;
@@ -183,7 +95,7 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=0);
   /* IE6-8 */
 }
-.horizontalScrollProgress.bottom {
+.spt-horizontalScrollProgress.spt-bottom {
   top: auto;
   bottom: 0;
   background: rgba(255, 255, 255, 0);
@@ -197,7 +109,7 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=0);
   /* IE6-8 */
 }
-.horizontalScrollProgress .scrollProgress {
+.spt-horizontalScrollProgress .spt-scrollProgress {
   display: block;
   border: none;
   width: 100%;
@@ -208,10 +120,10 @@ img {
   -moz-appearance: none;
   appearance: none;
 }
-.horizontalScrollProgress .scrollProgress::-webkit-progress-bar {
+.spt-horizontalScrollProgress .spt-scrollProgress::-webkit-progress-bar {
   background-color: rgba(0, 0, 0, 0.3);
 }
-.horizontalScrollProgress .scrollProgress::-webkit-progress-value {
+.spt-horizontalScrollProgress .spt-scrollProgress::-webkit-progress-value {
   background: #e70000;
   /* Old browsers */
   background: -moz-linear-gradient(left, #810000 0%, #e70000 calc(100% - 10px), #000000 100%);
@@ -223,7 +135,7 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color2', endColorstr='@color3', GradientType=1);
   /* IE6-8 */
 }
-.horizontalScrollProgress .scrollProgress::-moz-progress-bar {
+.spt-horizontalScrollProgress .spt-scrollProgress::-moz-progress-bar {
   background: #e70000;
   /* Old browsers */
   background: -moz-linear-gradient(left, #810000 0%, #e70000 calc(100% - 10px), #000000 100%);
@@ -235,14 +147,14 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color2', endColorstr='@color3', GradientType=1);
   /* IE6-8 */
 }
-.horizontalScrollProgress .scrollProgress .scrollProgressContainer {
+.spt-horizontalScrollProgress .spt-scrollProgress .spt-scrollProgressContainer {
   display: block;
   width: 100%;
   height: 2px;
   color: #e70000;
   background-color: rgba(0, 0, 0, 0.3);
 }
-.horizontalScrollProgress .scrollProgress .scrollProgressContainer .scrollProgressBar {
+.spt-horizontalScrollProgress .spt-scrollProgress .spt-scrollProgressContainer .spt-scrollProgressBar {
   display: block;
   width: 0%;
   height: inherit;
@@ -250,7 +162,7 @@ img {
 }
 /* HORIZONTAL SCROLL PROGRESS TRACKER end */
 /* VERTICAL SCROLL PROGRESS TRACKER */
-.verticalScrollProgress {
+.spt-verticalScrollProgress {
   display: block;
   position: fixed;
   top: 50px;
@@ -258,14 +170,14 @@ img {
   bottom: 50px;
   width: 200px;
 }
-.verticalScrollProgress.verRight {
+.spt-verticalScrollProgress.spt-verRight {
   right: 0;
   left: auto;
 }
-.verticalScrollProgress.untitled {
+.spt-verticalScrollProgress.spt-untitled {
   width: 20px;
 }
-.verticalScrollProgress .verticalScrollProgressContainer {
+.spt-verticalScrollProgress .spt-verticalScrollProgressContainer {
   display: block;
   position: absolute;
   top: 0;
@@ -274,7 +186,7 @@ img {
   width: 2px;
   background-color: rgba(0, 0, 0, 0.3);
 }
-.verticalScrollProgress .verticalScrollProgressContainer .verticalScrollProgressBar {
+.spt-verticalScrollProgress .spt-verticalScrollProgressContainer .spt-verticalScrollProgressBar {
   height: 0;
   border-bottom: 3px solid #000000;
   background: #810000;
@@ -290,14 +202,14 @@ img {
 }
 /* VERTICAL SCROLL PROGRESS TRACKER end */
 /* SCROLL STOPS */
-.scrollStopContainer,
-.vertScrollStopContainer {
+.spt-scrollStopContainer,
+.spt-vertScrollStopContainer {
   position: relative;
 }
-.scrollStopContainer .stopCircle,
-.vertScrollStopContainer .stopCircle,
-.scrollStopContainer .finalStopCircle,
-.vertScrollStopContainer .finalStopCircle {
+.spt-scrollStopContainer .spt-stopCircle,
+.spt-vertScrollStopContainer .spt-stopCircle,
+.spt-scrollStopContainer .spt-finalStopCircle,
+.spt-vertScrollStopContainer .spt-finalStopCircle {
   position: absolute;
   border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 10px;
@@ -310,134 +222,134 @@ img {
   background-color: #ffffff;
   cursor: pointer;
 }
-.scrollStopContainer .stopCircle.reached,
-.vertScrollStopContainer .stopCircle.reached,
-.scrollStopContainer .finalStopCircle.reached,
-.vertScrollStopContainer .finalStopCircle.reached,
-.scrollStopContainer .stopCircle.hover,
-.vertScrollStopContainer .stopCircle.hover,
-.scrollStopContainer .finalStopCircle.hover,
-.vertScrollStopContainer .finalStopCircle.hover {
+.spt-scrollStopContainer .spt-stopCircle.spt-reached,
+.spt-vertScrollStopContainer .spt-stopCircle.spt-reached,
+.spt-scrollStopContainer .spt-finalStopCircle.spt-reached,
+.spt-vertScrollStopContainer .spt-finalStopCircle.spt-reached,
+.spt-scrollStopContainer .spt-stopCircle.spt-hover,
+.spt-vertScrollStopContainer .spt-stopCircle.spt-hover,
+.spt-scrollStopContainer .spt-finalStopCircle.spt-hover,
+.spt-vertScrollStopContainer .spt-finalStopCircle.spt-hover {
   color: #000000;
   border-color: #e70000;
 }
-.scrollStopContainer .finalStopCircle,
-.vertScrollStopContainer .finalStopCircle {
+.spt-scrollStopContainer .spt-finalStopCircle,
+.spt-vertScrollStopContainer .spt-finalStopCircle {
   border-width: 3px;
   border-radius: 12px;
   width: 18px;
   height: 18px;
   line-height: 18px;
 }
-.scrollStopContainer .stopCircle {
+.spt-scrollStopContainer .spt-stopCircle {
   top: -11px;
 }
-.scrollStopContainer .finalStopCircle {
+.spt-scrollStopContainer .spt-finalStopCircle {
   top: -13px;
   right: 0;
 }
-.vertScrollStopContainer {
+.spt-vertScrollStopContainer {
   position: absolute;
   top: 0;
   bottom: 0;
 }
-.vertScrollStopContainer .stopCircle {
+.spt-vertScrollStopContainer .spt-stopCircle {
   left: -9px;
 }
-.vertScrollStopContainer .finalStopCircle {
+.spt-vertScrollStopContainer .spt-finalStopCircle {
   left: -11px;
   bottom: -3px;
 }
-.styleFill .vertScrollStopContainer {
+.spt-styleFill .spt-vertScrollStopContainer {
   top: 2px;
   bottom: 20px;
 }
-.styleFill .vertScrollStopContainer .stopCircle,
-.styleFill .vertScrollStopContainer .finalStopCircle {
+.spt-styleFill .spt-vertScrollStopContainer .spt-stopCircle,
+.spt-styleFill .spt-vertScrollStopContainer .spt-finalStopCircle {
   background-color: #b3b3b3;
 }
-.styleFill .vertScrollStopContainer .stopCircle.reached,
-.styleFill .vertScrollStopContainer .finalStopCircle.reached,
-.styleFill .vertScrollStopContainer .stopCircle.hover,
-.styleFill .vertScrollStopContainer .finalStopCircle.hover {
+.spt-styleFill .spt-vertScrollStopContainer .spt-stopCircle.spt-reached,
+.spt-styleFill .spt-vertScrollStopContainer .spt-finalStopCircle.spt-reached,
+.spt-styleFill .spt-vertScrollStopContainer .spt-stopCircle.spt-hover,
+.spt-styleFill .spt-vertScrollStopContainer .spt-finalStopCircle.spt-hover {
   background-color: #ffffff;
 }
 /* SCROLL STOPS end */
 /* SCROLL STOP TITLES */
-.scrollStopTitles,
-.vertScrollStopTitles {
+.spt-scrollStopTitles,
+.spt-vertScrollStopTitles {
   display: block;
   position: absolute;
 }
-.scrollStopTitles .stopTitle,
-.vertScrollStopTitles .stopTitle,
-.scrollStopTitles .finalStopTitle,
-.vertScrollStopTitles .finalStopTitle {
+.spt-scrollStopTitles .spt-stopTitle,
+.spt-vertScrollStopTitles .spt-stopTitle,
+.spt-scrollStopTitles .spt-finalStopTitle,
+.spt-vertScrollStopTitles .spt-finalStopTitle {
   position: absolute;
   color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
-.scrollStopTitles .stopTitle.reached,
-.vertScrollStopTitles .stopTitle.reached,
-.scrollStopTitles .finalStopTitle.reached,
-.vertScrollStopTitles .finalStopTitle.reached,
-.scrollStopTitles .stopTitle.hover,
-.vertScrollStopTitles .stopTitle.hover,
-.scrollStopTitles .finalStopTitle.hover,
-.vertScrollStopTitles .finalStopTitle.hover {
+.spt-scrollStopTitles .spt-stopTitle.spt-reached,
+.spt-vertScrollStopTitles .spt-stopTitle.spt-reached,
+.spt-scrollStopTitles .spt-finalStopTitle.spt-reached,
+.spt-vertScrollStopTitles .spt-finalStopTitle.spt-reached,
+.spt-scrollStopTitles .spt-stopTitle.spt-hover,
+.spt-vertScrollStopTitles .spt-stopTitle.spt-hover,
+.spt-scrollStopTitles .spt-finalStopTitle.spt-hover,
+.spt-vertScrollStopTitles .spt-finalStopTitle.spt-hover {
   color: #000000;
 }
-.scrollStopTitles .stopTitle.ellipsis,
-.vertScrollStopTitles .stopTitle.ellipsis,
-.scrollStopTitles .finalStopTitle.ellipsis,
-.vertScrollStopTitles .finalStopTitle.ellipsis {
+.spt-scrollStopTitles .spt-stopTitle.spt-ellipsis,
+.spt-vertScrollStopTitles .spt-stopTitle.spt-ellipsis,
+.spt-scrollStopTitles .spt-finalStopTitle.spt-ellipsis,
+.spt-vertScrollStopTitles .spt-finalStopTitle.spt-ellipsis {
   max-width: calc(100%);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-.scrollStopTitles {
+.spt-scrollStopTitles {
   top: 0;
   right: 0;
   left: 0;
 }
-.scrollStopTitles .stopTitle.invisible,
-.scrollStopTitles .finalStopTitle.invisible {
+.spt-scrollStopTitles .spt-stopTitle.invisible,
+.spt-scrollStopTitles .spt-finalStopTitle.invisible {
   display: none;
 }
-.scrollStopTitles .finalStopTitle {
+.spt-scrollStopTitles .spt-finalStopTitle {
   right: 0;
 }
-.vertScrollStopTitles {
+.spt-vertScrollStopTitles {
   top: 0;
   right: 0;
   bottom: 0;
   width: 190px;
 }
-.vertScrollStopTitles .stopTitle,
-.vertScrollStopTitles .finalStopTitle {
+.spt-vertScrollStopTitles .spt-stopTitle,
+.spt-vertScrollStopTitles .spt-finalStopTitle {
   line-height: 14px;
   margin-top: 2px;
   padding-left: 10px;
 }
-.vertScrollStopTitles .finalStopTitle {
+.spt-vertScrollStopTitles .spt-finalStopTitle {
   bottom: 2px;
 }
-.styleFill .vertScrollStopTitles {
+.spt-styleFill .spt-vertScrollStopTitles {
   top: 2px;
   bottom: 20px;
 }
 /* SCROLL STOP TITLES end */
 /* HORIZONTAL STYLES --> */
-.horizontalScrollProgress.styleFill {
+.spt-horizontalScrollProgress.spt-styleFill {
   height: 30px;
   padding: 0;
 }
-.horizontalScrollProgress.styleFill .scrollProgress,
-.horizontalScrollProgress.styleFill .scrollProgressContainer {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollProgress,
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollProgressContainer {
   height: 30px;
 }
-.horizontalScrollProgress.styleFill .scrollProgress::-webkit-progress-value {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollProgress::-webkit-progress-value {
   background: #810000;
   /* Old browsers */
   background: -moz-linear-gradient(left, #810000 0%, #e70000 100%);
@@ -449,7 +361,7 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=1);
   /* IE6-8 */
 }
-.horizontalScrollProgress.styleFill .scrollProgress::-moz-progress-bar {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollProgress::-moz-progress-bar {
   background: #810000;
   /* Old browsers */
   background: -moz-linear-gradient(left, #810000 0%, #e70000 100%);
@@ -461,52 +373,52 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=1);
   /* IE6-8 */
 }
-.horizontalScrollProgress.styleFill .scrollStopContainer {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollStopContainer {
   width: calc(100% - 38px);
 }
-.horizontalScrollProgress.styleFill .scrollStopContainer .stopCircle {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollStopContainer .spt-stopCircle {
   top: -8px;
 }
-.horizontalScrollProgress.styleFill .scrollStopContainer .finalStopCircle {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollStopContainer .spt-finalStopCircle {
   top: -10px;
 }
-.horizontalScrollProgress.styleFill .scrollStopTitles .onlyActive {
+.spt-horizontalScrollProgress.spt-styleFill .spt-scrollStopTitles .spt-onlyActive {
   line-height: 28px;
   color: #ffffff;
 }
 /* <-- HORIZONTAL STYLES */
 /* VERTICAL STYLES --> */
-.verticalScrollProgress.styleFill .verticalScrollProgressContainer {
+.spt-verticalScrollProgress.spt-styleFill .spt-verticalScrollProgressContainer {
   border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 6px;
   left: -13px;
   width: 25px;
   overflow: hidden;
 }
-.verticalScrollProgress.styleFill .vertScrollStopContainer .finalStopCircle {
+.spt-verticalScrollProgress.spt-styleFill .spt-vertScrollStopContainer .spt-finalStopCircle {
   bottom: -18px;
 }
-.verticalScrollProgress.styleFill .vertScrollStopTitles .finalStopTitle {
+.spt-verticalScrollProgress.spt-styleFill .spt-vertScrollStopTitles .spt-finalStopTitle {
   bottom: -13px;
 }
 /* <-- VERTICAL STYLES */
 /* FAKE RESPONSIVE WEB DESIGN --> */
-.smallDevice.horizontalScrollProgress {
+.spt-smallDevice.spt-horizontalScrollProgress {
   background-color: rgba(255, 255, 255, 0.95);
 }
-.smallDevice.desktopOnly {
+.spt-smallDevice.spt-desktopOnly {
   display: none !important;
 }
-.smallDevice.mobileOnly {
+.spt-smallDevice.spt-mobileOnly {
   display: block !important;
 }
-.smallDevice.scrollProgress,
-.smallDevice.scrollProgressContainer,
-.smallDevice.scrollStopContainer,
-.smallDevice.scrollStopTitles {
+.spt-smallDevice.spt-scrollProgress,
+.spt-smallDevice.spt-scrollProgressContainer,
+.spt-smallDevice.spt-scrollStopContainer,
+.spt-smallDevice.spt-scrollStopTitles {
   width: calc(100% - 32px);
 }
-.smallDevice.scrollStopContainer .finalStopCircle {
+.spt-smallDevice.spt-scrollStopContainer .spt-finalStopCircle {
   right: -6px;
 }
 /* <-- FAKE RESPONSIVE WEB DESIGN */
