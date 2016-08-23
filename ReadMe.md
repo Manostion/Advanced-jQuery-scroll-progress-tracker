@@ -1,4 +1,4 @@
-Advanced jQuery Scroll Progress Tracker v1.1.4
+Advanced jQuery Scroll Progress Tracker v1.2
 ==============================================
 
 Dynamic Scroll Progress Tracker plugin for jQuery
@@ -11,7 +11,7 @@ Released under the GNU General Public License (GPL)
 
 ## Description
 
-A relatively lightweight (min size ~24KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.
+A relatively lightweight (min size ~40KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.
 
 Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behaviour and appearance of each tracker individually.
 
