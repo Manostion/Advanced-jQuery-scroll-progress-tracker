@@ -55,6 +55,18 @@
 //                  there is enough space;
 //                  edited comments to further clean up the script;
 //                  revised all the calculations to eliminate redundancy and bugs
+// 2016-08-22 DW    changed the names of all classes and ids to prevent possible
+//                  conflicts with other plugins
+//-------------------------------------------------------------------------------------
+// Version 1.2
+//-------------------------------------------------------------------------------------
+// 2016-08-23 DW    adjusted the trackAllHeadlines option to only track the headlines
+//                  within the tracked area (i.e. either #TrackScrollProgress or body);
+//                  changed the way tracker titles are generated to "only first";
+//                  adjusted the positioning of the vertical tracker in relataion to
+//                  the mobileThreshold and the viewport width;
+//                  added the trackViewportOnly option and it's programming;
+//                  added the options horColor/verColor;
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -70,6 +82,8 @@ $.fn.progressTracker = function(options) {
         horCenter: true,                // makes the HORIZONTAL tracker span the full width of the viewport if set to false
         horStyle: 'fill',               // Sets the style of the HORIZONTAL tracker
                                         // ---> 'beam', 'fill'
+        horColor: 'red',                // Sets the color of the default gradient for the HORIZONTAL tracker
+                                        // ---> 'red', 'blue', 'green', 'orange', 'silver'
         horMobile: true,                // displays the HORIZONTAL tracker also on small screen devices if true
         horMobileOnly: false,           // hides the HORIZONTAL tracker on large screens if true
                                         // ---> useful if you want to use the VERTICAL tracker for large devices and the HORIZONTAL tracker for small screen; overrides 'horMobile: false'
@@ -88,6 +102,8 @@ $.fn.progressTracker = function(options) {
         verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
         verStyle: 'beam',               // Sets the style of the VERTICAL tracker
                                         // ---> 'beam', 'fill'
+        verColor: 'red',                // Sets the color of the default gradient for the VERTICAL tracker
+                                        // ---> 'red', 'blue', 'green', 'orange', 'silver'
         verMobile: false,               // displays the VERTICAL tracker also on small screen devices if true
         verMobileOnly: false,           // hides the VERTICAL tracker on large screens if true;
                                         // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
@@ -132,7 +148,7 @@ $.fn.progressTracker = function(options) {
     getScrollProgressMax = function() {
         return trackedArea.outerHeight();
     };
-    if (settings.trackViewport) {
+    if (settings.trackViewport || settings.trackViewportOnly) {
         trackerSize = $(window).scrollTop() + $(window).height();
         getScrollProgressValue = function() {
             return $(window).scrollTop() + $(window).height() - trackedArea.offset().top;
@@ -146,12 +162,6 @@ $.fn.progressTracker = function(options) {
     // <-- Calculate 'max' and current 'value' for the progress-tag
     
     $(document).ready(function () {
-        if (settings.trackAllHeadlines) {
-            $('h1, h2, h3, h4, h5, h6').addClass('spt-sectionTitle');
-        } else {
-            $('h3').addClass('spt-sectionTitle');
-        }
-        
         // Convert document if headline has class 'spt-trackThis' -->
         if ($('.spt-sectionTitle.spt-trackThis').length) {
             var i = 0;
@@ -181,6 +191,12 @@ $.fn.progressTracker = function(options) {
         } else {
             trackedArea = $(document);
         }
+        if (settings.trackAllHeadlines) {
+            trackedArea.find('h1, h2, h3, h4, h5, h6').addClass('spt-sectionTitle');
+        } else {
+            trackedArea.find('h3').addClass('spt-sectionTitle');
+        }
+        
         headlineMargin = (trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight(true) - trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight()) / 2;
         trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle').css('margin-top', '0');
         // Generate tracker html structure -->
@@ -206,7 +222,7 @@ $.fn.progressTracker = function(options) {
             }
             // <-- Generate HORIZONTAL tracker IN HEADER
             
-            if ('max' in document.createElement('progress')) {
+            if (!settings.trackViewportOnly && 'max' in document.createElement('progress')) {
                 // Generate html5 progress-tag if it is supported by the browser -->
                 $('.spt-horizontalScrollProgress').append('<progress class="spt-scrollProgress"></progress>');
                 horizontalTracker = $('.spt-scrollProgress');
@@ -223,7 +239,6 @@ $.fn.progressTracker = function(options) {
                     $('body').css('padding-top', $('.spt-horizontalScrollProgress').height());
                 }
             }
-            
         }
         // HORIZONTAL tracker -->
         if (settings.horTracker) {
@@ -258,6 +273,17 @@ $.fn.progressTracker = function(options) {
             if (settings.horStyle == 'fill') {
                 $('.spt-horizontalScrollProgress').addClass('spt-styleFill');
             }
+            
+            if (settings.horColor == 'blue') {
+                $('.spt-horizontalScrollProgress').addClass('spt-blue');
+            } else if (settings.horColor == 'green') {
+                $('.spt-horizontalScrollProgress').addClass('spt-green');
+            } else if (settings.horColor == 'orange') {
+                $('.spt-horizontalScrollProgress').addClass('spt-orange');
+            } else if (settings.horColor == 'silver') {
+                $('.spt-horizontalScrollProgress').addClass('spt-silver');
+            }
+            
             if (settings.horCenter) {
                 horizontalTracker.addClass('spt-centerAll');
                 $('.spt-scrollStopTitles').addClass('spt-centerAll');
@@ -296,22 +322,26 @@ $.fn.progressTracker = function(options) {
             if (settings.verStyle == 'fill') {
                 $('.spt-verticalScrollProgress').addClass('spt-styleFill');
             }
+            
+            if (settings.verColor == 'blue') {
+                $('.spt-verticalScrollProgress').addClass('spt-blue');
+            } else if (settings.verColor == 'green') {
+                $('.spt-verticalScrollProgress').addClass('spt-green');
+            } else if (settings.verColor == 'orange') {
+                $('.spt-verticalScrollProgress').addClass('spt-orange');
+            } else if (settings.verColor == 'silver') {
+                $('.spt-verticalScrollProgress').addClass('spt-silver');
+            }
         }
         // <-- VERTICAL tracker
+        // <-- generate tracker html structure
 
-        // <-- GENERATE tracker html structure
-        
         // HORIZONTAL tracker functionality -->
         if ($('.spt-scrollProgress').length) {
             // <progress> tag is supported -->
             var scrollProgress = $('.spt-scrollProgress');
                 scrollProgress.attr('max', getScrollProgressMax());
             $(document).scroll(function () {
-                if (settings.trackViewport) {
-                    trackerSize = $(window).scrollTop() + $(window).height();
-                } else {
-                    trackerSize = $(window).scrollTop();
-                }
                 if (trackedArea >= trackedArea.offset().top - head) {
                     $(window).resize();
                     scrollProgress.attr('value', getScrollProgressValue());
@@ -326,25 +356,36 @@ $.fn.progressTracker = function(options) {
             // <progress> tag is not supported (older browsers) -->
             var scrollProgress = $('.spt-scrollProgressBar'),
                 scrollProgressMax = getScrollProgressMax(),
-                scrollProgressValue, scrollProgressWidth,
+                scrollProgressValue, scrollProgressWidth, scrollProgressLeft,
                 getScrollProgressWidth = function() {
-                scrollProgressValue = getScrollProgressValue();
-                scrollProgressWidth = (scrollProgressValue/scrollProgressMax) * 100;
-                if (scrollProgressWidth > 100) {
-                    scrollProgressWidth = 100;
-                }
-                scrollProgressWidth = scrollProgressWidth + '%';
-                return scrollProgressWidth;
-            },
-            setScrollProgressWidth = function() {
-                scrollProgress.css('width', getScrollProgressWidth());
-            };
+                    scrollProgressValue = getScrollProgressValue();
+                    if (!settings.trackViewportOnly) {
+                        scrollProgressWidth = (scrollProgressValue/scrollProgressMax) * 100;
+                    } else {
+                        scrollProgressWidth = ((trackerSize)/scrollProgressMax) * 100;
+                    }
+                    if (scrollProgressWidth > 100) {
+                        scrollProgressWidth = 100;
+                    }
+                    scrollProgressWidth = scrollProgressWidth + '%';
+                    return scrollProgressWidth;
+                },
+                setScrollProgressWidth = function() {
+                    scrollProgress.css('width', getScrollProgressWidth());
+                },
+                getScrollProgressLeft = function() {
+                    scrollProgressLeft = (($(window).scrollTop() - head)/scrollProgressMax) * 100;
+                    if (scrollProgressLeft > 100) {
+                        scrollProgressLeft = 100;
+                    }
+                    scrollProgressLeft = scrollProgressLeft + '%';
+                    return scrollProgressLeft;
+                },
+                setScrollProgressLeft = function() {
+                    scrollProgress.css('left', getScrollProgressLeft());
+                };
+            
             $(document).scroll(function() {
-                if (settings.trackViewport) {
-                    trackerSize = $(window).scrollTop() + $(window).height();
-                } else {
-                    trackerSize = $(window).scrollTop();
-                }
                 if (trackerSize >= trackedArea.offset().top - head) {
                     $(window).resize();
                     scrollProgress.css('width', getScrollProgressWidth());
@@ -354,6 +395,9 @@ $.fn.progressTracker = function(options) {
             });
             $(window).resize(function () {
                 setScrollProgressWidth();
+                if (settings.trackViewportOnly) {
+                    setScrollProgressLeft();
+                }
             });
         }
         // <-- HORIZONTAL tracker functionality
@@ -361,10 +405,14 @@ $.fn.progressTracker = function(options) {
         // VERTICAL tracker functionality -->
         var verticalScrollProgress = $('.spt-verticalScrollProgressBar'),
             scrollProgressMax = getScrollProgressMax(),
-            scrollProgressValue, scrollProgressHeight,
+            scrollProgressValue, scrollProgressHeight, scrollProgressTop,
             getScrollProgressHeight = function() {
                 scrollProgressValue = getScrollProgressValue();
-                scrollProgressHeight = (scrollProgressValue/scrollProgressMax) * 100;
+                if (!settings.trackViewportOnly) {
+                    scrollProgressHeight = (scrollProgressValue/scrollProgressMax) * 100;
+                } else {
+                    scrollProgressHeight = (trackerSize/scrollProgressMax) * 100;
+                }
                 if (scrollProgressHeight > 100) {
                     scrollProgressHeight = 100;
                 }
@@ -373,16 +421,22 @@ $.fn.progressTracker = function(options) {
             },
             setScrollProgressHeight = function() {
                 verticalScrollProgress.css('height', getScrollProgressHeight());
+            },
+            getScrollProgressTop = function() {
+                scrollProgressTop = (($(window).scrollTop() - head)/scrollProgressMax) * 100;
+                if (scrollProgressTop > 100) {
+                    scrollProgressTop = 100;
+                }
+                scrollProgressTop = scrollProgressTop + '%';
+                return scrollProgressTop;
+            },
+            setScrollProgressTop = function() {
+                verticalScrollProgress.css('top', getScrollProgressTop());
             };
+
         $(document).scroll(function() {
-            if (settings.trackViewport) {
-                trackerSize = $(window).scrollTop() + $(window).height();
-            } else {
-                trackerSize = $(window).scrollTop();
-            }
             if (trackerSize >= trackedArea.offset().top - head) {
                 $(window).resize();
-                setScrollProgressHeight();
             } else {
                 verticalScrollProgress.css('height', '0%');
             }
@@ -408,6 +462,9 @@ $.fn.progressTracker = function(options) {
         $(window).resize(function () {
             scrollProgressMax = getScrollProgressMax();
             setScrollProgressHeight();
+            if (settings.trackViewportOnly) {
+                setScrollProgressTop();
+            }
             moveScrollStops();
             
             // Fake responsive webdesign ("small screens") -->
@@ -433,17 +490,11 @@ $.fn.progressTracker = function(options) {
                 }
             }
             if ($(window).width() >= (settings.mobileThreshold + 100)) {
-                if (settings.verPosition == 'right') {
-                    $('.spt-verticalScrollProgress').css('right', '50px');
-                } else {
-                    $('.spt-verticalScrollProgress').css('left', '50px');
-                }
+                $('.spt-verticalScrollProgress').css('width', 180 + ($(window).width() - settings.mobileThreshold) / 2 - 50 + 'px');
+                $('.spt-vertScrollStopTitles').css('width', 170 + ($(window).width() - settings.mobileThreshold) / 2 - 50 + 'px');
             } else {
-                if (settings.verPosition == 'right') {
-                    $('.spt-verticalScrollProgress').css('right', '0');
-                } else {
-                    $('.spt-verticalScrollProgress').css('left', '0');
-                }
+                $('.spt-verticalScrollProgress').css('width', '180px');
+                $('.spt-vertScrollStopTitles').css('width', '170px');
             }
             // <-- Fake responsive webdesign ("small screens")
         });
@@ -453,7 +504,7 @@ $.fn.progressTracker = function(options) {
         // Create scrollstops and titles -->
         function setScrollStops() {
             trackedArea.find('.spt-trackThis').each(function(index) {
-                var sectionHeadline = $(this).children('.spt-sectionTitle'),
+                var sectionHeadline = $(this).children('.spt-sectionTitle:first'),
                     sectionTitle,
                     sectionId = index + 1,
                     scrollHorStops = $('.spt-scrollStopContainer'),
@@ -467,7 +518,7 @@ $.fn.progressTracker = function(options) {
                     }
                 
                 $(this).attr('id', 'Section' + sectionId);
-                $(this).children('.spt-sectionTitle').attr({ id: 'SectionHeadline' + sectionId});
+                $(this).children('.spt-sectionTitle:first').attr({ id: 'SectionHeadline' + sectionId});
                 
                 scrollHorStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '" title="' + sectionHeadline.text() + '"></div>');
                 scrollVerStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '"></div>');
@@ -548,13 +599,12 @@ $.fn.progressTracker = function(options) {
         }
         // <-- Hover-effect
         $(document).scroll();
-        console.log(getScrollProgressMax());
     });
     // Position scroll stops and titles -->
     function moveScrollStops() {
         trackedArea.find('.spt-trackThis').each(function(index) {
             var section = $(this),
-                sectionHeadline = section.children('.spt-sectionTitle'),
+                sectionHeadline = section.children('.spt-sectionTitle:first'),
                 sectionTitle = sectionHeadline.text(),
                 sectionTopSubtract = trackedArea.offset().top,
                 sectionRelativeTop = section.offset().top - trackedArea.offset().top,
@@ -580,10 +630,10 @@ $.fn.progressTracker = function(options) {
             }
             scrollVerStopTitles.children('.spt-stop' + sectionId).css('top', sectionStop + '%');
             
-            if ($(window).scrollTop() <= trackedArea.find('.spt-trackThis:first').offset().top + trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle').outerHeight() - head) {
+            if ($(window).scrollTop() <= trackedArea.find('.spt-trackThis:first').offset().top + trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle:first').outerHeight() - head) {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text('');
             }
-            if ($(window).scrollTop() >= section.offset().top + section.children('.spt-sectionTitle').outerHeight() - head) {
+            if ($(window).scrollTop() >= section.offset().top + section.children('.spt-sectionTitle:first').outerHeight() - head) {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(sectionTitle);
                 var viewportBottom = $(window).scrollTop() + $(window).height();
                 if (settings.finalStopTitle != '') {
@@ -629,6 +679,11 @@ $.fn.progressTracker = function(options) {
                 $('.spt-finalStopCircle, .spt-finalStopTitle').addClass('spt-reached');
             } else {
                 $('.spt-finalStopCircle, .spt-finalStopTitle').removeClass('spt-reached');
+            }
+            if (settings.trackViewportOnly) {
+                if (getScrollProgressValue() - $(window).outerHeight() >= sectionRelativeTop + section.outerHeight()) {
+                    $('.spt-stop' + sectionId).removeClass('spt-reached');
+                }
             }
         });
     }

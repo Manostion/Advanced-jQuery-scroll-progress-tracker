@@ -21,21 +21,28 @@ Using the various options it is also possible to display one tracker (for exampl
 
 1. Copy the files from the css and js directories to your corresponding asset directories.
 2. Include the advanced-progress-tracker.css or advanced-progress-tracker.min.css in the `<head>`
+
 ```html
 <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
 ```
+
 3. Include jQuery (if you haven't already) followed by advanced-progress-tracker.js or advanced-progress-tracker.min.js in the `<head>`
+
 ```html
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="js/advanced-progress-tracker.min.js"></script>
 ```
+
 4. Initialize the plugin below the included scripts, like so:
+
 ```javascript
 <script type='text/javascript'>
     $('body').progressTracker();
 </script>
 ```
+
 Or with custom options...
+
 ```javascript
 <script type='text/javascript'>
     $('body').progressTracker({
@@ -58,6 +65,17 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 ---
 
 ## Update history
+
+**Version 1.2**
+### Changes:
+
+- Changed the way headlines are tracked
+- Dynamically changes the space used by the vertical tracker on large screens
+
+### New features:
+
+- Added option trackViewportOnly
+- Added options horColor and verColor
 
 **Version 1.1.4**
 ### Changes:
