@@ -1,4 +1,4 @@
-Advanced jQuery Scroll Progress Tracker v1.2
+Advanced jQuery Scroll Progress Tracker v1.2.1
 ==============================================
 
 Dynamic Scroll Progress Tracker plugin for jQuery
@@ -11,7 +11,7 @@ Released under the GNU General Public License (GPL)
 
 ## Description
 
-A relatively lightweight (min size ~40KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.
+A very versatile jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.
 
 Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behaviour and appearance of each tracker individually.
 
@@ -66,6 +66,19 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ## Update history
 
+**Version 1.2.1**
+### Changes:
+
+- Added "Tips & Tricks" and "Miscellaneous" sections to the ReadMe.html
+- Removed superfluous elements
+- Automatically adjust the max-width of .spt-centerAll if necessary
+- Moved the different color-presets out of the main stylesheet
+
+### Fixes:
+
+- Fixed a mistake that occured when the height/padding-top where changed by the user
+- Made the positioning values for the horTitlesOffset option dynamic
+
 **Version 1.2**
 ### Changes:
 
@@ -118,6 +131,15 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 ## Credits
 
 I'd like to thank Rene Mansveld (r.mansveld@spider-it.de) for providing me with the "headline only markup"-solution.
+
+---
+
+## Miscellaneous
+
+If you're interested in my other plugins, like the "read more" plugin used in the ReadMe.html, feel free to download them from GitHub or JSClasses.org:
+
+https://github.com/Manostion
+http://www.jsclasses.org/browse/author/20883.html
 
 ---
 

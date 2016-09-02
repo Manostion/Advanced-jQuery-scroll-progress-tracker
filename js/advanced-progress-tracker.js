@@ -67,6 +67,15 @@
 //                  the mobileThreshold and the viewport width;
 //                  added the trackViewportOnly option and it's programming;
 //                  added the options horColor/verColor;
+// 2016-09-02 DW    removed the horizontal tracker's container where it's not needed;
+//                  moved the different color schemes to extra files;
+//                  changed the way horTitlesOffset works - margin-top of the titles
+//                  is now dynamically calculated to maximize customizability;
+//                  fixed the calculation for the head-variable so that it takes into
+//                  account possible changes the user makes to the height/position of
+//                  the horizontal tracker;
+//                  created a failsafe for the width of ".spt-centerAll" so that the
+//                  vertical tracker doesn't accidentally intersect the content
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -142,7 +151,9 @@ $.fn.progressTracker = function(options) {
         getScrollProgressMax,
         getScrollProgressValue,
         trackerSize,
-        headlineMargin;
+        headlineMargin,
+        horizontalCenter, horizontalTop, horizontalBottom,
+        horizontalTitlesHeight;
     
     // Calculate 'max' and current 'value' for the progress-tag -->
     getScrollProgressMax = function() {
@@ -162,6 +173,15 @@ $.fn.progressTracker = function(options) {
     // <-- Calculate 'max' and current 'value' for the progress-tag
     
     $(document).ready(function () {
+        horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
+        horizontalTop = horizontalCenter - $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
+        horizontalBottom = horizontalCenter + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
+        horizontalTitlesHeight = parseFloat($('.spt-scrollStopTitles').css('line-height'));
+
+        if (parseFloat($('.spt-centerAll').css('max-width')) > (settings.mobileThreshold - 400)) {
+            $('.spt-centerAll').css('max-width', settings.mobileThreshold - 400 + 'px');
+        }
+        
         // Convert document if headline has class 'spt-trackThis' -->
         if ($('.spt-sectionTitle.spt-trackThis').length) {
             var i = 0;
@@ -217,7 +237,7 @@ $.fn.progressTracker = function(options) {
                 if (settings.horPosition == 'bottom') {
                     head = 0;
                 } else {
-                    head = $('.spt-horizontalScrollProgress').height();
+                    head = $('.spt-horizontalScrollProgress').outerHeight();
                 }
             }
             // <-- Generate HORIZONTAL tracker IN HEADER
@@ -240,6 +260,19 @@ $.fn.progressTracker = function(options) {
                 }
             }
         }
+
+        // include color-stylesheets if needed -->
+        if (settings.horColor == 'blue' || settings.verColor == 'blue') {
+            $('head').append('<link href="css/themes/spt-blue.min.css" rel="stylesheet" />');
+        } else if (settings.horColor == 'green' || settings.verColor == 'green') {
+            $('head').append('<link href="css/themes/spt-green.min.css" rel="stylesheet" />');
+        } else if (settings.horColor == 'orange' || settings.verColor == 'orange') {
+            $('head').append('<link href="css/themes/spt-orange.min.css" rel="stylesheet" />');
+        } else if (settings.horColor == 'custom' || settings.verColor == 'custom') {
+            $('head').append('<link href="css/themes/spt-custom.css" rel="stylesheet" />');
+        }
+        // <-- include color-stylesheets if needed
+
         // HORIZONTAL tracker -->
         if (settings.horTracker) {
             if ($('.spt-scrollProgress').length) {
@@ -261,14 +294,10 @@ $.fn.progressTracker = function(options) {
                 }
             }
             if (!settings.horMobile) {
-                horizontalTracker.addClass('spt-desktopOnly');
-                $('.spt-scrollStopContainer').addClass('spt-desktopOnly');
-                $('.spt-scrollStopTitles').addClass('spt-desktopOnly');
+                $('.spt-horizontalScrollProgress').addClass('spt-desktopOnly');
             }
             if (settings.horMobileOnly) {
-                horizontalTracker.removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
-                $('.spt-scrollStopContainer').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
-                $('.spt-scrollStopTitles').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
+                $('.spt-horizontalScrollProgress').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
             }
             if (settings.horStyle == 'fill') {
                 $('.spt-horizontalScrollProgress').addClass('spt-styleFill');
@@ -280,8 +309,8 @@ $.fn.progressTracker = function(options) {
                 $('.spt-horizontalScrollProgress').addClass('spt-green');
             } else if (settings.horColor == 'orange') {
                 $('.spt-horizontalScrollProgress').addClass('spt-orange');
-            } else if (settings.horColor == 'silver') {
-                $('.spt-horizontalScrollProgress').addClass('spt-silver');
+            } else if (settings.horColor == 'custom') {
+                $('.spt-horizontalScrollProgress').addClass('spt-custom');
             }
             
             if (settings.horCenter) {
@@ -329,11 +358,12 @@ $.fn.progressTracker = function(options) {
                 $('.spt-verticalScrollProgress').addClass('spt-green');
             } else if (settings.verColor == 'orange') {
                 $('.spt-verticalScrollProgress').addClass('spt-orange');
-            } else if (settings.verColor == 'silver') {
-                $('.spt-verticalScrollProgress').addClass('spt-silver');
+            } else if (settings.verColor == 'custom') {
+                $('.spt-verticalScrollProgress').addClass('spt-custom');
             }
         }
         // <-- VERTICAL tracker
+
         // <-- generate tracker html structure
 
         // HORIZONTAL tracker functionality -->
@@ -460,6 +490,11 @@ $.fn.progressTracker = function(options) {
             }
         });
         $(window).resize(function () {
+            horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
+            horizontalTop = horizontalCenter - $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
+            horizontalBottom = horizontalCenter + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
+            horizontalTitlesHeight = parseFloat($('.spt-scrollStopTitles').css('line-height'));
+
             scrollProgressMax = getScrollProgressMax();
             setScrollProgressHeight();
             if (settings.trackViewportOnly) {
@@ -474,9 +509,9 @@ $.fn.progressTracker = function(options) {
                 if (!settings.horOnlyActiveTitle) {
                     $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
-                    if (!settings.horTitlesOffset) {
-                        $('.spt-scrollStopTitles').children('.spt-onlyActive').css('margin-top', '38px').css('margin-left', '8px');
-                    }
+                }
+                if (!settings.horTitlesOffset) {
+                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('margin-top', horizontalBottom + 5 + 'px').css('margin-left', '8px');
                 }
             } else {
                 // is not mobile
@@ -658,13 +693,13 @@ $.fn.progressTracker = function(options) {
             }
 
             if (settings.horTitlesOffset == 'top') {
-                scrollStopTitles.children('.spt-stopTitle').css('margin-left', '8px');
+                scrollStopTitles.children('.spt-stopTitle').css('margin-top', horizontalTop - horizontalTitlesHeight - 5 + 'px').css('margin-left', '8px');
             } else if (settings.horTitlesOffset == 'bottom') {
-                scrollStopTitles.children('.spt-stopTitle').css('margin-top', '38px').css('margin-left', '8px');
-                scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', '38px');
+                scrollStopTitles.children('.spt-stopTitle').css('margin-top', horizontalBottom + 5 + 'px').css('margin-left', '8px');
+                scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', horizontalBottom + 5 + 'px');
             } else {
-                scrollStopTitles.children('.spt-stopTitle').css('margin-top', '18px').css('margin-left', '25px');
-                scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', '18px').css('margin-right', '16px');
+                scrollStopTitles.children('.spt-stopTitle').css('margin-top', horizontalCenter - horizontalTitlesHeight / 2 - 2 + 'px').css('margin-left', '25px');
+                scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', horizontalCenter - horizontalTitlesHeight / 2 - 2 + 'px').css('margin-right', '16px');
             }
             if (settings.horStyle == 'fill') {
                 scrollStopTitles.children('.spt-onlyActive').css('margin-top', '0');

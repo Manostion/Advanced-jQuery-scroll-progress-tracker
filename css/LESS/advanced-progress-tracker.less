@@ -80,54 +80,6 @@
 .spt-mobileOnly {
     display: none !important;
 }
-.spt-blue {
-    .spt-scrollStopContainer,
-    .spt-vertScrollStopContainer {
-        .spt-stopCircle,
-        .spt-finalStopCircle {
-            &.spt-reached,
-            &.spt-hover {
-                border-color: @color-blue;
-            }
-        }
-    }
-}
-.spt-green {
-    .spt-scrollStopContainer,
-    .spt-vertScrollStopContainer {
-        .spt-stopCircle,
-        .spt-finalStopCircle {
-            &.spt-reached,
-            &.spt-hover {
-                border-color: @color-green;
-            }
-        }
-    }
-}
-.spt-orange {
-    .spt-scrollStopContainer,
-    .spt-vertScrollStopContainer {
-        .spt-stopCircle,
-        .spt-finalStopCircle {
-            &.spt-reached,
-            &.spt-hover {
-                border-color: @color-orange;
-            }
-        }
-    }
-}
-.spt-silver {
-    .spt-scrollStopContainer,
-    .spt-vertScrollStopContainer {
-        .spt-stopCircle,
-        .spt-finalStopCircle {
-            &.spt-reached,
-            &.spt-hover {
-                border-color: @color-silver;
-            }
-        }
-    }
-}
 /* GENERAL end */
 
 /* HORIZONTAL SCROLL PROGRESS TRACKER */
@@ -182,74 +134,6 @@
             .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
         }
     }
-    &.spt-blue {
-        .spt-scrollProgress {
-            color: @color-blue;
-            &::-webkit-progress-value {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-blue, 20%), @color-blue, @color-foreground);
-            }
-            &::-moz-progress-bar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-blue, 20%), @color-blue, @color-foreground);
-            }
-        }
-        .spt-scrollProgressContainer {
-            color: @color-blue;
-            .spt-scrollProgressBar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-blue, 20%), @color-blue, @color-foreground);
-            }
-        }
-    }
-    &.spt-green {
-        .spt-scrollProgress {
-            color: @color-green;
-            &::-webkit-progress-value {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-green, 20%), @color-green, @color-foreground);
-            }
-            &::-moz-progress-bar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-green, 20%), @color-green, @color-foreground);
-            }
-        }
-        .spt-scrollProgressContainer {
-            color: @color-green;
-            .spt-scrollProgressBar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-green, 20%), @color-green, @color-foreground);
-            }
-        }
-    }
-    &.spt-orange {
-        .spt-scrollProgress {
-            color: @color-orange;
-            &::-webkit-progress-value {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-orange, 20%), @color-orange, @color-foreground);
-            }
-            &::-moz-progress-bar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-orange, 20%), @color-orange, @color-foreground);
-            }
-        }
-        .spt-scrollProgressContainer {
-            color: @color-orange;
-            .spt-scrollProgressBar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-orange, 20%), @color-orange, @color-foreground);
-            }
-        }
-    }
-    &.spt-silver {
-        .spt-scrollProgress {
-            color: @color-silver;
-            &::-webkit-progress-value {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-silver, 20%), @color-silver, @color-foreground);
-            }
-            &::-moz-progress-bar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-silver, 20%), @color-silver, @color-foreground);
-            }
-        }
-        .spt-scrollProgressContainer {
-            color: @color-silver;
-            .spt-scrollProgressBar {
-                .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-silver, 20%), @color-silver, @color-foreground);
-            }
-        }
-    }
 }
 /* HORIZONTAL SCROLL PROGRESS TRACKER end */
 
@@ -283,34 +167,6 @@
             height: 0;
             border-bottom: 3px solid @color-foreground;
             .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
-        }
-    }
-    &.spt-blue {
-        .spt-verticalScrollProgressContainer {
-            .spt-verticalScrollProgressBar {
-                .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-blue, 20%), @color-blue);
-            }
-        }
-    }
-    &.spt-green {
-        .spt-verticalScrollProgressContainer {
-            .spt-verticalScrollProgressBar {
-                .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-green, 20%), @color-green);
-            }
-        }
-    }
-    &.spt-orange {
-        .spt-verticalScrollProgressContainer {
-            .spt-verticalScrollProgressBar {
-                .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-orange, 20%), @color-orange);
-            }
-        }
-    }
-    &.spt-silver {
-        .spt-verticalScrollProgressContainer {
-            .spt-verticalScrollProgressBar {
-                .spt-gradient2Stops (top, to bottom, 0, 0%, 100%, darken(@color-silver, 20%), @color-silver);
-            }
         }
     }
 }
@@ -478,66 +334,6 @@
             .spt-onlyActive {
                 line-height: 28px;
                 color: @color-background;
-            }
-        }
-        &.spt-blue {
-            .spt-scrollProgress {
-                &::-webkit-progress-value {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-blue, 20%), @color-blue);
-                }
-                &::-moz-progress-bar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-blue, 20%), @color-blue);
-                }
-            }
-            .spt-scrollProgressContainer {
-                .spt-scrollProgressBar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-blue, 20%), @color-blue);
-                }
-            }
-        }
-        &.spt-green {
-            .spt-scrollProgress {
-                &::-webkit-progress-value {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-green, 20%), @color-green);
-                }
-                &::-moz-progress-bar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-green, 20%), @color-green);
-                }
-            }
-            .spt-scrollProgressContainer {
-                .spt-scrollProgressBar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-green, 20%), @color-green);
-                }
-            }
-        }
-        &.spt-orange {
-            .spt-scrollProgress {
-                &::-webkit-progress-value {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-orange, 20%), @color-orange);
-                }
-                &::-moz-progress-bar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-orange, 20%), @color-orange);
-                }
-            }
-            .spt-scrollProgressContainer {
-                .spt-scrollProgressBar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-orange, 20%), @color-orange);
-                }
-            }
-        }
-        &.spt-silver {
-            .spt-scrollProgress {
-                &::-webkit-progress-value {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-silver, 20%), @color-silver);
-                }
-                &::-moz-progress-bar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-silver, 20%), @color-silver);
-                }
-            }
-            .spt-scrollProgressContainer {
-                .spt-scrollProgressBar {
-                    .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-silver, 20%), @color-silver);
-                }
             }
         }
     }

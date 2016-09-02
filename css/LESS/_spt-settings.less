@@ -21,6 +21,7 @@
 // Version 1.2
 //-------------------------------------------------------------------------------------
 // 2016-08-23 DW    adjusted some color values
+// 2016-09-02 DW    removed the sourcecode colors (moved to individual stylesheet)
 //-------------------------------------------------------------------------------------
 // Copyright © 2016
 //-------------------------------------------------------------------------------------
@@ -37,13 +38,6 @@
     @color-orange: #fc8b00;
     @color-magenta: #e50051;
     @color-silver: darken(@color-lightgray, 10%);
-    
-    // sourcecode
-    @color-sc-blue: #0000ff;
-    @color-sc-red: #ff0000;
-    @color-sc-purple: #8000ff;
-    @color-sc-darkblue: #000080;
-    @color-sc-green: #008000;
     
     // Dynamic text color (based on background color)
     .dynText (@a) when (lightness(@a) >= 50%) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>ReadMe | AjSPT v1.2</title>
+        <title>ReadMe | AjSPT v1.2.1</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <style>
@@ -53,75 +53,31 @@
               font-weight: bold;
               color: #e70000;
             }
-            .sourcecode,
-            .htmlTag,
-            .htmlAttr,
-            .htmlVal,
-            .htmlComment,
-            .javascript,
-            .jsVal,
-            .jsComment,
-            .jsQuote,
-            .jsConst {
-              font-family: Hack, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-              font-size: 13px;
-            }
-            .sourcecode,
-            .historyVersion {
-              border: 1px solid rgba(0, 0, 0, 0.15);
-              padding: 8px 16px;
-              text-overflow: ellipsis;
-              background-color: rgba(0, 0, 0, 0.05);
-              overflow: hidden;
-            }
-            .sourcecode .htmlTag,
-            .historyVersion .htmlTag {
-              color: #0000ff;
-            }
-            .sourcecode .htmlAttr,
-            .historyVersion .htmlAttr,
-            .sourcecode .jsVal,
-            .historyVersion .jsVal {
-              color: #ff0000;
-            }
-            .sourcecode .htmlVal,
-            .historyVersion .htmlVal {
-              color: #8000ff;
-            }
-            .sourcecode .htmlComment,
-            .historyVersion .htmlComment,
-            .sourcecode .jsComment,
-            .historyVersion .jsComment {
-              color: #008000;
-            }
-            .sourcecode .javascript,
-            .historyVersion .javascript {
-              margin: 0 -16px;
-              padding: 0 16px;
-              background-color: rgba(106, 136, 169, 0.2);
-            }
-            .sourcecode .jsQuote,
-            .historyVersion .jsQuote {
-              color: #808080;
-            }
-            .sourcecode .jsConst,
-            .historyVersion .jsConst {
-              color: #000080;
-              text-shadow: 1px 0 0 #000080;
-              font-style: italic;
-            }
             .historyVersion {
               margin-bottom: 16px;
             }
             .historyVersion:last-of-type {
               margin: 0;
             }
+            .jrm-toggle {
+              margin-top: 0 !important;
+            }
         </style>
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
+        <link href="http://whitworth.de/sourcecode-css/css/sc-style.min.css" rel="stylesheet" />
+        <link href="http://whitworth.de/ReadMore/css/advanced-read-more.min.css" rel="stylesheet" />
         <link href="http://cdn.jsdelivr.net/font-hack/2.020/css/hack.min.css" rel="stylesheet" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="js/advanced-progress-tracker.min.js"></script>
+        <script src="http://whitworth.de/ReadMore/js/advanced-read-more.min.js"></script>
         <script>
+            $('body').readMore({
+                showLines: 1,
+                linkCaption: 'read tip...',
+                linkCloseCaption: 'close tip',
+                linkHint: '',
+                animationSpeed: 500
+            });
             $('body').progressTracker({
                 horStops: false,
                 horTitles: true,
@@ -130,7 +86,7 @@
                 verPosition: 'right',
                 trackAllHeadlines: true,
                 addFinalStop: true,
-                finalStopTitle: 'Credits, Questions & Feedback',
+                finalStopTitle: 'Miscellaneous, Questions & Feedback',
                 scrollSpeed: 1200
             });
         </script>
@@ -139,16 +95,20 @@
     <body>
         <div id="MainContent" class="spt-centerAll">
             <div id="TrackScrollProgress">
+<!-- Introduction -->
                 <div class="spt-trackThis">
                     <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.2</p>
-                    <p>A relatively lightweight (min size ~40KB) jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
-                    <p>Using the various options it is also possible to display one tracker (for example vertical) on large screens and another (horizontal in this case) on small screens. On top of that it is very easy to control the position, behavior and appearance of each tracker individually.</p>
+                    <p class="smaller pullUp bold">Ver. 1.2.1</p>
+                    <p>A very versatile jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
+                    <p>Using the various options, it is also possible to, for example, display one tracker on large screens and another one on small screens. Additionally it is very easy to control the position, behavior and appearance of each tracker individually.<br /><br /></p>
+                    <p>&copy;2016 David Whitworth (<a href="mailto:david@whitworth.de">david@whitworth.de</a>)</p>
+                    <p class="smaller">Released under the <a href="https://opensource.org/licenses/gpl-license.html" target="_blank">GNU General Public License (GPL)</a></p>
                 </div>
                 <hr />
+<!-- Options -->
                 <div class="spt-trackThis">
                     <h3>Options</h3>
-<!-- New! in current version -->
+    <!-- New! in current version -->
                     <p><b>horColor</b> - <i>default: <b>'red'</b></i><span class="hot">New!</span><br />
                     Using this option the color of the <i>horizontal</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
                     <ul>
@@ -188,7 +148,7 @@
                     <p><b>trackViewportOnly</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
                     If set to true, the tracker(s) will track <i>only</i> the currently visible portion of the tacked area. This way the progress bar will act similar to a scroll bar and the bullets/titles will only be active if at least a little bit of the corresponding sections is within the visible area.</p>
                     <hr />
-<!-- Horizontal tracker -->
+    <!-- Horizontal tracker -->
                     <p><b>horTracker</b> - <i>default: <b>true</b></i><br />
                     Displays a <i>horizontal</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
@@ -269,7 +229,7 @@
                     <p><b>horOnlyActiveTitle</b> - <i>default: <b>true</b></i><br />
                     If set to true, only the headline of the current setion will be shown at all times, instead of each headline. This is necessary if the sections are too short, because if the tracker's stops are too closely together, the titles will overlap. This option is automatically forced on small screens.</p>
                     <hr />
-<!-- Vertical tracker -->
+    <!-- Vertical tracker -->
                     <p><b>verTracker</b> - <i>default: <b>false</b></i><br />
                     Displays a <i>vertical</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
@@ -312,7 +272,7 @@
                     <p><b>verTitles</b> - <i>default: <b>true</b></i><br />
                     Adds the text of each section's headline (h2) to the <i>vertical</i> progress tracker if set to true. They will be displayed to the right of the progress bar and the bullets (if <b>verStops</b> is true) per default. This can be changed via the stylesheet.</p>
                     <hr />
-<!-- General -->
+    <!-- General -->
                     <p><b>mobileThreshold</b> - <i>default: <b>1300</b></i><br />
                     Treats the device as <i>small screen</i> if the viewport width is below or equal to this value, i.e. on default settings, if the viewport is at least 1301px wide, the device is treated as <i>large screen</i>, otherwise as <i>small screen</i>.<br />
                     This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
@@ -346,6 +306,7 @@
                     If set to true, the scroll position of the whole viewport will be displayed on the tracker(s) instead of the top of the viewport. In other words, if this is active the <i>bottom</i> of your screen is decisive, otherwise the <i>top</i> is.</p>
                 </div>
                 <hr />
+<!-- Setup -->
                 <div class="spt-trackThis">
                     <h3>Setup</h3>
                     <p>1. Include the advanced-progress-tracker.min.css in the head</p>
@@ -431,15 +392,115 @@
                     </div>
                 </div>
                 <hr />
+<!-- Tips & Tricks -->
+                <div class="spt-trackThis">
+                    <h3>Tips &amp; Tricks</h3>
+                    <p>After the first versions of this plugin had been released, the feedback I received showed me that I hadn't given a lot of thought to some things that are important but not self-explanatory. In this section I'd like to give you the means to use the plugin to the fullest extend of it's possibilities</p>
+                    <p class="smaller"><b>Note: </b>Please understand that I can't guide you through the basics of cascaded stylesheets in this ReadMe. Basic css-knowledge is the minimum requirement to enable you to change the style of this plugin (beyond it's given possibilities):</p>
+                    <hr />
+    <!-- 1st Tip -->
+                    <div class="jrm-truncate">
+                        <p class="bold">&#x2460; Making changes to the style of the tracker(s):</p>
+                        <p>The <i>Advanced jQuery Scroll Progress Tracker</i> plugin comes with a somewhat huge stylesheet that's probably pretty overwhelming to some users, which can potentially scare them away from changing any of them. However if you do it right, it's not all that hard to adjust the styles.</p>
+                        <p>Before you decide to go through the hassle of changing any of the plugin's styles, you should read the "Options" carefully to make sure, you actually have to. There's a multitude of different settings that already allow for a huge number of visual changes to be made. To name just a fraction of them, you can for example have both a horizontal and a vertical tracker active at the same time, or one on small and one on large screens, or just one of them all the time; you can set the vertical tracker to be either on the left or the right of your content; you can also change the colors (of each tracker individually) and so on. So chances are, the visual changes you want to make are already in the options.</p>
+                        <p>If you still want to change the plugin's styles, you should do so in an additional stylesheet. That way, if an update is released and you download it, your changes will not get lost. This means the first step in adjusting the styles should be to create a new stylesheet and include it in the &lt;head&gt; of your site.</p>
+                        <p>In order for your changes to take effect, they need to overwrite the plugin's "factory styles". This can be achieved by including your stylesheet <i>after</i> the plugin's.</p>
+                        <div class="sourcecode">
+                            <span class="htmlTag">&lt;link</span>
+                            <span class="htmlAttr">href</span>=<span class="htmlVal">"css/advanced-progress-tracker.min.css"</span>
+                            <span class="htmlAttr">rel</span>=<span class="htmlVal">"stylesheet"</span>
+                            <span class="htmlTag"> /&gt;</span>
+                            <br /><span class="htmlTag">&lt;link</span>
+                            <span class="htmlAttr">href</span>=<span class="htmlVal">"css/your-custom-stylesheet.css"</span>
+                            <span class="htmlAttr">rel</span>=<span class="htmlVal">"stylesheet"</span>
+                            <span class="htmlTag"> /&gt;</span>
+                        </div>
+                        <p>And with that you're set to adjust the plugin however you see fit. Since no future updates of the plugin will contain your own custom stylesheet, your changes will never be overwritten by accident, and by loading your stylesheet after the plugin's main stylesheet you can just style any element of the plugin like you would anything else.</p>
+                    </div>
+                    <hr />
+    <!-- 2nd Tip -->
+                    <div class="jrm-truncate">
+                        <p class="bold">&#x2461; Creating your own gradients for the tracker:</p>
+                        <p>Should you decide to change the way the tracker look as described in the first tip, you might want to create your own gradients for it as well. The most elegant way to do so is by generating it within the stylesheet (as opposed to creating a gradient image-file). However gradients can be assholes, since most browsers need them to be defined and set up differently.</p>
+                        <p>The best way to create any gradient you can imagine and make it as compatible as possible, is to head over to the <a href="http://www.colorzilla.com/gradient-editor/">Ultimate CSS Gradient Generator</a>. This tool allows you to create gradients in a Photoshop-like fashion and automatically generates the style for all relevant browsers.</p>
+                        <p>However, if you're familiar with <a href="http://lesscss.org/"><span class="less">{less}</span></a>, you probably created a *.less stylesheet in the first tip. If so, you can alternatively import the "_spt-settings.less" from the css/LESS directory of the plugin at the beginning of your stylesheet, and then use either the .spt-gradient2Stops or .spt-gradient3Stops mixin.</p>
+                        <div class="sourcecode less">
+                            <span class="lessProcedure">@import</span>
+                            <span class="lessQuote">'_spt-settings.less'</span>;
+                            <br /><br />
+                            <span class="lessVal">.spt-horizontalScrollProgress </span>{<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="lessVal">.spt-scrollProgressContainer </span>{<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="lessVal">.spt-scrollProgressBar </span>{<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="lessVal">.spt-gradient2Stops </span>(left,
+                            <span class="lessConst">to</span>
+                            right,
+                            <span class="lessVal">1</span>,
+                            <span class="lessVal">0%</span>,
+                            <span class="lessVal">100%</span>,
+                            <span class="lessVar">@color-yellow</span>,
+                            <span class="lessVar">@color-green</span>);<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                            }<br />
+                        </div>
+                    </div>
+                </div>
+                <hr />
+<!-- Update History -->
                 <div class="spt-trackThis">
                     <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.2.1</span><br />
+                        <p class="bold larger">Changes:</p>
+                        <p>
+                            <span class="underline">Added the "Tips &amp; Tricks" and "Miscellaneous" sections to this ReadMe.</span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Removed superfluous elements.</span>
+                            <br /><span class="smaller">
+                                There used to be an empty container for the <i>horizontal</i> tracker when the tracker itself was hidden via <b>horMobile:</b> <span class="jsConst">false</span> or <b>horMobileOnly:</b> <span class="jsConst">true</span>, which has now been removed.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Automatically adjust the max-width of <b>.spt-centerAll</b> if necessary.</span>
+                            <br /><span class="smaller">
+                                Before, changing the <b>mobileThreshold</b> option could have some unwanted results in some cases.
+                                <br />Whenever it was too small in comparison to the <span class="less">max-width</span> of <span class="less lessVal">.spt-centerAll</span>, the vertical tracker would overlap the content on some resolutions. Now, it is enough to just change the <b>mobileThreshold</b> option. If it's value is smaller than the <span class="less">max-width</span> of <span class="less lessVal">.spt-centerAll</span>, the latter will automatically adjusted.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Moved the different color-presets out of the main stylesheet.</span>
+                            <br /><span class="smaller">
+                                The additional lines in the stylesheet for the options <b>horColor</b> and <b>verColor</b> drastically increased the file size of the minified stylesheet. To minimize the core files of the plugin, they have been moved to their own stylesheets that only get included (automatically) in the site's <span class="htmlTag">&lt;head&gt;</span> if at least one of those options is changed. That way you can now reduce traffic by only uploading the color-stylesheets you need. They can be found in the css/themes subdirectory (or, if you prefer working with <span class="less">{less}</span>, in the css/LESS directory).
+                                <br /><br /><b>Note:</b> In order for the colors to work properly, they have to be located in the css/themes directory of your site
+                            </span>
+                        </p>
+                        <hr />
+                        <p class="bold larger">Fixes:</p>
+                        <p>
+                            <span class="underline">Fixed a mistake that occured when the <span class="less">height</span>/<span class="less">padding-top</span> where changed by the user.</span>
+                            <br /><span class="smaller">
+                                The script ignored the <span class="less">padding-top</span> of the horizontal tracker when it was <i>not</i> in a <span class="htmlTag">&lt;header&gt;</span> but positioned at the top, before.
+                            </span>
+                        </p>
+                        <hr />
+                        <p>
+                            <span class="underline">Made the positioning values for the <b>horTitlesOffset</b> option dynamic.</span>
+                            <br /><span class="smaller">
+                                Before, the offset-positioning of the horizontal tracker's titles was achieved using fixed <span class="less">margin-top</span> values (i.e. <span class="less">margin-top: <span class="lessVal">38px</span>;</span> if <b>horTitlesOffset</b> was set to <span class="jsQuote">'bottom'</span>). This caused problems if the user changed the <span class="less">height</span>, <span class="less">margin-top</span> and / or <span class="less">padding-top</span> of the horizontal tracker. Now, the offset gets calculated dynamically based on the tracker's height, margin <i>and</i> padding.
+                            </span>
+                        </p>
+                   </div>
                     <div class="historyVersion">
                         <span class="bold">Version 1.2</span><br />
                         <p class="bold larger">Changes:</p>
                         <p>
                             <span class="underline">Changed the way headlines are tracked.</span>
                             <br /><span class="smaller">
-                                When <b>trackAllHeadlines</b> is set to <span class="jsConst">true</span>, the plugin now checks all headlines <i>within the tracked area</i> (i.e. <span class="htmlVal">#TrackScrollProgress</span> or <span class="htmlTag">&lt;head&gt;</span>) instead of any headline on the site.
+                                When <b>trackAllHeadlines</b> is set to <span class="jsConst">true</span>, the plugin now checks all headlines <i>within the tracked area</i> (i.e. <span class="htmlVal">#TrackScrollProgress</span> or <span class="htmlTag">&lt;body&gt;</span>) instead of any headline on the site.
                                 <br/>Also, the tracker now only checks the <i>first</i> headline within each <span class="htmlVal">.spt-trackThis</span>, instead of all.
                             </span>
                         </p>
@@ -570,12 +631,22 @@
                     </div>
                 </div>
                 <hr />
-                <div>
+<!-- Credits -->
+                <div class="spt-trackThis">
                     <h3>Credits</h3>
                     <p>I'd like to thank René Mansveld (<a href="mailto:R.Mansveld@Spider-IT.de">R.Mansveld@Spider-IT.de</a>) for providing me with the "headline only markup"-solution
-                    <br /><i>(see above: last point under "Setup")</i>.</p>
+                    <br /><i>(see last point under "Setup")</i>.</p>
+                    <hr />
+                    <p>I'd also like to address my sincere thanks to <a href="http://www.jsclasses.org/">JSClasses</a> user Herb Walsh for asking lots and lots and <b>lots</b> of questions and thus pointing out some flaws in the plugin and inspiring me to write the "Tips &amp; Tricks" section.</p>
                 </div>
                 <hr />
+<!-- Miscellaneous -->
+                <div>
+                    <h3>Miscellaneous</h3>
+                    <p>If you're interested in my other plugins, like the "read more" plugin used in this ReadMe's "Tips &amp; Tricks" section, feel free to download them from <a href="https://github.com/Manostion" title="Manostion on GitHub" target="_blank">GitHub</a> or <a href="http://www.jsclasses.org/browse/author/20883.html" title="David Whitworth on JSClasses.org" target="_blank">JSClasses.org</a>.</p>
+                </div>
+                <hr />
+<!-- Questions & Feedback -->
                 <div>
                     <h3>Questions &amp; Feedback</h3>
                     <p>If you have any questions, notice any bugs, have issues getting the plugin to work, have an idea for a cool feature to be added, or would like to leave any other kind of feedback, feel free to contact me under <a href="mailto:David@Whitworth.de">David@Whitworth.de</a></p>
