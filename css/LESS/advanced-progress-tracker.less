@@ -49,6 +49,7 @@
 //                  the mobileThreshold and the viewport width;
 //                  made some necessary adjustments for the trackViewportOnly option;
 //                  added the four default color-settings for horColor/verColor
+// 2016-09-05 DW    fixed the border-radius for the stops
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -180,7 +181,7 @@
     .spt-finalStopCircle {
         position: absolute;
         border: 2px solid fade(@color-foreground, 50%);
-        border-radius: 10px;
+        border-radius: 50%;
         width: 16px;
         height: 16px;
         text-align: center;
@@ -197,7 +198,6 @@
     }
     .spt-finalStopCircle {
         border-width: 3px;
-        border-radius: 12px;
         width: 18px;
         height: 18px;
         line-height: 18px;
