@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //-------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2016-08-20
+// Changed          2016-09-08
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //-------------------------------------------------------------------------------------
@@ -76,6 +76,8 @@
 //                  the horizontal tracker;
 //                  created a failsafe for the width of ".spt-centerAll" so that the
 //                  vertical tracker doesn't accidentally intersect the content
+// 2016-09-08 DW    fixed the calculations of the head variable and redid the whole
+//                  linking functionality
 //-------------------------------------------------------------------------------------
 // Copyright (c) 2016
 //-------------------------------------------------------------------------------------
@@ -493,7 +495,9 @@ $.fn.progressTracker = function(options) {
             horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
             horizontalTop = horizontalCenter - $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
             horizontalBottom = horizontalCenter + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
-            horizontalTitlesHeight = parseFloat($('.spt-scrollStopTitles').css('line-height'));
+            $('.spt-scrollStopTitles').append('<div class="spt-placeholder">&nbsp;</div>');
+            horizontalTitlesHeight = parseFloat($('.spt-placeholder').height());
+            $('.spt-placeholder').remove();
 
             scrollProgressMax = getScrollProgressMax();
             setScrollProgressHeight();
@@ -513,6 +517,11 @@ $.fn.progressTracker = function(options) {
                 if (!settings.horTitlesOffset) {
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('margin-top', horizontalBottom + 5 + 'px').css('margin-left', '8px');
                 }
+                if (settings.horTracker && settings.horMobile || settings.horTracker && settings.horMobileOnly) {
+                    head = $('.spt-horizontalScrollProgress').outerHeight();
+                } else {
+                    head = 0;
+                }
             } else {
                 // is not mobile
                 $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress').removeClass('spt-smallDevice');
@@ -522,6 +531,11 @@ $.fn.progressTracker = function(options) {
                 } else {
                     $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
+                }
+                if (settings.horTracker && !settings.horMobileOnly) {
+                    head = $('.spt-horizontalScrollProgress').outerHeight();
+                } else {
+                    head = 0;
                 }
             }
             if ($(window).width() >= (settings.mobileThreshold + 100)) {
@@ -584,21 +598,33 @@ $.fn.progressTracker = function(options) {
         // Linking mode functionality -->
         if (settings.linking) {
             $('.spt-stopCircle, .spt-stopTitle').click(function () {
-                if (settings.skipHeadlines) {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
-                } else if ($(window).width() <= settings.mobileThreshold && settings.horTitles) {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height();
+                if ($('#SectionHeadline' + $(this).attr('data-index')).length) {
+                    if (settings.skipHeadlines || $(window).width() <= settings.mobileThreshold && settings.horTitles) {
+                        linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + $('#SectionHeadline' + $(this).attr('data-index')).height() - head + 1;
+                    } else {
+                        linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top - parseFloat($('#SectionHeadline' + $(this).attr('data-index')).css('margin-top')) - head + 1;
+                    }
                 } else {
-                    linkingScrollTop = $('#SectionHeadline' + $(this).attr('data-index')).offset().top + parseFloat($('#SectionHeadline' + $(this).attr('data-index')).css('margin-top')) - head;
+                    linkingScrollTop = $('#Section' + $(this).attr('data-index')).offset().top - head - 2;
                 }
 
                 $('html, body').animate( {
-                    scrollTop: linkingScrollTop - head + 1
+                    scrollTop: linkingScrollTop
                 }, settings.scrollSpeed);
             });
             $('.spt-finalStopCircle, .spt-finalStopTitle').click(function () {
+                if (trackedArea.children(':last-child').children(':first-child').is('.spt-sectionTitle')) {
+                    if (settings.skipHeadlines || $(window).width() <= settings.mobileThreshold && settings.horTitles) {
+                        linkingScrollTop = trackedArea.children(':last-child').children(':first-child').offset().top + trackedArea.children(':last-child').children(':first-child').height() - head + 1;
+                    } else {
+                        linkingScrollTop = trackedArea.children(':last-child').children(':first-child').offset().top - parseFloat(trackedArea.children(':last-child').children(':first-child').css('margin-top')) - head + 1;
+                    }
+                } else {
+                    linkingScrollTop = trackedArea.children(':last-child').offset().top - head - 2;
+                }
+
                 $('html, body').animate( {
-                    scrollTop: trackedArea.offset().top + trackedArea.outerHeight() - ($(window).height() / 2)
+                    scrollTop: linkingScrollTop
                 }, settings.scrollSpeed);
             });
         }

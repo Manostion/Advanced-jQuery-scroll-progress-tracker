@@ -1,4 +1,4 @@
-Advanced jQuery Scroll Progress Tracker v1.2.1
+Advanced jQuery Scroll Progress Tracker v1.2.2
 ==============================================
 
 Dynamic Scroll Progress Tracker plugin for jQuery
@@ -64,7 +64,12 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ---
 
-## Update history
+## Update history (see ReadMe.html for detailed update notes)
+
+**Version 1.2.2**
+### Fixes:
+
+- Once more fixed the calculations
 
 **Version 1.2.1**
 ### Changes:

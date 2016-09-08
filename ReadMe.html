@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>ReadMe | AjSPT v1.2.1</title>
+        <title>ReadMe | AjSPT v1.2.2</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <style>
@@ -10,11 +10,12 @@
             // Scroll Progress Tracker ReadMe Stylesheet
             //-------------------------------------------------------------------------------------
             // Created          2016-08-22
-            // Changed          2016-08-22
+            // Changed          2016-09-02
             // Authors          David Whitworth | David@Whitworth.de
             //-------------------------------------------------------------------------------------
             // 2016-08-22       Created
             // 2016-08-22 DW    moved all plugin unrelated styles from the plugin's stylesheet here
+            // 2016-09-02 DW    removed the sourcecode styling from this readme
             //-------------------------------------------------------------------------------------
             // Copyright (c) 2016
             //-------------------------------------------------------------------------------------
@@ -98,7 +99,7 @@
 <!-- Introduction -->
                 <div class="spt-trackThis">
                     <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.2.1</p>
+                    <p class="smaller pullUp bold">Ver. 1.2.2</p>
                     <p>A very versatile jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
                     <p>Using the various options, it is also possible to, for example, display one tracker on large screens and another one on small screens. Additionally it is very easy to control the position, behavior and appearance of each tracker individually.<br /><br /></p>
                     <p>&copy;2016 David Whitworth (<a href="mailto:david@whitworth.de">david@whitworth.de</a>)</p>
@@ -449,6 +450,16 @@
 <!-- Update History -->
                 <div class="spt-trackThis">
                     <h3>Update history</h3>
+                    <div class="historyVersion">
+                        <span class="bold">Version 1.2.2</span><br />
+                        <p class="bold larger">Fixes:</p>
+                        <p>
+                            <span class="underline">Once more fixed the calculations...</span>
+                            <br /><span class="smaller">
+                                Since, the area that holds the horizontal tracker got changed in the last update' »<u>Removed superfluous elements</u>«, the calculations for where to scroll to when a bullet on the tracker was clicked, needed to be changed again. While doing so, I also noticed and fixed a potentially fatal mistake: If a tracked area didn't have a tracked headline, the scrolling did not occur. Now it doesn't matter if there is a headline or not. This has been tested with and without <b>trackAllHeadlines</b>, <b>skipHeadlines</b> and <b>horMobile</b> / <b>horMobileOnly</b> and should thus (hopefully) work in all scenarios.
+                            </span>
+                        </p>
+                    </div>
                     <div class="historyVersion">
                         <span class="bold">Version 1.2.1</span><br />
                         <p class="bold larger">Changes:</p>
