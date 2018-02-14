@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>ReadMe | AjSPT v1.2.2</title>
+        <title>ReadMe | AjSPT v1.3a</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <style>
@@ -10,21 +10,20 @@
             // Scroll Progress Tracker ReadMe Stylesheet
             //-------------------------------------------------------------------------------------
             // Created          2016-08-22
-            // Changed          2016-09-02
+            // Changed          2018-02-14
             // Authors          David Whitworth | David@Whitworth.de
             //-------------------------------------------------------------------------------------
             // 2016-08-22       Created
             // 2016-08-22 DW    moved all plugin unrelated styles from the plugin's stylesheet here
             // 2016-09-02 DW    removed the sourcecode styling from this readme
+            // 2018-02-14 DW    removed some misplaced LESS variables from the readme's style-block
             //-------------------------------------------------------------------------------------
-            // Copyright (c) 2016
+            // Copyright (c) 2016 - 2018
             //-------------------------------------------------------------------------------------
             */
             body {
                 margin: 0;
                 padding: 24px 16px;
-                color: @color-foreground;
-                background-color: @color-background;
             }
             h1 {
               font-size: 38px;
@@ -60,9 +59,6 @@
             .historyVersion:last-of-type {
               margin: 0;
             }
-            .jrm-toggle {
-              margin-top: 0 !important;
-            }
         </style>
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
         <link href="http://whitworth.de/sourcecode-css/css/sc-style.min.css" rel="stylesheet" />
@@ -97,11 +93,11 @@
             <div id="TrackScrollProgress">
 <!-- Introduction -->
                 <div class="spt-trackThis">
-                    <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h3>
-                    <p class="smaller pullUp bold">Ver. 1.2.2</p>
+                    <h1 data-name="Introduction">Advanced jQuery Scroll Progress Tracker</h1>
+                    <p class="smaller pullUp bold">Ver. 1.3a</p>
                     <p>A very versatile jQuery plugin that creates either a horizontal or a vertical (or both) scroll progress indicator based on your content. It is highly customizable and has a built-in linking function, so it can be used as an interactive table of contents.</p>
                     <p>Using the various options, it is also possible to, for example, display one tracker on large screens and another one on small screens. Additionally it is very easy to control the position, behavior and appearance of each tracker individually.<br /><br /></p>
-                    <p>&copy;2016 David Whitworth (<a href="mailto:david@whitworth.de">david@whitworth.de</a>)</p>
+                    <p>&copy;2016 - 2018 David Whitworth (<a href="mailto:david@whitworth.de">david@whitworth.de</a>)</p>
                     <p class="smaller">Released under the <a href="https://opensource.org/licenses/gpl-license.html" target="_blank">GNU General Public License (GPL)</a></p>
                 </div>
                 <hr />
@@ -109,44 +105,18 @@
                 <div class="spt-trackThis">
                     <h3>Options</h3>
     <!-- New! in current version -->
-                    <p><b>horColor</b> - <i>default: <b>'red'</b></i><span class="hot">New!</span><br />
-                    Using this option the color of the <i>horizontal</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
-                    <ul>
-                        <li>
-                            <i><b>'red'</b></i>
-                        </li>
-                        <li>
-                            <i><b>'blue'</b></i>
-                        </li>
-                        <li>
-                            <i><b>'green'</b></i>
-                        </li>
-                        <li>
-                            <i><b>'orange'</b></i>
-                        </li>
-                    </ul>
-                    <p class="smaller">If you want to adjust the tracker(s) beyond picking a color with this option, you can do so in the stylesheet files.</span>
+                    <p><b>horSplitSections</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
+                    If set to true, the horizontal tracker will be split up into an individual tracker for each tracked section.</p>
+                    <p class="smaller">This option is useful for creating an interactive table of contents but will be automatically disabled on small devices for obvious reasons.<br />
+                    It is advised to use this option in combination with <b>horTitles: true</b> and <b>horOnlyActiveTitle: false</b>.</p>
                     <hr />
-                    <p><b>verColor</b> - <i>default: <b>'red'</b></i><span class="hot">New!</span><br />
-                    Using this option the color of the <i>vertical</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
-                    <ul>
-                        <li>
-                            <i><b>'red'</b></i>
-                        </li>
-                        <li>
-                            <i><b>'blue'</b></i>
-                        </li>
-                        <li>
-                            <i><b>'green'</b></i>
-                        </li>
-                        <li>
-                            <i><b>'orange'</b></i>
-                        </li>
-                    </ul>
-                    <p class="smaller">If you want to adjust the tracker(s) beyond picking a color with this option, you can do so in the stylesheet files.</span>
+                    <p><b>horEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
+                    If set to true, the gaps between all stops on the horizontal tracker will be equally wide.</p>
+                    <p class="smaller">Naturally, the progress bar will fill at a different pace for each section with this option activated, so "jumps" may occur in shorter sections, which may not look pleasant to all viewers.</p>
                     <hr />
-                    <p><b>trackViewportOnly</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
-                    If set to true, the tracker(s) will track <i>only</i> the currently visible portion of the tacked area. This way the progress bar will act similar to a scroll bar and the bullets/titles will only be active if at least a little bit of the corresponding sections is within the visible area.</p>
+                    <p><b>verEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
+                    If set to true, the gaps between all stops on the vertical tracker will be equally high.</p>
+                    <p class="smaller">Naturally, the progress bar will fill at a different pace for each section with this option activated, so "jumps" may occur in shorter sections, which may not look pleasant to all viewers.</p>
                     <hr />
     <!-- Horizontal tracker -->
                     <p><b>horTracker</b> - <i>default: <b>true</b></i><br />
@@ -193,6 +163,24 @@
                             <br /><img src="http://whitworth.de/ProgressTracker/1.1/images/horStyle-Fill.png" alt="" />
                         </li>
                     </ul>
+                    <hr />
+                    <p><b>horColor</b> - <i>default: <b>'red'</b></i><br />
+                        Using this option the color of the <i>horizontal</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
+                    <ul>
+                        <li>
+                            <i><b>'red'</b></i>
+                        </li>
+                        <li>
+                            <i><b>'blue'</b></i>
+                        </li>
+                        <li>
+                            <i><b>'green'</b></i>
+                        </li>
+                        <li>
+                            <i><b>'orange'</b></i>
+                        </li>
+                    </ul>
+                    <p class="smaller">If you want to adjust the tracker(s) beyond picking a color with this option, you can do so in the stylesheet files.</p>
                     <hr />
                     <p><b>horMobile</b> - <i>default: <b>true</b></i><br />
                     The <i>horizontal</i> progress tracker won't show on small screens if set to false.</p>
@@ -257,6 +245,24 @@
                         </li>
                     </ul>
                     <hr />
+                    <p><b>verColor</b> - <i>default: <b>'red'</b></i><br />
+                        Using this option the color of the <i>vertical</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
+                    <ul>
+                        <li>
+                            <i><b>'red'</b></i>
+                        </li>
+                        <li>
+                            <i><b>'blue'</b></i>
+                        </li>
+                        <li>
+                            <i><b>'green'</b></i>
+                        </li>
+                        <li>
+                            <i><b>'orange'</b></i>
+                        </li>
+                    </ul>
+                    <p class="smaller">If you want to adjust the tracker(s) beyond picking a color with this option, you can do so in the stylesheet files.</p>
+                    <hr />
                     <p><b>verMobile</b> - <i>default: <b>false</b></i><br />
                     The <i>vertical</i> progress tracker won't show on small screens if set to false.</p>
                     <hr />
@@ -278,8 +284,8 @@
                     This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
                     <hr />
                     <p><b>trackAllHeadlines</b> - <i>default: <b>false</b></i><br />
-                    If set to true, any headline tag (h1, h2, h3,...) inside '.spt-trackThis'¹ will be used as a section title on the tracker(s) instead of h3 only. Be careful to use one headline only, if you use this option.</p>
-                    <p class="smaller">¹or with the class "spt-trackThis" - see the last point under "Setup" for further information.</span>
+                    If set to true, any first headline tag (h1, h2, h3,...) inside '.spt-trackThis'¹ will be used as a section title on the tracker(s) instead of h3 only.</p>
+                    <p class="smaller">¹or with the class "spt-trackThis" - see the last point under "Setup" for further information.</p>
                     <hr />
                     <p><b>addFinalStop</b> - <i>default: <b>false</b></i><br />
                     If set to true this option adds an additional bullet to the very end of the tracker(s). By default this final bullet is a little bigger than the others but this can be changed via the stylesheet.<br />
@@ -304,6 +310,9 @@
                     <hr />
                     <p><b>trackViewport</b> - <i>default: <b>true</b></i><br />
                     If set to true, the scroll position of the whole viewport will be displayed on the tracker(s) instead of the top of the viewport. In other words, if this is active the <i>bottom</i> of your screen is decisive, otherwise the <i>top</i> is.</p>
+                    <hr />
+                    <p><b>trackViewportOnly</b> - <i>default: <b>false</b></i><br />
+                    If set to true, the tracker(s) will track <i>only</i> the currently visible portion of the tacked area. This way the progress bar will act similar to a scroll bar and the bullets/titles will only be active if at least a little bit of the corresponding sections is within the visible area.</p>
                 </div>
                 <hr />
 <!-- Setup -->

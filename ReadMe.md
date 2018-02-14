@@ -1,9 +1,9 @@
-Advanced jQuery Scroll Progress Tracker v1.2.2
-==============================================
+Advanced jQuery Scroll Progress Tracker v1.3a
+=============================================
 
 Dynamic Scroll Progress Tracker plugin for jQuery
 
-(c) 2016 David Whitworth (david@whitworth.de)
+(c) 2016 - 2018 David Whitworth (david@whitworth.de)
 
 Released under the GNU General Public License (GPL)
 
@@ -66,6 +66,18 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ## Update history (see ReadMe.html for detailed update notes)
 
+**Version 1.3a**
+### Changes:
+
+- Cleaned up the code of the script
+- Removed superfluous styles and elements
+
+### New features:
+
+- Added option **horEqualSpacing**
+- Added option **verEqualSpacing**
+- Added option **horSplitSections**
+
 **Version 1.2.2**
 ### Fixes:
 
@@ -81,7 +93,7 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ### Fixes:
 
-- Fixed a mistake that occured when the height/padding-top where changed by the user
+- Fixed a mistake that occurred when the height/padding-top where changed by the user
 - Made the positioning values for the horTitlesOffset option dynamic
 
 **Version 1.2**
@@ -92,8 +104,8 @@ http://whitworth.de/ProgressTracker/ReadMe.html
 
 ### New features:
 
-- Added option trackViewportOnly
-- Added options horColor and verColor
+- Added option **trackViewportOnly**
+- Added options **horColor** and **verColor**
 
 **Version 1.1.4**
 ### Changes:

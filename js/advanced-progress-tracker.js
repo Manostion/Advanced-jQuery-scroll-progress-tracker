@@ -1,90 +1,85 @@
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Advanced Scroll Progress Tracker
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2016-09-08
+// Changed          2018-02-14
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Version 1.0
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // 2016-08-10       Created
 // 2016-08-11 DW    added automated Stops for each article within the tracked area;
 //                  added article headlines to the stops of vertical Trackers
 // 2016-08-12 DW    now builds the html structure from within the script;
 //                  added configurable options;
 //                  added titles (if set to 'true') to the horizontal tracker;
-//                  added the finalStop option to create an additional stop at the very
-//                  end of the progress tracker(s);
+//                  added the finalStop option to create an additional stop at the very end of the progress tracker(s);
 //                  stops are now created for each .trackThis instead of article
 // 2016-08-13 DW    added the (configurable) title of the additional final stop;
-//                  added the automatic override of horTitlesOffset and
-//                  horOnlyActiveTitle for small screens;
+//                  added the automatic override of horTitlesOffset and horOnlyActiveTitle for small screens;
 //                  added the option to hide trackers on large screens
-// 2016-08-15 DW    changed the way the tracker works in terms of the scroll
-//                  position (bottom of viewport instead of top);
+// 2016-08-15 DW    changed the way the tracker works in terms of the scroll position (bottom of viewport instead of
+//                  top);
 //                  added the option to revert this behavior to top of viewport;
 //                  forced skipHeadlines on small screens if horTitles is true
 // 2016-08-16 DW    added options to automatically generate the trackers;
 //                  added positioning options for the trackers;
 //                  set the default value for verTracker to false;
-//                  added the class "smallDevice" to all relevant elements when the
-//                  viewport width is <= mobileThreshold;
-//                  enabled the user to rename section titles on the trackers by
-//                  defining a data-name attribute for the headlines - if no data-name
-//                  is defined, the text of the headline will be used as before
-// 2016-08-16 RM    created a routine that checks if h3 tags have class
-//                  "trackThis" and automatically generates the necessary
-//                  structure around them if true
-//-------------------------------------------------------------------------------------
+//                  added the class "smallDevice" to all relevant elements when the viewport width is <=
+//                  mobileThreshold;
+//                  enabled the user to rename section titles on the trackers by defining a data-name attribute for the
+//                  headlines - if no data-name is defined, the text of the headline will be used as before
+// 2016-08-16 RM    created a routine that checks if h3 tags have class "trackThis" and automatically generates the
+//                  necessary structure around them if true
+//----------------------------------------------------------------------------------------------------------------------
 // Version 1.1
-//-------------------------------------------------------------------------------------
-// 2016-08-17 DW    added an option to track all headlines instead of h3 only and
-//                  adjusted RM's routine accordingly;
-//                  added the option to place the horizontal tracker inside an existing
-//                  header tag on the site;
-//                  cleaned up the script (changed the order of the options and
-//                  categorized them)
+//----------------------------------------------------------------------------------------------------------------------
+// 2016-08-17 DW    added an option to track all headlines instead of h3 only and adjusted RM's routine accordingly;
+//                  added the option to place the horizontal tracker inside an existing header element on the site;
+//                  cleaned up the script (changed the order of the options and categorized them)
 // 2016-08-19 DW    adds the according class if a horStyle/verStyle is set;
-//                  fixed the values for linking, horOnlyActiveTitles / skipHeadlines
-//                  fixed the title for horOnlyActiveTitle not showing up when horStops
-//                  is set to false - it is now bound to horTitles as it should be;
-//                  increased the default value for mobileThreshold, so that the
-//                  vertical tracker always fits next to the content
-// 2016-08-20 DW    moves the vertical tracker 50px closer to the content as soon as
-//                  there is enough space;
+//                  fixed the values for linking, horOnlyActiveTitles / skipHeadlines;
+//                  fixed the title for horOnlyActiveTitle not showing up when horStops is set to false - it is now
+//                  bound to horTitles as it should be;
+//                  increased the default value for mobileThreshold, so that the vertical tracker always fits next to
+//                  the content
+// 2016-08-20 DW    moves the vertical tracker 50px closer to the content as soon as there is enough space;
 //                  edited comments to further clean up the script;
 //                  revised all the calculations to eliminate redundancy and bugs
-// 2016-08-22 DW    changed the names of all classes and ids to prevent possible
-//                  conflicts with other plugins
-//-------------------------------------------------------------------------------------
+// 2016-08-22 DW    changed the names of all classes and ids to prevent possible conflicts with other plugins
+//----------------------------------------------------------------------------------------------------------------------
 // Version 1.2
-//-------------------------------------------------------------------------------------
-// 2016-08-23 DW    adjusted the trackAllHeadlines option to only track the headlines
-//                  within the tracked area (i.e. either #TrackScrollProgress or body);
+//----------------------------------------------------------------------------------------------------------------------
+// 2016-08-23 DW    adjusted the trackAllHeadlines option to only track the headlines within the tracked area (i.e.
+//                  either #TrackScrollProgress or body);
 //                  changed the way tracker titles are generated to "only first";
-//                  adjusted the positioning of the vertical tracker in relataion to
-//                  the mobileThreshold and the viewport width;
+//                  adjusted the positioning of the vertical tracker in relation to the mobileThreshold and the viewport
+//                  width;
 //                  added the trackViewportOnly option and it's programming;
 //                  added the options horColor/verColor;
 // 2016-09-02 DW    removed the horizontal tracker's container where it's not needed;
 //                  moved the different color schemes to extra files;
-//                  changed the way horTitlesOffset works - margin-top of the titles
-//                  is now dynamically calculated to maximize customizability;
-//                  fixed the calculation for the head-variable so that it takes into
-//                  account possible changes the user makes to the height/position of
-//                  the horizontal tracker;
-//                  created a failsafe for the width of ".spt-centerAll" so that the
-//                  vertical tracker doesn't accidentally intersect the content
-// 2016-09-08 DW    fixed the calculations of the head variable and redid the whole
-//                  linking functionality
-//-------------------------------------------------------------------------------------
-// Copyright (c) 2016
-//-------------------------------------------------------------------------------------
+//                  changed the way horTitlesOffset works - margin-top of the titles is now dynamically calculated to
+//                  maximize customizability;
+//                  fixed the calculation for the head-variable so that it takes into account possible changes the user
+//                  makes to the height/position of the horizontal tracker;
+//                  created a fail-safe for the width of ".spt-centerAll" so that the vertical tracker doesn't
+//                  accidentally intersect the content
+// 2016-09-08 DW    fixed the calculations of the head variable and redid the whole linking functionality
+//----------------------------------------------------------------------------------------------------------------------
+// Version 1.3
+//----------------------------------------------------------------------------------------------------------------------
+// 2018-02-14 DW    cleaned up the script's comment section as well as some of it's functions;
+//                  added several new options (without actual functionality): 'horEqualSpacing', 'verEqualSpacing',
+//                  'horSplitSections'
+//----------------------------------------------------------------------------------------------------------------------
+// Copyright (c) 2016 - 2018
+//----------------------------------------------------------------------------------------------------------------------
 
 $.fn.progressTracker = function(options) {
     // Default Options -->
-    var settings = $.extend({
+    let settings = $.extend({
         // HORIZONTAL tracker -->
         horTracker: true,               // displays a HORIZONTAL scroll progress tracker
         horInHeader: false,             // creates the HORIZONTAL tracker within an existing <header> if true
@@ -101,13 +96,17 @@ $.fn.progressTracker = function(options) {
         horStops: true,                 // adds stops for each section to the HORIZONTAL tracker if true
         horNumbering: true,             // adds numbers to the stops of the HORIZONTAL TRACKER if true
                                         // ---> only used if horStops is true
+        horEqualSpacing: false,         // makes the gaps between all of the stops equal on the HORIZONTAL tracker if true
+                                        // ---> only used if horStops is true
+        horSplitSections: false,        // creates individual trackers for each tracked section (instead of one tracker for the whole tracked content)
+                                        // ---> should be used with 'horTitles: true' and 'horOnlyActiveTitle: false'; this is always set to 'false' on small devices
         horTitles: false,               // adds the headline (h3) of each section to the HORIZONTAL tracker if true
         horTitlesOffset: 'bottom',      // moves the titles of the horizontal tracker off the progress bar if set to 'top' or 'bottom' (they overlay the bar if false)
-                                        // ---> only used if horTitles is true; this is automatically set to 'bottom' on small screen devices(!) if set to false
+                                        // ---> only used if horTitles is true; this is automatically set to 'bottom' on small screen devices if set to false
         horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
-                                        // ---> only used if horTitles is true; this is automatically forced on small screen devices(!)
+                                        // ---> only used if horTitles is true; this is automatically forced on small screen devices
         // <-- HORIZONTAL tracker
-        
+
         // VERTICAL tracker -->
         verTracker: false,              // displays a VERTICAL scroll progress tracker
         verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
@@ -119,11 +118,13 @@ $.fn.progressTracker = function(options) {
         verMobileOnly: false,           // hides the VERTICAL tracker on large screens if true;
                                         // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
         verStops: true,                 // adds stops for each section to the VERTICAL tracker if true
-        verNumbering: false,            // adds numbers to the stops of the VERTICAL TRACKER if true
+        verNumbering: false,            // adds numbers to the stops of the VERTICAL tracker if true
+                                        // ---> only used if verStops is true
+        verEqualSpacing: false,         // makes the gaps between all of the stops equal on the VERTICAL tracker if true
                                         // ---> only used if verStops is true
         verTitles: true,                // adds the headline (h3) of each section to the VERTICAL tracker if true
         // <-- VERTICAL tracker
-        
+
         // General -->
         mobileThreshold: 1300,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
         trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) within .spt-trackThis will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
@@ -145,8 +146,8 @@ $.fn.progressTracker = function(options) {
         // <-- General
     }, options);
     // <-- Default options
-    
-    var linkingScrollTop,
+
+    let linkingScrollTop,
         head,
         trackedArea,
         horizontalTracker,
@@ -156,7 +157,7 @@ $.fn.progressTracker = function(options) {
         headlineMargin,
         horizontalCenter, horizontalTop, horizontalBottom,
         horizontalTitlesHeight;
-    
+
     // Calculate 'max' and current 'value' for the progress-tag -->
     getScrollProgressMax = function() {
         return trackedArea.outerHeight();
@@ -173,7 +174,7 @@ $.fn.progressTracker = function(options) {
         };
     }
     // <-- Calculate 'max' and current 'value' for the progress-tag
-    
+
     $(document).ready(function () {
         horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
         horizontalTop = horizontalCenter - $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
@@ -183,17 +184,17 @@ $.fn.progressTracker = function(options) {
         if (parseFloat($('.spt-centerAll').css('max-width')) > (settings.mobileThreshold - 400)) {
             $('.spt-centerAll').css('max-width', settings.mobileThreshold - 400 + 'px');
         }
-        
+
         // Convert document if headline has class 'spt-trackThis' -->
         if ($('.spt-sectionTitle.spt-trackThis').length) {
-            var i = 0;
+            let i = 0;
             $('.spt-sectionTitle.spt-trackThis').each(function() {
                 i ++;
                 $(this).removeClass('spt-trackThis').wrap('<div id="Section' + i + '" class="spt-trackThis"></div>');
-                var nextBreak = false;
+                let nextBreak = false;
                 while (!nextBreak) {
                     if ($('#Section' + i).next().length) {
-                        if ($('#Section' + i).next()[0] != $('#Section' + i).siblings('.spt-sectionTitle.spt-trackThis')[0]) {
+                        if ($('#Section' + i).next()[0] !== $('#Section' + i).siblings('.spt-sectionTitle.spt-trackThis')[0]) {
                             $('#Section' + i).append($('#Section' + i).next());
                         }
                         else {
@@ -218,14 +219,14 @@ $.fn.progressTracker = function(options) {
         } else {
             trackedArea.find('h3').addClass('spt-sectionTitle');
         }
-        
+
         headlineMargin = (trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight(true) - trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight()) / 2;
         trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle').css('margin-top', '0');
         // Generate tracker html structure -->
         if (settings.horTracker) {
             // Generate HORIZONTAL tracker IN HEADER -->
             if (settings.horInHeader && $('header').length) {
-                if (settings.horInHeader == 'bottom') {
+                if (settings.horInHeader === 'bottom') {
                     $('header').append('<div class="spt-horizontalScrollProgress"></div>');
                 } else {
                     $('header').prepend('<div class="spt-horizontalScrollProgress"></div>');
@@ -236,14 +237,14 @@ $.fn.progressTracker = function(options) {
                 head = $('header').outerHeight();
             } else {
                 $('body').append('<div class="spt-horizontalScrollProgress spt-fixed"></div>');
-                if (settings.horPosition == 'bottom') {
+                if (settings.horPosition === 'bottom') {
                     head = 0;
                 } else {
                     head = $('.spt-horizontalScrollProgress').outerHeight();
                 }
             }
             // <-- Generate HORIZONTAL tracker IN HEADER
-            
+
             if (!settings.trackViewportOnly && 'max' in document.createElement('progress')) {
                 // Generate html5 progress-tag if it is supported by the browser -->
                 $('.spt-horizontalScrollProgress').append('<progress class="spt-scrollProgress"></progress>');
@@ -253,7 +254,7 @@ $.fn.progressTracker = function(options) {
                 $('.spt-horizontalScrollProgress').append('<div class="spt-scrollProgressContainer"><span class="spt-scrollProgressBar"></span></div>');
                 horizontalTracker = $('.spt-scrollProgressContainer');
             }
-            if (settings.horPosition == 'bottom' && !settings.horInHeader) {
+            if (settings.horPosition === 'bottom' && !settings.horInHeader) {
                 $('.spt-horizontalScrollProgress').addClass('spt-bottom');
                 $('body').css('padding-bottom', $('.spt-horizontalScrollProgress').height());
             } else {
@@ -264,13 +265,13 @@ $.fn.progressTracker = function(options) {
         }
 
         // include color-stylesheets if needed -->
-        if (settings.horColor == 'blue' || settings.verColor == 'blue') {
+        if (settings.horColor === 'blue' || settings.verColor === 'blue') {
             $('head').append('<link href="css/themes/spt-blue.min.css" rel="stylesheet" />');
-        } else if (settings.horColor == 'green' || settings.verColor == 'green') {
+        } else if (settings.horColor === 'green' || settings.verColor === 'green') {
             $('head').append('<link href="css/themes/spt-green.min.css" rel="stylesheet" />');
-        } else if (settings.horColor == 'orange' || settings.verColor == 'orange') {
+        } else if (settings.horColor === 'orange' || settings.verColor === 'orange') {
             $('head').append('<link href="css/themes/spt-orange.min.css" rel="stylesheet" />');
-        } else if (settings.horColor == 'custom' || settings.verColor == 'custom') {
+        } else if (settings.horColor === 'custom' || settings.verColor === 'custom') {
             $('head').append('<link href="css/themes/spt-custom.css" rel="stylesheet" />');
         }
         // <-- include color-stylesheets if needed
@@ -301,25 +302,25 @@ $.fn.progressTracker = function(options) {
             if (settings.horMobileOnly) {
                 $('.spt-horizontalScrollProgress').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
             }
-            if (settings.horStyle == 'fill') {
+            if (settings.horStyle === 'fill') {
                 $('.spt-horizontalScrollProgress').addClass('spt-styleFill');
             }
-            
-            if (settings.horColor == 'blue') {
+
+            if (settings.horColor === 'blue') {
                 $('.spt-horizontalScrollProgress').addClass('spt-blue');
-            } else if (settings.horColor == 'green') {
+            } else if (settings.horColor === 'green') {
                 $('.spt-horizontalScrollProgress').addClass('spt-green');
-            } else if (settings.horColor == 'orange') {
+            } else if (settings.horColor === 'orange') {
                 $('.spt-horizontalScrollProgress').addClass('spt-orange');
-            } else if (settings.horColor == 'custom') {
+            } else if (settings.horColor === 'custom') {
                 $('.spt-horizontalScrollProgress').addClass('spt-custom');
             }
-            
+
             if (settings.horCenter) {
                 horizontalTracker.addClass('spt-centerAll');
                 $('.spt-scrollStopTitles').addClass('spt-centerAll');
                 $('.spt-scrollStopContainer').addClass('spt-centerAll');
-                
+
             }
         }
         // <-- HORIZONTAL tracker
@@ -327,11 +328,11 @@ $.fn.progressTracker = function(options) {
         // VERTICAL tracker -->
         if (settings.verTracker) {
             $('body').append('<div class="spt-verticalScrollProgress"><div class="spt-verticalScrollProgressContainer"><div class="spt-verticalScrollProgressBar"></div></div></div>');
-            if (settings.verPosition == 'right') {
+            if (settings.verPosition === 'right') {
                 $('.spt-verticalScrollProgress').addClass('spt-verRight');
             }
 
-            var verticalTracker = $('.spt-verticalScrollProgress');
+            let verticalTracker = $('.spt-verticalScrollProgress');
             if (!settings.verMobile) {
                 verticalTracker.addClass('spt-desktopOnly');
             }
@@ -350,17 +351,17 @@ $.fn.progressTracker = function(options) {
                 $('.spt-vertScrollStopContainer').append('<div class="spt-finalStopCircle"></div>');
                 $('.spt-vertScrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
             }
-            if (settings.verStyle == 'fill') {
+            if (settings.verStyle === 'fill') {
                 $('.spt-verticalScrollProgress').addClass('spt-styleFill');
             }
-            
-            if (settings.verColor == 'blue') {
+
+            if (settings.verColor === 'blue') {
                 $('.spt-verticalScrollProgress').addClass('spt-blue');
-            } else if (settings.verColor == 'green') {
+            } else if (settings.verColor === 'green') {
                 $('.spt-verticalScrollProgress').addClass('spt-green');
-            } else if (settings.verColor == 'orange') {
+            } else if (settings.verColor === 'orange') {
                 $('.spt-verticalScrollProgress').addClass('spt-orange');
-            } else if (settings.verColor == 'custom') {
+            } else if (settings.verColor === 'custom') {
                 $('.spt-verticalScrollProgress').addClass('spt-custom');
             }
         }
@@ -371,8 +372,8 @@ $.fn.progressTracker = function(options) {
         // HORIZONTAL tracker functionality -->
         if ($('.spt-scrollProgress').length) {
             // <progress> tag is supported -->
-            var scrollProgress = $('.spt-scrollProgress');
-                scrollProgress.attr('max', getScrollProgressMax());
+            let scrollProgress = $('.spt-scrollProgress');
+            scrollProgress.attr('max', getScrollProgressMax());
             $(document).scroll(function () {
                 if (trackedArea >= trackedArea.offset().top - head) {
                     $(window).resize();
@@ -386,7 +387,7 @@ $.fn.progressTracker = function(options) {
             });
         } else {
             // <progress> tag is not supported (older browsers) -->
-            var scrollProgress = $('.spt-scrollProgressBar'),
+            let scrollProgress = $('.spt-scrollProgressBar'),
                 scrollProgressMax = getScrollProgressMax(),
                 scrollProgressValue, scrollProgressWidth, scrollProgressLeft,
                 getScrollProgressWidth = function() {
@@ -416,7 +417,7 @@ $.fn.progressTracker = function(options) {
                 setScrollProgressLeft = function() {
                     scrollProgress.css('left', getScrollProgressLeft());
                 };
-            
+
             $(document).scroll(function() {
                 if (trackerSize >= trackedArea.offset().top - head) {
                     $(window).resize();
@@ -433,9 +434,9 @@ $.fn.progressTracker = function(options) {
             });
         }
         // <-- HORIZONTAL tracker functionality
-        
+
         // VERTICAL tracker functionality -->
-        var verticalScrollProgress = $('.spt-verticalScrollProgressBar'),
+        let verticalScrollProgress = $('.spt-verticalScrollProgressBar'),
             scrollProgressMax = getScrollProgressMax(),
             scrollProgressValue, scrollProgressHeight, scrollProgressTop,
             getScrollProgressHeight = function() {
@@ -505,7 +506,7 @@ $.fn.progressTracker = function(options) {
                 setScrollProgressTop();
             }
             moveScrollStops();
-            
+
             // Fake responsive webdesign ("small screens") -->
             if ($(window).width() <= settings.mobileThreshold) {
                 // is mobile
@@ -553,39 +554,39 @@ $.fn.progressTracker = function(options) {
         // Create scrollstops and titles -->
         function setScrollStops() {
             trackedArea.find('.spt-trackThis').each(function(index) {
-                var sectionHeadline = $(this).children('.spt-sectionTitle:first'),
+                let sectionHeadline = $(this).children('.spt-sectionTitle:first'),
                     sectionTitle,
                     sectionId = index + 1,
                     scrollHorStops = $('.spt-scrollStopContainer'),
                     scrollVerStops = $('.spt-vertScrollStopContainer'),
                     scrollStopTitles = $('.spt-scrollStopTitles'),
                     scrollVerStopTitles = $('.spt-vertScrollStopTitles');
-                    if (sectionHeadline.attr('data-name')) {
-                        sectionTitle = sectionHeadline.attr('data-name');
-                    } else {
-                        sectionTitle = sectionHeadline.text();
-                    }
-                
+                if (sectionHeadline.attr('data-name')) {
+                    sectionTitle = sectionHeadline.attr('data-name');
+                } else {
+                    sectionTitle = sectionHeadline.text();
+                }
+
                 $(this).attr('id', 'Section' + sectionId);
                 $(this).children('.spt-sectionTitle:first').attr({ id: 'SectionHeadline' + sectionId});
-                
+
                 scrollHorStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '" title="' + sectionHeadline.text() + '"></div>');
                 scrollVerStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '"></div>');
                 scrollStopTitles.append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
                 scrollVerStopTitles.append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
-                
-                
+
+
                 if (settings.horNumbering) {
                     scrollHorStops.children('.spt-stopCircle.spt-stop' + sectionId).append(sectionId);
                     if (settings.addFinalStop) {
-                        var numStops = scrollHorStops.children('.spt-stopCircle').length + 1;
+                        let numStops = scrollHorStops.children('.spt-stopCircle').length + 1;
                         scrollHorStops.children('.spt-finalStopCircle').text(numStops);
                     }
                 }
                 if (settings.verNumbering) {
                     scrollVerStops.children('.spt-stopCircle.spt-stop' + sectionId).append(sectionId);
                     if (settings.addFinalStop) {
-                        var numStops = scrollVerStops.children('.spt-stopCircle').length + 1;
+                        let numStops = scrollVerStops.children('.spt-stopCircle').length + 1;
                         scrollVerStops.children('.spt-finalStopCircle').text(numStops);
                     }
                 }
@@ -594,7 +595,7 @@ $.fn.progressTracker = function(options) {
             $(window).resize();
         }
         // <-- Create scrollstops and titles
-        
+
         // Linking mode functionality -->
         if (settings.linking) {
             $('.spt-stopCircle, .spt-stopTitle').click(function () {
@@ -629,10 +630,10 @@ $.fn.progressTracker = function(options) {
             });
         }
         // <-- Linking mode functionality
-        
+
         // Hover-effect -->
         if (settings.hovering) {
-            var itemIndex;
+            let itemIndex;
             $('.spt-scrollStopContainer .spt-stopCircle, .spt-scrollStopTitles .spt-stopTitle').hover(function() {
                 itemIndex = $(this).attr('data-index');
                 $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
@@ -664,52 +665,52 @@ $.fn.progressTracker = function(options) {
     // Position scroll stops and titles -->
     function moveScrollStops() {
         trackedArea.find('.spt-trackThis').each(function(index) {
-            var section = $(this),
+            let section = $(this),
                 sectionHeadline = section.children('.spt-sectionTitle:first'),
                 sectionTitle = sectionHeadline.text(),
                 sectionTopSubtract = trackedArea.offset().top,
-                sectionRelativeTop = section.offset().top - trackedArea.offset().top,
+                sectionRelativeTop = section.offset().top - sectionTopSubtract,
                 sectionId = index + 1,
                 sectionStop = (sectionRelativeTop / getScrollProgressMax()) * 100,
                 scrollHorStops = $('.spt-scrollStopContainer'),
                 scrollVerStops = $('.spt-vertScrollStopContainer'),
                 scrollStopTitles = $('.spt-scrollStopTitles'),
                 scrollVerStopTitles = $('.spt-vertScrollStopTitles');
-            
+
             if (sectionStop > 100) {
                 sectionStop = 100;
             }
-            
+
             scrollHorStops.children('.spt-stop' + sectionId).css('left', sectionStop + '%');
             scrollVerStops.children('.spt-stop' + sectionId).css('top', sectionStop + '%');
             scrollStopTitles.children('.spt-stop' + sectionId).css('left', sectionStop + '%');
             scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').addClass('spt-reached');
-            if (settings.horStyle == 'beam') {
+            if (settings.horStyle === 'beam') {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('left', '-8px');
             } else {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('left', '0');
             }
             scrollVerStopTitles.children('.spt-stop' + sectionId).css('top', sectionStop + '%');
-            
+
             if ($(window).scrollTop() <= trackedArea.find('.spt-trackThis:first').offset().top + trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle:first').outerHeight() - head) {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text('');
             }
             if ($(window).scrollTop() >= section.offset().top + section.children('.spt-sectionTitle:first').outerHeight() - head) {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(sectionTitle);
-                var viewportBottom = $(window).scrollTop() + $(window).height();
-                if (settings.finalStopTitle != '') {
+                if (settings.finalStopTitle !== '') {
                     if ($(window).width() <= settings.mobileThreshold) {
-                        if (($(window).scrollTop() + $(window).height()) >= (trackedArea.offset().top + trackedArea.height() + (headlineMargin * 2)) || ($(window).scrollTop() + $(window).height()) >= $(document).outerHeight()) {
+                        if (($(window).scrollTop() + $(window).height()) >= (trackedArea.offset().top + trackedArea.height() + (headlineMargin * 2)) ||
+                            ($(window).scrollTop() + $(window).height()) >= trackedArea.outerHeight()) {
                             scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(settings.finalStopTitle);
                         }
                     } else {
-                        if (($(window).scrollTop() + $(window).height()) >= $(document).outerHeight()) {
+                        if (($(window).scrollTop() + $(window).height()) >= trackedArea.outerHeight()) {
                             scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').text(settings.finalStopTitle);
                         }
                     }
                 }
             }
-            
+
             if (settings.horOnlyActiveTitle) {
                 scrollStopTitles.children('.spt-stop' + sectionId).css('display', 'none');
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('display', 'block');
@@ -718,19 +719,19 @@ $.fn.progressTracker = function(options) {
                 scrollStopTitles.children('.spt-stopTitle.spt-onlyActive').css('display', 'none');
             }
 
-            if (settings.horTitlesOffset == 'top') {
+            if (settings.horTitlesOffset === 'top') {
                 scrollStopTitles.children('.spt-stopTitle').css('margin-top', horizontalTop - horizontalTitlesHeight - 5 + 'px').css('margin-left', '8px');
-            } else if (settings.horTitlesOffset == 'bottom') {
+            } else if (settings.horTitlesOffset === 'bottom') {
                 scrollStopTitles.children('.spt-stopTitle').css('margin-top', horizontalBottom + 5 + 'px').css('margin-left', '8px');
                 scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', horizontalBottom + 5 + 'px');
             } else {
                 scrollStopTitles.children('.spt-stopTitle').css('margin-top', horizontalCenter - horizontalTitlesHeight / 2 - 2 + 'px').css('margin-left', '25px');
                 scrollStopTitles.children('.spt-finalStopTitle').css('margin-top', horizontalCenter - horizontalTitlesHeight / 2 - 2 + 'px').css('margin-right', '16px');
             }
-            if (settings.horStyle == 'fill') {
+            if (settings.horStyle === 'fill') {
                 scrollStopTitles.children('.spt-onlyActive').css('margin-top', '0');
             }
-            
+
             if (getScrollProgressValue() >= sectionRelativeTop) {
                 $('.spt-stop' + sectionId).addClass('spt-reached');
             } else {
