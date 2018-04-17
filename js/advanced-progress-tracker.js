@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2018-02-14
+// Changed          2018-04-17
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //----------------------------------------------------------------------------------------------------------------------
@@ -13,21 +13,21 @@
 //                  added article headlines to the stops of vertical Trackers
 // 2016-08-12 DW    now builds the html structure from within the script;
 //                  added configurable options;
-//                  added titles (if set to 'true') to the horizontal tracker;
-//                  added the finalStop option to create an additional stop at the very end of the progress tracker(s);
-//                  stops are now created for each .trackThis instead of article
+//                  added titles (if set to true) to the horizontal tracker;
+//                  added the "finalStop" option to create an additional stop at the very end of the progress trackers;
+//                  stops are now created for each ".trackThis" instead of article
 // 2016-08-13 DW    added the (configurable) title of the additional final stop;
-//                  added the automatic override of horTitlesOffset and horOnlyActiveTitle for small screens;
+//                  added the automatic override of "horTitlesOffset" and "horOnlyActiveTitle" for small screens;
 //                  added the option to hide trackers on large screens
 // 2016-08-15 DW    changed the way the tracker works in terms of the scroll position (bottom of viewport instead of
 //                  top);
 //                  added the option to revert this behavior to top of viewport;
-//                  forced skipHeadlines on small screens if horTitles is true
+//                  forced "skipHeadlines" on small screens if "horTitles" is true
 // 2016-08-16 DW    added options to automatically generate the trackers;
 //                  added positioning options for the trackers;
-//                  set the default value for verTracker to false;
+//                  set the default value for "verTracker" to false;
 //                  added the class "smallDevice" to all relevant elements when the viewport width is <=
-//                  mobileThreshold;
+//                  "mobileThreshold";
 //                  enabled the user to rename section titles on the trackers by defining a data-name attribute for the
 //                  headlines - if no data-name is defined, the text of the headline will be used as before
 // 2016-08-16 RM    created a routine that checks if h3 tags have class "trackThis" and automatically generates the
@@ -38,11 +38,11 @@
 // 2016-08-17 DW    added an option to track all headlines instead of h3 only and adjusted RM's routine accordingly;
 //                  added the option to place the horizontal tracker inside an existing header element on the site;
 //                  cleaned up the script (changed the order of the options and categorized them)
-// 2016-08-19 DW    adds the according class if a horStyle/verStyle is set;
-//                  fixed the values for linking, horOnlyActiveTitles / skipHeadlines;
-//                  fixed the title for horOnlyActiveTitle not showing up when horStops is set to false - it is now
-//                  bound to horTitles as it should be;
-//                  increased the default value for mobileThreshold, so that the vertical tracker always fits next to
+// 2016-08-19 DW    adds the according class if a "horStyle"/"verStyle" is set;
+//                  fixed the values for "linking", "horOnlyActiveTitles" / "skipHeadlines";
+//                  fixed the title for "horOnlyActiveTitle" not showing up when "horStops" is set to false - it is now
+//                  bound to "horTitles" as it should be;
+//                  increased the default value for "mobileThreshold", so that the vertical tracker always fits next to
 //                  the content
 // 2016-08-20 DW    moves the vertical tracker 50px closer to the content as soon as there is enough space;
 //                  edited comments to further clean up the script;
@@ -51,16 +51,16 @@
 //----------------------------------------------------------------------------------------------------------------------
 // Version 1.2
 //----------------------------------------------------------------------------------------------------------------------
-// 2016-08-23 DW    adjusted the trackAllHeadlines option to only track the headlines within the tracked area (i.e.
+// 2016-08-23 DW    adjusted the "trackAllHeadlines" option to only track the headlines within the tracked area (i.e.
 //                  either #TrackScrollProgress or body);
 //                  changed the way tracker titles are generated to "only first";
-//                  adjusted the positioning of the vertical tracker in relation to the mobileThreshold and the viewport
-//                  width;
-//                  added the trackViewportOnly option and it's programming;
-//                  added the options horColor/verColor;
+//                  adjusted the positioning of the vertical tracker in relation to the "mobileThreshold" and the
+//                  viewport width;
+//                  added the "trackViewportOnly" option and it's programming;
+//                  added the options "horColor"/"verColor";
 // 2016-09-02 DW    removed the horizontal tracker's container where it's not needed;
 //                  moved the different color schemes to extra files;
-//                  changed the way horTitlesOffset works - margin-top of the titles is now dynamically calculated to
+//                  changed the way "horTitlesOffset" works - margin-top of the titles is now dynamically calculated to
 //                  maximize customizability;
 //                  fixed the calculation for the head-variable so that it takes into account possible changes the user
 //                  makes to the height/position of the horizontal tracker;
@@ -71,8 +71,9 @@
 // Version 1.3
 //----------------------------------------------------------------------------------------------------------------------
 // 2018-02-14 DW    cleaned up the script's comment section as well as some of it's functions;
-//                  added several new options (without actual functionality): 'horEqualSpacing', 'verEqualSpacing',
-//                  'horSplitSections'
+//                  added several new options (without actual functionality): "horEqualSpacing", "verEqualSpacing",
+//                  "horSplitSections"
+// 2018-04-17 DW    changed the default values for "horTitles" and "skipHeadlines" (now true)
 //----------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2016 - 2018
 //----------------------------------------------------------------------------------------------------------------------
@@ -98,9 +99,9 @@ $.fn.progressTracker = function(options) {
                                         // ---> only used if horStops is true
         horEqualSpacing: false,         // makes the gaps between all of the stops equal on the HORIZONTAL tracker if true
                                         // ---> only used if horStops is true
-        horSplitSections: false,        // creates individual trackers for each tracked section (instead of one tracker for the whole tracked content)
+        horSplitSections: true,        // creates individual trackers for each tracked section (instead of one tracker for the whole tracked content)
                                         // ---> should be used with 'horTitles: true' and 'horOnlyActiveTitle: false'; this is always set to 'false' on small devices
-        horTitles: false,               // adds the headline (h3) of each section to the HORIZONTAL tracker if true
+        horTitles: true,                // adds the headline (h3) of each section to the HORIZONTAL tracker if true
         horTitlesOffset: 'bottom',      // moves the titles of the horizontal tracker off the progress bar if set to 'top' or 'bottom' (they overlay the bar if false)
                                         // ---> only used if horTitles is true; this is automatically set to 'bottom' on small screen devices if set to false
         horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
@@ -136,18 +137,21 @@ $.fn.progressTracker = function(options) {
                                         // ---> only used if horStops/verStops and/or horTitles/verTitles is true
         linking: true,                  // clicking on a stop animates the page to that section if true
                                         // ---> only used if horStops/verStops and/or horTitles/verTitles is true
-        skipHeadlines: false,           // clicking on a stop will scroll to right after the headline if true
+        skipHeadlines: true,            // clicking on a stop will scroll to right after the headline if true
                                         // ---> only used if horStops/verStops and/or horTitles/verTitles and linking is true; this setting is automatically applied on small screen devices if horTitles is set to true
         scrollSpeed: 800,               // sets the duration of the scrolling animation in milliseconds; set to 0 to scroll w/o animation
                                         // ---> only used if horStops/verStops and/or horTitles/verTitles and linking is true
         trackViewport: true,            // if true the tracker(s) show the scroll position based on the BOTTOM of the viewport, if false the TOP of the viewport serves as the basis
-                                        // ---> if the tracked area or even it's last section isn't as high (or higher) as the viewport, then the tracker(s) won't reach 100% if this is set to false
+                                        // ---> if the tracked area or even it's last section isn't at least as high as the viewport, then the tracker(s) won't reach 100% if this is set to false
         trackViewportOnly: false        // turns section stops and titles inactive again, when the corresponding section leaves the viewport
+                                        // ---> this setting is irrelevant for the horizontal tracker on large screen devices if horSplitSections is active
         // <-- General
     }, options);
     // <-- Default options
 
-    let linkingScrollTop,
+    let currentVersion = "1.3a",
+        copyrightYear = "2016-2018",
+        linkingScrollTop,
         head,
         trackedArea,
         horizontalTracker,
@@ -221,45 +225,53 @@ $.fn.progressTracker = function(options) {
         }
 
         headlineMargin = (trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight(true) - trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight()) / 2;
-        trackedArea.find('.spt-trackThis:first').children('.spt-sectionTitle').css('margin-top', '0');
         // Generate tracker html structure -->
         if (settings.horTracker) {
-            // Generate HORIZONTAL tracker IN HEADER -->
-            if (settings.horInHeader && $('header').length) {
-                if (settings.horInHeader === 'bottom') {
-                    $('header').append('<div class="spt-horizontalScrollProgress"></div>');
-                } else {
-                    $('header').prepend('<div class="spt-horizontalScrollProgress"></div>');
-                }
-                if (settings.horMobileOnly) {
-                    $('.spt-horizontalScrollProgress').addClass('spt-mobileOnly');
-                }
-                head = $('header').outerHeight();
+            if (settings.horSplitSections) {
+                $('body').append('<div class="spt-horizontalScrollProgress spt-splitSections"></div>');
+                let i = 0;
+                $('.spt-trackThis').each(function() {
+                    i ++;
+                    $('.spt-splitSections').append('<div class="spt-sectionProgress" id="SectionProgress' + i + '"><div class="spt-sectionProgressBar"></div></div>');
+                });
             } else {
-                $('body').append('<div class="spt-horizontalScrollProgress spt-fixed"></div>');
-                if (settings.horPosition === 'bottom') {
-                    head = 0;
+                // Generate HORIZONTAL tracker IN HEADER -->
+                if (settings.horInHeader && $('header').length) {
+                    if (settings.horInHeader === 'bottom') {
+                        $('header').append('<div class="spt-horizontalScrollProgress"></div>');
+                    } else {
+                        $('header').prepend('<div class="spt-horizontalScrollProgress"></div>');
+                    }
+                    if (settings.horMobileOnly) {
+                        $('.spt-horizontalScrollProgress').addClass('spt-mobileOnly');
+                    }
+                    head = $('header').outerHeight();
                 } else {
-                    head = $('.spt-horizontalScrollProgress').outerHeight();
+                    $('body').append('<div class="spt-horizontalScrollProgress spt-fixed"></div>');
+                    if (settings.horPosition === 'bottom') {
+                        head = 0;
+                    } else {
+                        head = $('.spt-horizontalScrollProgress').outerHeight();
+                    }
                 }
-            }
-            // <-- Generate HORIZONTAL tracker IN HEADER
+                // <-- Generate HORIZONTAL tracker IN HEADER
 
-            if (!settings.trackViewportOnly && 'max' in document.createElement('progress')) {
-                // Generate html5 progress-tag if it is supported by the browser -->
-                $('.spt-horizontalScrollProgress').append('<progress class="spt-scrollProgress"></progress>');
-                horizontalTracker = $('.spt-scrollProgress');
-            } else {
-                // Generate fallback solution for older browsers where the progress-tag is NOT supported -->
-                $('.spt-horizontalScrollProgress').append('<div class="spt-scrollProgressContainer"><span class="spt-scrollProgressBar"></span></div>');
-                horizontalTracker = $('.spt-scrollProgressContainer');
-            }
-            if (settings.horPosition === 'bottom' && !settings.horInHeader) {
-                $('.spt-horizontalScrollProgress').addClass('spt-bottom');
-                $('body').css('padding-bottom', $('.spt-horizontalScrollProgress').height());
-            } else {
-                if (!settings.horInHeader) {
-                    $('body').css('padding-top', $('.spt-horizontalScrollProgress').height());
+                if (!settings.trackViewportOnly && 'max' in document.createElement('progress')) {
+                    // Generate html5 progress-tag if it is supported by the browser -->
+                    $('.spt-horizontalScrollProgress').append('<progress class="spt-scrollProgress"></progress>');
+                    horizontalTracker = $('.spt-scrollProgress');
+                } else {
+                    // Generate fallback solution for older browsers where the progress-tag is NOT supported -->
+                    $('.spt-horizontalScrollProgress').append('<div class="spt-scrollProgressContainer"><span class="spt-scrollProgressBar"></span></div>');
+                    horizontalTracker = $('.spt-scrollProgressContainer');
+                }
+                if (settings.horPosition === 'bottom' && !settings.horInHeader) {
+                    $('.spt-horizontalScrollProgress').addClass('spt-bottom');
+                    $('body').css('padding-bottom', $('.spt-horizontalScrollProgress').height());
+                } else {
+                    if (!settings.horInHeader) {
+                        $('body').css('padding-top', $('.spt-horizontalScrollProgress').height());
+                    }
                 }
             }
         }
@@ -277,7 +289,8 @@ $.fn.progressTracker = function(options) {
         // <-- include color-stylesheets if needed
 
         // HORIZONTAL tracker -->
-        if (settings.horTracker) {
+        // regular layout -->
+        if (settings.horTracker && !settings.horSplitSections) {
             if ($('.spt-scrollProgress').length) {
                 $('.spt-scrollProgress').attr('value', '0');
             }
@@ -323,6 +336,13 @@ $.fn.progressTracker = function(options) {
 
             }
         }
+        // <-- regular layout
+
+        // split sections -->
+        if (settings.horTracker && settings.horSplitSections) {
+
+        }
+        // <-- split sections
         // <-- HORIZONTAL tracker
 
         // VERTICAL tracker -->
@@ -661,6 +681,7 @@ $.fn.progressTracker = function(options) {
         }
         // <-- Hover-effect
         $(document).scroll();
+        console.log('Advanced jQuery Scroll Progress Tracker v' + currentVersion + '\n(c) ' + copyrightYear + ' David Whitworth (david@whitworth.de)');
     });
     // Position scroll stops and titles -->
     function moveScrollStops() {

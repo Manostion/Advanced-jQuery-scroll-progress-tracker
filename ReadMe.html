@@ -4,22 +4,24 @@
         <title>ReadMe | AjSPT v1.3a</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
         <style>
             /*
-            //-------------------------------------------------------------------------------------
-            // Scroll Progress Tracker ReadMe Stylesheet
-            //-------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------------------------
+            // Scroll Progress Tracker ReadMe.html Stylesheet
+            //----------------------------------------------------------------------------------------------------------
             // Created          2016-08-22
-            // Changed          2018-02-14
+            // Changed          2018-04-17
             // Authors          David Whitworth | David@Whitworth.de
-            //-------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------------------------
             // 2016-08-22       Created
             // 2016-08-22 DW    moved all plugin unrelated styles from the plugin's stylesheet here
             // 2016-09-02 DW    removed the sourcecode styling from this readme
             // 2018-02-14 DW    removed some misplaced LESS variables from the readme's style-block
-            //-------------------------------------------------------------------------------------
+            // 2018-04-17 DW    added styles for h4 headlines, so that each subsection can be easily recognized
+            //----------------------------------------------------------------------------------------------------------
             // Copyright (c) 2016 - 2018
-            //-------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------------------------
             */
             body {
                 margin: 0;
@@ -30,6 +32,12 @@
             }
             h3 {
               font-size: 24px;
+            }
+            h4 {
+                margin-left: -16px;
+                border-top: 1px solid #999;
+                border-bottom: 1px solid #999;
+                opacity: 0.5;
             }
             hr {
               margin-top: 24px;
@@ -60,11 +68,13 @@
               margin: 0;
             }
         </style>
+
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
         <link href="http://whitworth.de/sourcecode-css/css/sc-style.min.css" rel="stylesheet" />
         <link href="http://whitworth.de/ReadMore/css/advanced-read-more.min.css" rel="stylesheet" />
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="js/advanced-progress-tracker.min.js"></script>
+        <script src="js/advanced-progress-tracker.js"></script>
         <script src="http://whitworth.de/ReadMore/js/advanced-read-more.min.js"></script>
         <script>
             $('body').readMore({
@@ -76,13 +86,14 @@
             });
             $('body').progressTracker({
                 horStops: false,
-                horTitles: true,
                 horMobileOnly: true,
                 verTracker: true,
                 verPosition: 'right',
+                verColor: 'blue',
                 trackAllHeadlines: true,
                 addFinalStop: true,
                 finalStopTitle: 'Miscellaneous, Questions & Feedback',
+                skipHeadlines: false,
                 scrollSpeed: 1200
             });
         </script>
@@ -105,20 +116,21 @@
                 <div class="spt-trackThis">
                     <h3>Options</h3>
     <!-- New! in current version -->
+                    <h4>New in current version</h4>
                     <p><b>horSplitSections</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the horizontal tracker will be split up into an individual tracker for each tracked section.</p>
                     <p class="smaller">This option is useful for creating an interactive table of contents but will be automatically disabled on small devices for obvious reasons.<br />
-                    It is advised to use this option in combination with <b>horTitles: true</b> and <b>horOnlyActiveTitle: false</b>.</p>
+                    It is advised to use this option in combination with <b>horTitles: true</b> and <b>horOnlyActiveTitle: false</b> but it is also possible to just show the progress of each section without titles or to have the progress of inactive sections be blank/without a title.</p>
                     <hr />
                     <p><b>horEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the gaps between all stops on the horizontal tracker will be equally wide.</p>
-                    <p class="smaller">Naturally, the progress bar will fill at a different pace for each section with this option activated, so "jumps" may occur in shorter sections, which may not look pleasant to all viewers.</p>
+                    <p class="smaller">Naturally, the progress bar cannot represent the percental progress of each section with this setting activated (since their lengths may differ but the sections are equally long). For that reason, each section will be represented by an opaque rectangle that can be modified via the stylesheet.</p>
                     <hr />
                     <p><b>verEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the gaps between all stops on the vertical tracker will be equally high.</p>
-                    <p class="smaller">Naturally, the progress bar will fill at a different pace for each section with this option activated, so "jumps" may occur in shorter sections, which may not look pleasant to all viewers.</p>
-                    <hr />
+                    <p class="smaller">Naturally, the progress bar cannot represent the percental progress of each section with this setting activated (since their lengths may differ but the sections are equally long). For that reason, each section will be represented by an opaque rectangle that can be modified via the stylesheet.</p>
     <!-- Horizontal tracker -->
+                    <h4>Options for the horizontal tracker only</h4>
                     <p><b>horTracker</b> - <i>default: <b>true</b></i><br />
                     Displays a <i>horizontal</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
@@ -132,7 +144,7 @@
                             <i><b>'bottom'</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).
                         </li>
                         <li>
-                            <i><b>false</b></i> - Creates the tracker at the end of the site in a fixed container (default behavior).
+                            <i><b>false</b></i> - Creates the tracker at the end of the site's layout in a fixed container (default behavior).
                         </li>
                     </ul>
                     <p class="smaller">¹If you use this setting, you should make sure your header is set to position: fixed.</p>
@@ -152,7 +164,7 @@
                     Setting this to false allows you to stretch the <i>horizontal</i> tracker to the width of the viewport.<br />This is the default behavior on small screens (and will thus be ignored if <b>horMobileOnly</b> is set to true)</p>
                     <hr />
                     <p><b>horStyle</b> - <i>default: <b>'fill'</b></i><br />
-                    This option enables you to change the way the <i>horizontal</i> tracker looks. There are two options (more will be added):</p>
+                    This option enables you to change the way the <i>horizontal</i> tracker looks. There are two options (more may be added later):</p>
                     <ul>
                         <li>
                             <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
@@ -196,7 +208,7 @@
                     <p><b>horNumbering</b> - <i>default: <b>true</b></i><br />
                     If set to true the bullets of the <i>horizontal</i> tracker will be numbered. Naturally this only works while <b>horStops</b> is true.</p>
                     <hr />
-                    <p><b>horTitles</b> - <i>default: <b>false</b></i><br />
+                    <p><b>horTitles</b> - <i>default: <b>true</b></i><br />
                     Adds the text of each section's headline (h2) to the <i>horizontal</i> progress tracker if set to true. The way these titles are displayed can be further adjusted with additional settings (see below).</p>
                     <hr />
                     <p><b>horTitlesOffset</b> - <i>default: <b>'bottom'</b></i><br />
@@ -216,8 +228,8 @@
                     <hr />
                     <p><b>horOnlyActiveTitle</b> - <i>default: <b>true</b></i><br />
                     If set to true, only the headline of the current setion will be shown at all times, instead of each headline. This is necessary if the sections are too short, because if the tracker's stops are too closely together, the titles will overlap. This option is automatically forced on small screens.</p>
-                    <hr />
     <!-- Vertical tracker -->
+                    <h4>Options for the vertical tracker only</h4>
                     <p><b>verTracker</b> - <i>default: <b>false</b></i><br />
                     Displays a <i>vertical</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
@@ -233,7 +245,7 @@
                     </ul>
                     <hr />
                     <p><b>verStyle</b> - <i>default: <b>'beam'</b></i><br />
-                    This option enables you to change the way the <i>vertical</i> tracker looks. There are two options (more will be added):</p>
+                    This option enables you to change the way the <i>vertical</i> tracker looks. There are two options (more may be added later):</p>
                     <ul>
                         <li>
                             <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
@@ -277,8 +289,8 @@
                     <hr />
                     <p><b>verTitles</b> - <i>default: <b>true</b></i><br />
                     Adds the text of each section's headline (h2) to the <i>vertical</i> progress tracker if set to true. They will be displayed to the right of the progress bar and the bullets (if <b>verStops</b> is true) per default. This can be changed via the stylesheet.</p>
-                    <hr />
     <!-- General -->
+                    <h4>General settings (affects all trackers)</h4>
                     <p><b>mobileThreshold</b> - <i>default: <b>1300</b></i><br />
                     Treats the device as <i>small screen</i> if the viewport width is below or equal to this value, i.e. on default settings, if the viewport is at least 1301px wide, the device is treated as <i>large screen</i>, otherwise as <i>small screen</i>.<br />
                     This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
@@ -300,7 +312,7 @@
                     <p><b>linking</b> - <i>default: <b>true</b></i><br />
                     If set to true, clicking/tapping on either a bullet or a title will scroll to the top of the corresponding section. The behavior of this can be further customized with additional settings (see below).</p>
                     <hr />
-                    <p><b>skipHeadlines</b> - <i>default: <b>false</b></i><br />
+                    <p><b>skipHeadlines</b> - <i>default: <b>true</b></i><br />
                     The default behavior for <b>linking</b> is to scroll to the very top of a section. If this option is set to true, the headline of that section will be skipped when a bullet/title is clicked/tapped. This is useful if <b>horOnlyActiveTitle</b> is active, so that the title doesn't show twice.<br />
                     On small screens this option is automatically applied if <b>horTitles</b> is active.</p>
                     <hr />
@@ -318,6 +330,7 @@
 <!-- Setup -->
                 <div class="spt-trackThis">
                     <h3>Setup</h3>
+                    <h4>Basic setup</h4>
                     <p>1. Include the advanced-progress-tracker.min.css in the head</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;link</span>
@@ -346,18 +359,20 @@
                         <div class="javascript">
                             &nbsp;&nbsp;&nbsp;&nbsp;$(<span class="jsQuote">'body'</span>).progressTracker({<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horStops: <span class="jsConst">false</span>,<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horTitles: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horMobileOnly: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verTracker: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verPosition: <span class="jsQuote">'right'</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verColor: <span class="jsQuote">'blue'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trackAllHeadlines: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addFinalStop: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Credits, Questions & Feedback'</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skipHeadlines: <span class="jsConst">false</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrollSpeed: <span class="jsVal">1200</span><br />
                             &nbsp;&nbsp;&nbsp;&nbsp;});
                         </div>
                         <span class="htmlTag">&lt;/script&gt;</span>
                     </div>
+                    <h4>Advanced setup</h4>
                     <p>If you want the Scroll Progress Tracker to track a certain area only (instead of the whole page), you have to define a container with the id "TrackScrollProgress".</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;div</span>
@@ -657,6 +672,8 @@
                     <br /><i>(see last point under "Setup")</i>.</p>
                     <hr />
                     <p>I'd also like to address my sincere thanks to <a href="http://www.jsclasses.org/">JSClasses</a> user Herb Walsh for asking lots and lots and <b>lots</b> of questions and thus pointing out some flaws in the plugin and inspiring me to write the "Tips &amp; Tricks" section.</p>
+                    <hr />
+                    <p>Additionally I want to extend my sincere thanks to [insert name] for inspiring me to add the <i>Equal Spacing</i> options.</p>
                 </div>
                 <hr />
 <!-- Miscellaneous -->

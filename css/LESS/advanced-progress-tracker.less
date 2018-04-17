@@ -57,14 +57,14 @@
 
 @import '_spt-settings.less';
 
-/* GENERAL */
+/* GENERAL --> */
 .spt-centerAll {
     margin: 0 auto;
     max-width: 900px;
 }
 .spt-trackThis {
     hr {
-        margin-top: 0px;
+        margin-top: 0;
         border-top: 1px solid fade(@color-foreground, 7%);
         border-bottom: none;
     }
@@ -81,9 +81,10 @@
 .spt-mobileOnly {
     display: none !important;
 }
-/* GENERAL end */
+/* <-- GENERAL */
 
-/* HORIZONTAL SCROLL PROGRESS TRACKER */
+/* HORIZONTAL SCROLL PROGRESS TRACKER --> */
+/* regular layout --> */
 .spt-horizontalScrollProgress {
     padding-top: 29px;
     height: 31px;
@@ -130,13 +131,42 @@
         .spt-scrollProgressBar {
             display: block;
             position: absolute;
-            width: 0%;
+            width: 0;
             height: inherit;
             .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
         }
     }
 }
-/* HORIZONTAL SCROLL PROGRESS TRACKER end */
+/* <-- regular layout */
+
+/* split sections --> */
+.spt-horizontalScrollProgress.spt-splitSections {
+    position: fixed;
+    width: 400px;
+    top: 0;
+    left: 0;
+    .spt-sectionProgress {
+        display: block;
+        position: relative;
+        border-top: 1px solid fade(@color-foreground, 20%);
+        width: 100%;
+        height: 28px;
+        background-color: fade(@color-foreground, 15%);
+        overflow: hidden;
+        &:last-of-type {
+            border-bottom: 1px solid fade(@color-foreground, 20%);
+        }
+        .spt-sectionProgressBar {
+            display: block;
+            position: absolute;
+            width: 0;
+            height: inherit;
+            .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+        }
+    }
+}
+/* <-- split sections */
+/* <-- HORIZONTAL SCROLL PROGRESS TRACKER */
 
 /* VERTICAL SCROLL PROGRESS TRACKER */
 .spt-verticalScrollProgress {

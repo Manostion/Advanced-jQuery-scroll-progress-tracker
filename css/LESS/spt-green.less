@@ -4,14 +4,14 @@
     background: -moz-linear-gradient(@origin, @color1 @1stStop, @color2 @2ndStop); /* FF3.6-15 */
     background: -webkit-linear-gradient(@origin, @color1 @1stStop, @color2 @2ndStop); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(@direction, @color1 @1stStop, @color2 @2ndStop); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color1', endColorstr='@color2',GradientType=@type ); /* IE6-8 */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColor=@color1, endColor=@color2,GradientType=@type ); /* IE6-8 */
 }
 .spt-gradient3Stops (@origin: left, @direction: to right, @type: 1, @1stStop: 0%, @2ndStop: calc(~'100% - 10px'), @3rdStop: 100%, @color2: darken(@color-green, 20%), @color1: @color-green, @color3: #000000) {
     background: @color1; /* Old browsers */
     background: -moz-linear-gradient(@origin, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* FF3.6-15 */
     background: -webkit-linear-gradient(@origin, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(@direction, @color2 @1stStop, @color1 @2ndStop, @color3 @3rdStop); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color2', endColorstr='@color3',GradientType=@type ); /* IE6-8 */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColor=@color2, endColor=@color3,GradientType=@type ); /* IE6-8 */
 }
 
 .spt-green {
