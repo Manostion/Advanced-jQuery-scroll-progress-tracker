@@ -68,7 +68,7 @@
 //                  accidentally intersect the content
 // 2016-09-08 DW    fixed the calculations of the head variable and redid the whole linking functionality
 //----------------------------------------------------------------------------------------------------------------------
-// Version 1.3a
+// Version 1.3
 //----------------------------------------------------------------------------------------------------------------------
 // 2018-02-14 DW    cleaned up the script's comment section as well as some of it's functions;
 //                  added several new options (without actual functionality): "horEqualSpacing", "verEqualSpacing",
