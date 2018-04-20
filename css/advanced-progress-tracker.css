@@ -1,58 +1,57 @@
 /*
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Scroll Progress Tracker Stylesheet
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2016-08-17
+// Changed          2018-04-20
 // Authors          David Whitworth | David@Whitworth.de
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Version 1.0
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // 2016-08-10       Created
 // 2016-08-12 DW    styled the trackers' final stops
 // 2016-08-13 DW    added the class for the mobile only option;
 //                  added styles for too long headlines on mobile devices
 // 2016-08-15 DW    changed various style-data;
 //                  added styling for sourcecode blocks
-// 2016-08-16 DW    adjusted styling to better fit the new options horTracker
-//                  and verTracker;
-//                  added styling for the options horPosition and verPosition;
-//                  added the hack font to sourcecode blocks;
-//                  included the "smallDevice" class to bind the responsive webdesign
-//                  to the plugin's "mobileThreshold" setting;
-//                  moved the titles of the vertical tracker closer to the bullets,
-//                  then spaced with padding (this creates seamless links);
-//                  added the "smaller" and "larger" classes to style smaller and
-//                  larger text
-// 2016-08-17 DW    added styles for .bold, .italic and .pullUp
-//-------------------------------------------------------------------------------------
+// 2016-08-16 DW    adjusted styling to better fit the new options "horTracker" and "verTracker";
+//                  added styling for the options "horPosition" and "verPosition";
+//                  added the "hack" font to sourcecode blocks;
+//                  included the "smallDevice" class to bind the responsive web-design to the plugin's "mobileThreshold"
+//                  setting;
+//                  moved the titles of the vertical tracker closer to the bullets, then spaced with padding (this
+//                  creates seamless links);
+//                  added the "smaller" and "larger" classes to style smaller and larger text
+// 2016-08-17 DW    added styles for ".bold", ".italic" and ".pullUp"
+//----------------------------------------------------------------------------------------------------------------------
 // Version 1.1
-//-------------------------------------------------------------------------------------
-// 2016-08-17 DW    added the "spt-fixed" class to the horizontal tracker (for use with
-//                  the option horInHeader: false);
+//----------------------------------------------------------------------------------------------------------------------
+// 2016-08-17 DW    added the "spt-fixed" class to the horizontal tracker (for use with "horInHeader: false");
 //                  added the "historyVersion" class;
 //                  increased the font-size of h1-headlines
 // 2016-08-19 DW    Added the "fill" class to the trackers and styled them accordingly;
-//                  adjusted the dimensions of .finalStopCircle to make it symmetrical
-// 2016-08-20 DW    Adjusted the max-width of .centerAll to prevent collisions with the
-//                  vertical tracker;
-//                  adjusted the position of the stopd for the horizontal tracker with
-//                  the "fill" style
-// 2016-08-22 DW    changed the names of all classes and ids to prevent possible
-//                  conflicts with other plugins;
+//                  adjusted the dimensions of ".finalStopCircle" to make it symmetrical
+// 2016-08-20 DW    Adjusted the max-width of .centerAll to prevent collisions with the vertical tracker;
+//                  adjusted the position of the bullets for the horizontal tracker with the "fill" style
+// 2016-08-22 DW    changed the names of all classes and ids to prevent possible conflicts with other plugins;
 //                  removed all plugin unrelated styles from the stylesheet
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Version 1.2
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // 2016-08-23 DW    removed the styling of the body tag from the stylesheet;
-//                  adjusted the positioning of the vertical tracker in relataion to
-//                  the mobileThreshold and the viewport width;
-//                  made some necessary adjustments for the trackViewportOnly option;
-//                  added the four default color-settings for horColor/verColor
+//                  adjusted the positioning of the vertical tracker in relation to
+//                  the "mobileThreshold" and the viewport width;
+//                  made some necessary adjustments for the "trackViewportOnly" option;
+//                  added the four default color-settings for "horColor"/"verColor"
 // 2016-09-05 DW    fixed the border-radius for the stops
-//-------------------------------------------------------------------------------------
-// Copyright (c) 2016
-//-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+// Version 1.3
+//----------------------------------------------------------------------------------------------------------------------
+// 2018-04-20 DW    renamed all classes with the "vert" prefix to now start with "ver" instead Version 1.3;
+//                  cleaned up this comment section
+//----------------------------------------------------------------------------------------------------------------------
+// Copyright (c) 2016 - 2018
+//----------------------------------------------------------------------------------------------------------------------
 */
 /* GENERAL --> */
 .spt-centerAll {

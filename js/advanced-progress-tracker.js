@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2018-04-19
+// Changed          2018-04-20
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //----------------------------------------------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ $.fn.progressTracker = function(options) {
          *  
          * default: ***false***
          */
-        horSplitSections: true,
+        horSplitSections: false,
         /**
          * Positions the **horizontal** tracker on either the left or the right side of the content
          * --> this **ONLY** affects horizontal trackers with the 'horSplitSections' layout and will be ignored by the regular layout. It is thus superfluous if 'horSplitSections' isn't used
@@ -366,7 +366,7 @@ $.fn.progressTracker = function(options) {
          */
         trackViewportOnly: false
         // <-- General
-    },  options);
+    }, options);
     // <-- Default options
 
     let currentVersion = "1.3a",
