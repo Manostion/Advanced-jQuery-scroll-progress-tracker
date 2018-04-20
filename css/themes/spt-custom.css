@@ -1,12 +1,12 @@
 /* replace all instances of '#008c9d' (darker gradient color) and '#04e4ff' (main color) with your custom color using search and replace */
 .spt-custom .spt-scrollStopContainer .spt-stopCircle.spt-reached,
-.spt-custom .spt-vertScrollStopContainer .spt-stopCircle.spt-reached,
+.spt-custom .spt-verScrollStopContainer .spt-stopCircle.spt-reached,
 .spt-custom .spt-scrollStopContainer .spt-finalStopCircle.spt-reached,
-.spt-custom .spt-vertScrollStopContainer .spt-finalStopCircle.spt-reached,
+.spt-custom .spt-verScrollStopContainer .spt-finalStopCircle.spt-reached,
 .spt-custom .spt-scrollStopContainer .spt-stopCircle.spt-hover,
-.spt-custom .spt-vertScrollStopContainer .spt-stopCircle.spt-hover,
+.spt-custom .spt-verScrollStopContainer .spt-stopCircle.spt-hover,
 .spt-custom .spt-scrollStopContainer .spt-finalStopCircle.spt-hover,
-.spt-custom .spt-vertScrollStopContainer .spt-finalStopCircle.spt-hover {
+.spt-custom .spt-verScrollStopContainer .spt-finalStopCircle.spt-hover {
   border-color: #04e4ff;
 }
 .spt-horizontalScrollProgress.spt-custom .spt-scrollProgress {

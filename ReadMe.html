@@ -86,7 +86,7 @@
             });
             $('body').progressTracker({
                 horStops: false,
-                horMobileOnly: true,
+//                horMobileOnly: true,
                 verTracker: true,
                 verPosition: 'right',
                 verColor: 'blue',
@@ -121,6 +121,10 @@
                     If set to true, the horizontal tracker will be split up into an individual tracker for each tracked section.</p>
                     <p class="smaller">This option is useful for creating an interactive table of contents but will be automatically disabled on small devices for obvious reasons.<br />
                     It is advised to use this option in combination with <b>horTitles: true</b> and <b>horOnlyActiveTitle: false</b> but it is also possible to just show the progress of each section without titles or to have the progress of inactive sections be blank/without a title.</p>
+                    <hr />
+                    <p><b>horSide</b> - <i>default: <b>'left'</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
+                    This setting positions the horizontal Split Sections tracker (see above) on either the left or the right side of the content.</p>
+                    <p class="smaller">Since this only affects horizontal trackers with the <b>horSplitSections</b> layout it will be ignored by the regular layout. For that reason you can leave it as it is if <b>horSplitSections</b> isn't used.</p>
                     <hr />
                     <p><b>horEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the gaps between all stops on the horizontal tracker will be equally wide.</p>
@@ -227,7 +231,7 @@
                     </ul>
                     <hr />
                     <p><b>horOnlyActiveTitle</b> - <i>default: <b>true</b></i><br />
-                    If set to true, only the headline of the current setion will be shown at all times, instead of each headline. This is necessary if the sections are too short, because if the tracker's stops are too closely together, the titles will overlap. This option is automatically forced on small screens.</p>
+                    If set to true, only the headline of the current section will be shown at all times, instead of each headline. This is necessary if the sections are too short, because if the tracker's stops are too closely together, the titles will overlap. This option is automatically forced on small screens.</p>
     <!-- Vertical tracker -->
                     <h4>Options for the vertical tracker only</h4>
                     <p><b>verTracker</b> - <i>default: <b>false</b></i><br />

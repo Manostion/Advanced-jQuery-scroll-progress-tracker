@@ -17,7 +17,7 @@
 
 .spt-custom {
     .spt-scrollStopContainer,
-    .spt-vertScrollStopContainer {
+    .spt-verScrollStopContainer {
         .spt-stopCircle,
         .spt-finalStopCircle {
             &.spt-reached,
@@ -43,6 +43,15 @@
             color: @color-custom;
             .spt-scrollProgressBar {
                 .spt-gradient3Stops ();
+            }
+        }
+    }
+}
+.spt-splitSections {
+    &.spt-custom {
+        .spt-sectionProgress {
+            .spt-sectionProgressBar {
+                .spt-gradient2Stops ();
             }
         }
     }

@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2018-04-17
+// Changed          2018-04-19
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //----------------------------------------------------------------------------------------------------------------------
@@ -74,6 +74,16 @@
 //                  added several new options (without actual functionality): "horEqualSpacing", "verEqualSpacing",
 //                  "horSplitSections"
 // 2018-04-17 DW    changed the default values for "horTitles" and "skipHeadlines" (now true)
+// 2018-04-18 DW    implemented the basic layout for "horSplitSections"
+// 2018-04-19 DW    added the "horSide" option to support alternate placement of the "horSplitSections" tracker;
+//                  cleaned up the whole section of the code that is used for generating the layout of the horizontal
+//                  tracker(s), so that all cross-dependencies between regular horizontal trackers and/or Split Section
+//                  horizontal trackers work as intended while at the same time readability gets maintained;
+//                  added the actual functionality for each progress bar for "horSplitSections";
+//                  added new option "horSide" to give users the ability to position the "horSplitSections" tracker;
+// 2018-04-20 DW    turned the comments for each of the script's settings into actual JSDoc documentation comments;
+//                  added the functionality of "horSplitSections" + "trackViewportOnly"
+//                  ToDo: implement section titles in the "horSplitSections" tracker -> account for title settings!
 //----------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2016 - 2018
 //----------------------------------------------------------------------------------------------------------------------
@@ -82,71 +92,281 @@ $.fn.progressTracker = function(options) {
     // Default Options -->
     let settings = $.extend({
         // HORIZONTAL tracker -->
-        horTracker: true,               // displays a HORIZONTAL scroll progress tracker
-        horInHeader: false,             // creates the HORIZONTAL tracker within an existing <header> if true
-                                        // ---> naturally, you need to have a header in your markup for this to work; if this is active, then horPosition will be ignored
-        horPosition: 'top',             // creates the HORIZONTAL tracker at the top of the page if set to 'top', at the bottom if set to 'bottom'
-        horCenter: true,                // makes the HORIZONTAL tracker span the full width of the viewport if set to false
-        horStyle: 'fill',               // Sets the style of the HORIZONTAL tracker
-                                        // ---> 'beam', 'fill'
-        horColor: 'red',                // Sets the color of the default gradient for the HORIZONTAL tracker
-                                        // ---> 'red', 'blue', 'green', 'orange', 'silver'
-        horMobile: true,                // displays the HORIZONTAL tracker also on small screen devices if true
-        horMobileOnly: false,           // hides the HORIZONTAL tracker on large screens if true
-                                        // ---> useful if you want to use the VERTICAL tracker for large devices and the HORIZONTAL tracker for small screen; overrides 'horMobile: false'
-        horStops: true,                 // adds stops for each section to the HORIZONTAL tracker if true
-        horNumbering: true,             // adds numbers to the stops of the HORIZONTAL TRACKER if true
-                                        // ---> only used if horStops is true
-        horEqualSpacing: false,         // makes the gaps between all of the stops equal on the HORIZONTAL tracker if true
-                                        // ---> only used if horStops is true
-        horSplitSections: true,        // creates individual trackers for each tracked section (instead of one tracker for the whole tracked content)
-                                        // ---> should be used with 'horTitles: true' and 'horOnlyActiveTitle: false'; this is always set to 'false' on small devices
-        horTitles: true,                // adds the headline (h3) of each section to the HORIZONTAL tracker if true
-        horTitlesOffset: 'bottom',      // moves the titles of the horizontal tracker off the progress bar if set to 'top' or 'bottom' (they overlay the bar if false)
-                                        // ---> only used if horTitles is true; this is automatically set to 'bottom' on small screen devices if set to false
-        horOnlyActiveTitle: true,       // displays only the headline of the currently active section in order to deal with space limitations if true
-                                        // ---> only used if horTitles is true; this is automatically forced on small screen devices
+        /***
+         * Displays a **horizontal** scroll progress tracker
+         *  
+         * default: ***true***
+         */
+        horTracker: true,
+        /**
+         * Creates the **horizontal** tracker within an existing <header> if true
+         * --> naturally, you need to have a header in your markup for this to work
+         * --> if this is active, then horPosition will be ignored
+         *  
+         * default: ***false***
+         */
+        horInHeader: false,
+        /**
+         * Creates the **horizontal** tracker at the top of the page if set to 'top' and at the bottom if set to 'bottom'
+         *  
+         * default: ***'top'***
+         */
+        horPosition: 'top',
+        /**
+         * Makes the **horizontal** tracker span the full width of the viewport if set to false
+         *  
+         * default: ***true***
+         */
+        horCenter: true,
+        /**
+         * Sets the style of the **horizontal** tracker
+         * --> possible options are:
+         *       • 'beam'
+         *       • 'fill'
+         *  
+         * default: ***'fill'***
+         */
+        horStyle: 'fill',
+        /**
+         * Sets the color of the default gradient for the **horizontal** tracker
+         * --> possible options are:
+         *       • 'red'
+         *       • 'blue'
+         *       • 'green'
+         *       • 'orange'
+         *  
+         * default: ***'red'***
+         */
+        horColor: 'red',
+        /**
+         * Displays the **horizontal** tracker also on small screen devices if true
+         *  
+         * default: ***true***
+         */
+        horMobile: true,
+        /**
+         * Hides the **horizontal** tracker on large screens if true
+         * --> this can be useful if you want to use the **vertical** tracker for large screen devices and the **horizontal** tracker for mobile devices
+         * --> overrides 'horMobile: false'
+         *  
+         * default: ***false***
+         */
+        horMobileOnly: false,
+        /**
+         * Adds bullets for each section to the **horizontal** tracker if true
+         *  
+         * default: ***true***
+         */
+        horStops: true,
+        /**
+         * Adds numbers to the bullets of the **horizontal** tracker if true
+         * --> this is ignored unless horStops is also true
+         *  
+         * default: ***true***
+         */
+        horNumbering: true,
+        /**
+         * Makes the gaps between all of the bullets equal on the **horizontal** tracker if true
+         * --> this is ignored unless horStops is also true
+         *  
+         * default: ***false***
+         */
+        horEqualSpacing: false,
+        /**
+         * Creates individual trackers for each tracked section (instead of one tracker for the whole tracked content)
+         * --> this is recommended to be used with 'horTitles: true' and 'horOnlyActiveTitle: false'
+         * --> this is always set to 'false' on small devices
+         *  
+         * default: ***false***
+         */
+        horSplitSections: true,
+        /**
+         * Positions the **horizontal** tracker on either the left or the right side of the content
+         * --> this **ONLY** affects horizontal trackers with the 'horSplitSections' layout and will be ignored by the regular layout. It is thus superfluous if 'horSplitSections' isn't used
+         *  
+         * default: ***'left'***
+         */
+        horSide: 'left',
+        /**
+         * Adds the first headline (h3 by default) of each section to the **horizontal** tracker if true
+         *  
+         * default: ***true***
+         */
+        horTitles: true,
+        /**
+         * Moves the titles of the **horizontal** tracker off the progress bar if set to 'top' or 'bottom' (they overlay the bar if false)
+         * --> this is ignored unless horTitles is also true
+         * --> on mobile devices only 'top' or 'bottom' are possible for this. false will automatically be set to 'bottom' on small screen devices
+         * --> possible options are:
+         *       • 'top'
+         *       • 'bottom'
+         *       • false
+         *  
+         * default: ***'bottom'***
+         */
+        horTitlesOffset: 'bottom',
+        /**
+         * If this is set to true the **horizontal** tracker will only display the headline of the currently active section (i.e. the section the user is currently reading) in order to deal with space limitations
+         * --> this is ignored unless horTitles is also true
+         * --> this setting is automatically forced on small screen devices (mobileThreshold) if horTitles is true
+         *  
+         * default: ***true***
+         */
+        horOnlyActiveTitle: true,
         // <-- HORIZONTAL tracker
 
         // VERTICAL tracker -->
-        verTracker: false,              // displays a VERTICAL scroll progress tracker
-        verPosition: 'left',            // creates the VERTICAL tracker on the left side of the page if set to 'left', at the right side if set to 'right'
-        verStyle: 'beam',               // Sets the style of the VERTICAL tracker
-                                        // ---> 'beam', 'fill'
-        verColor: 'red',                // Sets the color of the default gradient for the VERTICAL tracker
-                                        // ---> 'red', 'blue', 'green', 'orange', 'silver'
-        verMobile: false,               // displays the VERTICAL tracker also on small screen devices if true
-        verMobileOnly: false,           // hides the VERTICAL tracker on large screens if true;
-                                        // ---> the counterpart for horMobileOnly; only here for completeness, I don't see a reason to actually use this ;)
-        verStops: true,                 // adds stops for each section to the VERTICAL tracker if true
-        verNumbering: false,            // adds numbers to the stops of the VERTICAL tracker if true
-                                        // ---> only used if verStops is true
-        verEqualSpacing: false,         // makes the gaps between all of the stops equal on the VERTICAL tracker if true
-                                        // ---> only used if verStops is true
-        verTitles: true,                // adds the headline (h3) of each section to the VERTICAL tracker if true
+        /***
+         * Displays a **vertical** scroll progress tracker
+         *  
+         * default: ***false***
+         */
+        verTracker: false,
+        /**
+         * Creates the **vertical** tracker left of your content if set to 'left' and right of it if set to 'right'
+         *  
+         * default: ***'left'***
+         */
+        verPosition: 'left',
+        /**
+         * Sets the style of the **vertical** tracker
+         * --> possible options are:
+         *       • 'beam'
+         *       • 'fill'
+         *  
+         * default: ***'beam'***
+         */
+        verStyle: 'beam',
+        /**
+         * Sets the color of the default gradient for the **vertical** tracker
+         * --> possible options are:
+         *       • 'red'
+         *       • 'blue'
+         *       • 'green'
+         *       • 'orange'
+         *  
+         * default: ***'red'***
+         */
+        verColor: 'red',
+        /**
+         * Displays the **vertical** tracker also on small screen devices if true
+         *  
+         * default: ***false***
+         */
+        verMobile: false,
+        /**
+         * Hides the **vertical** tracker on large screens if true
+         * --> this is the counterpart for horMobileOnly and only here for completeness sake. I don't see a reason to actually use this ;)
+         *  
+         * default: ***false***
+         */
+        verMobileOnly: false,
+        /**
+         * Adds bullets for each section to the **vertical** tracker if true
+         *  
+         * default: ***true***
+         */
+        verStops: true,
+        /**
+         * Adds numbers to the bullets of the **vertical** tracker if true
+         * --> this is ignored unless verStops is also true
+         *  
+         * default: ***false***
+         */
+        verNumbering: false,
+        /**
+         * Makes the gaps between all of the bullets equal on the **vertical** tracker if true
+         * --> this is ignored unless verStops is also true
+         *  
+         * default: ***false***
+         */
+        verEqualSpacing: false,
+        /**
+         * Adds the first headline (h3 by default) of each section to the **horizontal** tracker if true
+         *  
+         * default: ***true***
+         */
+        verTitles: true,
         // <-- VERTICAL tracker
 
         // General -->
-        mobileThreshold: 1300,          // sets the viewport width below which a device is considered 'small screen' for the rest of the options
-        trackAllHeadlines: false,       // if set to true, all headlines (h1, h2, h3 etc.) within .spt-trackThis will be converted to tracker titles (if horTitles/verTitles is also true), if set to false only h3-headlines will be tracked
-        addFinalStop: false,            // adds a final stop to the very end of the progress tracker(s) if true
-                                        // ---> only used if horStops and/or verStops is true; works with horNumbering/verNumbering
-        finalStopTitle: '',             // adds a title to the final stop at the end of the progress tracker(s) if not ''
-                                        // ---> only used if addFinalStop and horTitles/verTitles are true; works without addFinalStop only on the HORIZONTAL tracker and only if horOnlyActiveTitle is true
-        hovering: true,                 // adds a hover effect to the stops if true
-                                        // ---> only used if horStops/verStops and/or horTitles/verTitles is true
-        linking: true,                  // clicking on a stop animates the page to that section if true
-                                        // ---> only used if horStops/verStops and/or horTitles/verTitles is true
-        skipHeadlines: true,            // clicking on a stop will scroll to right after the headline if true
-                                        // ---> only used if horStops/verStops and/or horTitles/verTitles and linking is true; this setting is automatically applied on small screen devices if horTitles is set to true
-        scrollSpeed: 800,               // sets the duration of the scrolling animation in milliseconds; set to 0 to scroll w/o animation
-                                        // ---> only used if horStops/verStops and/or horTitles/verTitles and linking is true
-        trackViewport: true,            // if true the tracker(s) show the scroll position based on the BOTTOM of the viewport, if false the TOP of the viewport serves as the basis
-                                        // ---> if the tracked area or even it's last section isn't at least as high as the viewport, then the tracker(s) won't reach 100% if this is set to false
-        trackViewportOnly: false        // turns section stops and titles inactive again, when the corresponding section leaves the viewport
-                                        // ---> this setting is irrelevant for the horizontal tracker on large screen devices if horSplitSections is active
+        /**
+         * This setting controls at which viewport width a device/screen is considered a "small screen" by this plugin's options
+         *  
+         * default: ***1300***
+         */
+        mobileThreshold: 1300,
+        /**
+         * If this is true any type of headline will be viable to serve as the section's title, instead of just h3-headlines. Of course this doesn't change the fact that only the first headline within a section will be used
+         *  
+         * default: ***false***
+         */
+        trackAllHeadlines: false,
+        /**
+         * This adds a final bullet to the very end of any active progress trackers if true
+         * --> for this setting to take effect, at least one of horStops or verStops must be true as well
+         * --> this setting is compatible with horNumbering/verNumbering, i.e. the final bullet will also be numbered correctly
+         *  
+         * default: ***false***
+         */
+        addFinalStop: false,
+        /**
+         * Any string assigned to this will serve as the title for the additional/final bullet of the addFinalStop setting
+         * --> this is ignored unless either horTitles or verTitles are also true
+         * --> this is ignored on the **vertical** tracker and on the **horizontal** tracker without horOnlyActiveTitle unless addFinalStop is also true
+         *  
+         * default: ***''*** *(empty string)*
+         */
+        finalStopTitle: '',
+        /**
+         * Adds a hover effect to the bullets and titles if true
+         * --> this is ignored unless at least one of horStops, verStops, horTitles or verTitles is also true
+         *  
+         * default: ***true***
+         */
+        hovering: true,
+        /**
+         * This setting makes the trackers interactive, meaning that the page scrolls to the beginning of the corresponding section when the user clicks on a bullet or title
+         * --> this is ignored unless at least one of horStops, verStops, horTitles or verTitles is also true
+         *  
+         * default: ***true***
+         */
+        linking: true,
+        /**
+         * With this setting active the page will scroll past the section's headline and to the top of the rest of the section when the user clicks on a linked bullet or title
+         * --> this is ignored unless at least one of horStops, verStops, horTitles or verTitles AND linking are also true
+         * --> this setting is automatically forced on small screen devices (mobileThreshold) if horTitles is true
+         *  
+         * default: ***true***
+         */
+        skipHeadlines: true,
+        /**
+         * This setting controls the animation duration (in milliseconds) for the page scrolling that occurs when the user clicks on a linked bullet or title
+         * --> for immediate jumping to the sections without any animation, set this to 0
+         * --> this is ignored unless at least one of horStops, verStops, horTitles or verTitles AND linking are also true
+         *  
+         * default: ***800***
+         */
+        scrollSpeed: 800,
+        /**
+         * With this setting set to true, the trackers' progress bars as well as the 'active' state for the bullets and titles will be based on the **bottom** of the screen, effectively representing how much is already visible at the current scroll progress
+         * --> set this to false to instead track scroll content based on the **top** of the user's screen
+         * --> with this set to false there is always a chance that the trackers cannot reach 100%
+         * --> this happens whenever the tracked area or even the last section within it aren't at least as high as the viewport and there is now footer below it to compensate that
+         *  
+         * default: ***true***
+         */
+        trackViewport: true,
+        /**
+         * This setting effectively turns the trackers into something similar to a scrollbar, as it represents the height of your viewport as well as the scroll progress
+         * --> activating this also removes the 'active' state from any bullets and titles that leave the viewport area
+         * --> this is ignored by the horSplitSection tracker
+         *  
+         * default: ***false***
+         */
+        trackViewportOnly: false
         // <-- General
-    }, options);
+    },  options);
     // <-- Default options
 
     let currentVersion = "1.3a",
@@ -225,18 +445,29 @@ $.fn.progressTracker = function(options) {
         }
 
         headlineMargin = (trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight(true) - trackedArea.find('.spt-trackThis').children('.spt-sectionTitle:first').outerHeight()) / 2;
+
+        // include color-stylesheets if needed -->
+        if (settings.horColor === 'blue' || settings.verColor === 'blue') {
+            $('head').append('<link href="css/themes/spt-blue.min.css" rel="stylesheet" />');
+        }
+        if (settings.horColor === 'green' || settings.verColor === 'green') {
+            $('head').append('<link href="css/themes/spt-green.min.css" rel="stylesheet" />');
+        }
+        if (settings.horColor === 'orange' || settings.verColor === 'orange') {
+            $('head').append('<link href="css/themes/spt-orange.min.css" rel="stylesheet" />');
+        }
+        if (settings.horColor === 'custom' || settings.verColor === 'custom') {
+            $('head').append('<link href="css/themes/spt-custom.css" rel="stylesheet" />');
+        }
+        // <-- include color-stylesheets if needed
+
         // Generate tracker html structure -->
         if (settings.horTracker) {
-            if (settings.horSplitSections) {
-                $('body').append('<div class="spt-horizontalScrollProgress spt-splitSections"></div>');
-                let i = 0;
-                $('.spt-trackThis').each(function() {
-                    i ++;
-                    $('.spt-splitSections').append('<div class="spt-sectionProgress" id="SectionProgress' + i + '"><div class="spt-sectionProgressBar"></div></div>');
-                });
-            } else {
-                // Generate HORIZONTAL tracker IN HEADER -->
+            // HORIZONTAL tracker -->
+            if (settings.horMobile || settings.horMobileOnly || !settings.horSplitSections) {
+                // Regular layout -->
                 if (settings.horInHeader && $('header').length) {
+                    // Generate HORIZONTAL tracker IN HEADER -->
                     if (settings.horInHeader === 'bottom') {
                         $('header').append('<div class="spt-horizontalScrollProgress"></div>');
                     } else {
@@ -246,15 +477,17 @@ $.fn.progressTracker = function(options) {
                         $('.spt-horizontalScrollProgress').addClass('spt-mobileOnly');
                     }
                     head = $('header').outerHeight();
+                    // <-- Generate HORIZONTAL tracker IN HEADER
                 } else {
+                    // Generate HORIZONTAL tracker at the end of the site's BODY -->
                     $('body').append('<div class="spt-horizontalScrollProgress spt-fixed"></div>');
                     if (settings.horPosition === 'bottom') {
                         head = 0;
                     } else {
                         head = $('.spt-horizontalScrollProgress').outerHeight();
                     }
+                    // <-- Generate HORIZONTAL tracker at the end of the site's BODY
                 }
-                // <-- Generate HORIZONTAL tracker IN HEADER
 
                 if (!settings.trackViewportOnly && 'max' in document.createElement('progress')) {
                     // Generate html5 progress-tag if it is supported by the browser -->
@@ -273,80 +506,68 @@ $.fn.progressTracker = function(options) {
                         $('body').css('padding-top', $('.spt-horizontalScrollProgress').height());
                     }
                 }
-            }
-        }
-
-        // include color-stylesheets if needed -->
-        if (settings.horColor === 'blue' || settings.verColor === 'blue') {
-            $('head').append('<link href="css/themes/spt-blue.min.css" rel="stylesheet" />');
-        } else if (settings.horColor === 'green' || settings.verColor === 'green') {
-            $('head').append('<link href="css/themes/spt-green.min.css" rel="stylesheet" />');
-        } else if (settings.horColor === 'orange' || settings.verColor === 'orange') {
-            $('head').append('<link href="css/themes/spt-orange.min.css" rel="stylesheet" />');
-        } else if (settings.horColor === 'custom' || settings.verColor === 'custom') {
-            $('head').append('<link href="css/themes/spt-custom.css" rel="stylesheet" />');
-        }
-        // <-- include color-stylesheets if needed
-
-        // HORIZONTAL tracker -->
-        // regular layout -->
-        if (settings.horTracker && !settings.horSplitSections) {
-            if ($('.spt-scrollProgress').length) {
-                $('.spt-scrollProgress').attr('value', '0');
-            }
-            if (settings.horTitles) {
-                $('<div class="spt-scrollStopTitles"></div>').insertAfter(horizontalTracker);
-                $('.spt-scrollStopTitles').append('<div class="spt-stopTitle spt-onlyActive" style="font-weight: bold;"></div>');
-            } else {
-                horizontalTracker.addClass('spt-untitled');
-            }
-            if (settings.horStops) {
-                $('<div class="spt-scrollStopContainer"></div>').insertAfter(horizontalTracker);
-            }
-            if (settings.addFinalStop) {
-                $('.spt-scrollStopContainer').append('<div class="spt-finalStopCircle" title="' + settings.finalStopTitle + '"></div>');
-                if (!settings.horOnlyActiveTitle) {
-                    $('.spt-scrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
+                if ($('.spt-scrollProgress').length) {
+                    $('.spt-scrollProgress').attr('value', '0');
                 }
+                if (settings.horTitles) {
+                    $('<div class="spt-scrollStopTitles"></div>').insertAfter(horizontalTracker);
+                    $('.spt-scrollStopTitles').append('<div class="spt-stopTitle spt-onlyActive" style="font-weight: bold;"></div>');
+                } else {
+                    horizontalTracker.addClass('spt-untitled');
+                }
+                if (settings.horStops) {
+                    $('<div class="spt-scrollStopContainer"></div>').insertAfter(horizontalTracker);
+                }
+                if (settings.addFinalStop) {
+                    $('.spt-scrollStopContainer').append('<div class="spt-finalStopCircle" title="' + settings.finalStopTitle + '"></div>');
+                    if (!settings.horOnlyActiveTitle) {
+                        $('.spt-scrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
+                    }
+                }
+                if (!settings.horMobile) {
+                    $('.spt-horizontalScrollProgress').addClass('spt-desktopOnly');
+                }
+                if (settings.horMobileOnly) {
+                    $('.spt-horizontalScrollProgress').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
+                }
+                if (settings.horStyle === 'fill') {
+                    $('.spt-horizontalScrollProgress').addClass('spt-styleFill');
+                }
+
+                if (settings.horCenter) {
+                    horizontalTracker.addClass('spt-centerAll');
+                    $('.spt-scrollStopTitles').addClass('spt-centerAll');
+                    $('.spt-scrollStopContainer').addClass('spt-centerAll');
+
+                }
+                // <-- Regular layout
             }
-            if (!settings.horMobile) {
-                $('.spt-horizontalScrollProgress').addClass('spt-desktopOnly');
-            }
-            if (settings.horMobileOnly) {
-                $('.spt-horizontalScrollProgress').removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
-            }
-            if (settings.horStyle === 'fill') {
-                $('.spt-horizontalScrollProgress').addClass('spt-styleFill');
+            if (settings.horSplitSections && !settings.horMobileOnly) {
+                // Split Sections -->
+                $('.spt-horizontalScrollProgress').addClass('spt-mobileOnly');
+                $('body').append('<div class="spt-splitSections spt-desktopOnly"></div>');
+                let i = 0;
+                $('.spt-trackThis').each(function() {
+                    i ++;
+                    $('.spt-splitSections').append('<div class="spt-sectionProgress" id="SectionProgress' + i + '"><div class="spt-sectionProgressBar"></div></div>');
+                });
+                // <-- Split Sections
             }
 
             if (settings.horColor === 'blue') {
-                $('.spt-horizontalScrollProgress').addClass('spt-blue');
+                $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-blue');
             } else if (settings.horColor === 'green') {
-                $('.spt-horizontalScrollProgress').addClass('spt-green');
+                $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-green');
             } else if (settings.horColor === 'orange') {
-                $('.spt-horizontalScrollProgress').addClass('spt-orange');
+                $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-orange');
             } else if (settings.horColor === 'custom') {
-                $('.spt-horizontalScrollProgress').addClass('spt-custom');
+                $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-custom');
             }
-
-            if (settings.horCenter) {
-                horizontalTracker.addClass('spt-centerAll');
-                $('.spt-scrollStopTitles').addClass('spt-centerAll');
-                $('.spt-scrollStopContainer').addClass('spt-centerAll');
-
-            }
+            // <-- HORIZONTAL tracker
         }
-        // <-- regular layout
 
-        // split sections -->
-        if (settings.horTracker && settings.horSplitSections) {
-
-        }
-        // <-- split sections
-        // <-- HORIZONTAL tracker
-
-        // VERTICAL tracker -->
         if (settings.verTracker) {
+            // VERTICAL tracker -->
             $('body').append('<div class="spt-verticalScrollProgress"><div class="spt-verticalScrollProgressContainer"><div class="spt-verticalScrollProgressBar"></div></div></div>');
             if (settings.verPosition === 'right') {
                 $('.spt-verticalScrollProgress').addClass('spt-verRight');
@@ -360,16 +581,16 @@ $.fn.progressTracker = function(options) {
                 verticalTracker.removeClass('spt-desktopOnly').addClass('spt-mobileOnly');
             }
             if (settings.verStops) {
-                verticalTracker.append('<div class="spt-vertScrollStopContainer"></div>');
+                verticalTracker.append('<div class="spt-verScrollStopContainer"></div>');
             }
             if (settings.verTitles) {
-                verticalTracker.append('<div class="spt-vertScrollStopTitles"></div>');
+                verticalTracker.append('<div class="spt-verScrollStopTitles"></div>');
             } else {
                 verticalTracker.addClass('spt-untitled');
             }
             if (settings.addFinalStop) {
-                $('.spt-vertScrollStopContainer').append('<div class="spt-finalStopCircle"></div>');
-                $('.spt-vertScrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
+                $('.spt-verScrollStopContainer').append('<div class="spt-finalStopCircle"></div>');
+                $('.spt-verScrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
             }
             if (settings.verStyle === 'fill') {
                 $('.spt-verticalScrollProgress').addClass('spt-styleFill');
@@ -384,14 +605,13 @@ $.fn.progressTracker = function(options) {
             } else if (settings.verColor === 'custom') {
                 $('.spt-verticalScrollProgress').addClass('spt-custom');
             }
+            // <-- VERTICAL tracker
         }
-        // <-- VERTICAL tracker
-
         // <-- generate tracker html structure
 
         // HORIZONTAL tracker functionality -->
         if ($('.spt-scrollProgress').length) {
-            // <progress> tag is supported -->
+            // <progress> tag is supported and regular layout is used -->
             let scrollProgress = $('.spt-scrollProgress');
             scrollProgress.attr('max', getScrollProgressMax());
             $(document).scroll(function () {
@@ -406,7 +626,7 @@ $.fn.progressTracker = function(options) {
                 scrollProgress.attr('max', getScrollProgressMax()).attr('value', getScrollProgressValue());
             });
         } else {
-            // <progress> tag is not supported (older browsers) -->
+            // <progress> tag is not supported (older browsers) and/or Split Sections layout is used -->
             let scrollProgress = $('.spt-scrollProgressBar'),
                 scrollProgressMax = getScrollProgressMax(),
                 scrollProgressValue, scrollProgressWidth, scrollProgressLeft,
@@ -419,6 +639,8 @@ $.fn.progressTracker = function(options) {
                     }
                     if (scrollProgressWidth > 100) {
                         scrollProgressWidth = 100;
+                    } else if (scrollProgressWidth < 0) {
+                        scrollProgressWidth = 0;
                     }
                     scrollProgressWidth = scrollProgressWidth + '%';
                     return scrollProgressWidth;
@@ -443,7 +665,7 @@ $.fn.progressTracker = function(options) {
                     $(window).resize();
                     scrollProgress.css('width', getScrollProgressWidth());
                 } else {
-                    scrollProgress.css('width', '0%');
+                    scrollProgress.css('width', '0');
                 }
             });
             $(window).resize(function () {
@@ -464,7 +686,7 @@ $.fn.progressTracker = function(options) {
                 if (!settings.trackViewportOnly) {
                     scrollProgressHeight = (scrollProgressValue/scrollProgressMax) * 100;
                 } else {
-                    scrollProgressHeight = (trackerSize/scrollProgressMax) * 100;
+                    scrollProgressHeight = ($(window).height()/scrollProgressMax) * 100;
                 }
                 if (scrollProgressHeight > 100) {
                     scrollProgressHeight = 100;
@@ -511,6 +733,7 @@ $.fn.progressTracker = function(options) {
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
                 }
             }
+            updateElements();
         });
         $(window).resize(function () {
             horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
@@ -525,12 +748,10 @@ $.fn.progressTracker = function(options) {
             if (settings.trackViewportOnly) {
                 setScrollProgressTop();
             }
-            moveScrollStops();
-
             // Fake responsive webdesign ("small screens") -->
             if ($(window).width() <= settings.mobileThreshold) {
                 // is mobile
-                $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress').addClass('spt-smallDevice');
+                $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress, .spt-splitSections').addClass('spt-smallDevice');
                 if (!settings.horOnlyActiveTitle) {
                     $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
@@ -545,7 +766,7 @@ $.fn.progressTracker = function(options) {
                 }
             } else {
                 // is not mobile
-                $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress').removeClass('spt-smallDevice');
+                $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress, .spt-splitSections').removeClass('spt-smallDevice');
                 if (settings.horOnlyActiveTitle) {
                     $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
@@ -561,26 +782,28 @@ $.fn.progressTracker = function(options) {
             }
             if ($(window).width() >= (settings.mobileThreshold + 100)) {
                 $('.spt-verticalScrollProgress').css('width', 180 + ($(window).width() - settings.mobileThreshold) / 2 - 50 + 'px');
-                $('.spt-vertScrollStopTitles').css('width', 170 + ($(window).width() - settings.mobileThreshold) / 2 - 50 + 'px');
+                $('.spt-verScrollStopTitles').css('width', 170 + ($(window).width() - settings.mobileThreshold) / 2 - 50 + 'px');
             } else {
                 $('.spt-verticalScrollProgress').css('width', '180px');
-                $('.spt-vertScrollStopTitles').css('width', '170px');
+                $('.spt-verScrollStopTitles').css('width', '170px');
             }
             // <-- Fake responsive webdesign ("small screens")
+            updateElements();
         });
         // <-- VERTICAL tracker
 
         setScrollStops();
-        // Create scrollstops and titles -->
+        // Create bullets and titles -->
         function setScrollStops() {
             trackedArea.find('.spt-trackThis').each(function(index) {
                 let sectionHeadline = $(this).children('.spt-sectionTitle:first'),
                     sectionTitle,
                     sectionId = index + 1,
                     scrollHorStops = $('.spt-scrollStopContainer'),
-                    scrollVerStops = $('.spt-vertScrollStopContainer'),
+                    scrollVerStops = $('.spt-verScrollStopContainer'),
                     scrollStopTitles = $('.spt-scrollStopTitles'),
-                    scrollVerStopTitles = $('.spt-vertScrollStopTitles');
+                    scrollVerStopTitles = $('.spt-verScrollStopTitles');
+
                 if (sectionHeadline.attr('data-name')) {
                     sectionTitle = sectionHeadline.attr('data-name');
                 } else {
@@ -614,7 +837,7 @@ $.fn.progressTracker = function(options) {
             $('.spt-scrollStopContainer').append($('.spt-scrollStopContainer > .spt-finalStopCircle'));
             $(window).resize();
         }
-        // <-- Create scrollstops and titles
+        // <-- Create bullets and titles
 
         // Linking mode functionality -->
         if (settings.linking) {
@@ -661,10 +884,10 @@ $.fn.progressTracker = function(options) {
             }, function() {
                 $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
             });
-            $('.spt-vertScrollStopContainer .spt-stopCircle, .spt-vertScrollStopTitles .spt-stopTitle').hover(function() {
+            $('.spt-verScrollStopContainer .spt-stopCircle, .spt-verScrollStopTitles .spt-stopTitle').hover(function() {
                 itemIndex = $(this).attr('data-index');
                 $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
-                $('.spt-vertScrollStopContainer .spt-stop' + itemIndex + ', .spt-vertScrollStopTitles .spt-stop' + itemIndex).addClass('spt-hover');
+                $('.spt-verScrollStopContainer .spt-stop' + itemIndex + ', .spt-verScrollStopTitles .spt-stop' + itemIndex).addClass('spt-hover');
             }, function() {
                 $('.spt-stopCircle, .spt-stopTitle').removeClass('spt-hover');
             });
@@ -673,8 +896,8 @@ $.fn.progressTracker = function(options) {
             }, function() {
                 $('.spt-finalStopCircle, .spt-finalStopTitle').removeClass('spt-hover');
             });
-            $('.spt-vertScrollStopContainer .spt-finalStopCircle, .spt-vertScrollStopTitles .spt-finalStopTitle').hover(function() {
-                $('.spt-vertScrollStopContainer .spt-finalStopCircle, .spt-vertScrollStopTitles .spt-finalStopTitle').addClass('spt-hover');
+            $('.spt-verScrollStopContainer .spt-finalStopCircle, .spt-verScrollStopTitles .spt-finalStopTitle').hover(function() {
+                $('.spt-verScrollStopContainer .spt-finalStopCircle, .spt-verScrollStopTitles .spt-finalStopTitle').addClass('spt-hover');
             }, function() {
                 $('.spt-finalStopCircle, .spt-finalStopTitle').removeClass('spt-hover');
             });
@@ -684,7 +907,7 @@ $.fn.progressTracker = function(options) {
         console.log('Advanced jQuery Scroll Progress Tracker v' + currentVersion + '\n(c) ' + copyrightYear + ' David Whitworth (david@whitworth.de)');
     });
     // Position scroll stops and titles -->
-    function moveScrollStops() {
+    function updateElements() {
         trackedArea.find('.spt-trackThis').each(function(index) {
             let section = $(this),
                 sectionHeadline = section.children('.spt-sectionTitle:first'),
@@ -694,13 +917,48 @@ $.fn.progressTracker = function(options) {
                 sectionId = index + 1,
                 sectionStop = (sectionRelativeTop / getScrollProgressMax()) * 100,
                 scrollHorStops = $('.spt-scrollStopContainer'),
-                scrollVerStops = $('.spt-vertScrollStopContainer'),
+                scrollVerStops = $('.spt-verScrollStopContainer'),
                 scrollStopTitles = $('.spt-scrollStopTitles'),
-                scrollVerStopTitles = $('.spt-vertScrollStopTitles');
+                scrollVerStopTitles = $('.spt-verScrollStopTitles'),
+                sectionProgressWidth, sectionProgressLeft;
 
             if (sectionStop > 100) {
                 sectionStop = 100;
             }
+
+            // Split Sections functionality -->
+            if (settings.trackViewport || settings.trackViewportOnly) {
+                trackerSize = $(window).scrollTop() + $(window).height();
+            } else {
+                trackerSize = $(window).scrollTop();
+            }
+
+            let bar = $('#SectionProgress' + sectionId + ' .spt-sectionProgressBar');
+
+            if (!settings.trackViewportOnly) {
+                // Split Sections regular behavior -->
+                sectionProgressWidth = (trackerSize - section.offset().top) / section.height() * 100;
+                if (sectionProgressWidth > 100) {
+                    sectionProgressWidth = 100;
+                }
+                // <-- Split Sections regular behavior
+            } else {
+                // Split Sections + trackViewportOnly -->
+                sectionProgressWidth = $(window).height() / section.height() * 100;
+                sectionProgressLeft = (trackerSize - section.offset().top) / section.height() * 100 - sectionProgressWidth;
+
+                if (sectionProgressLeft > 100) {
+                    bar.css('left', '100%');
+                } else {
+                    bar.css('left', sectionProgressLeft + '%');
+                    if (sectionId === 1 && sectionProgressLeft < 0) {
+                        bar.css('left', '0');
+                    }
+                }
+                // <-- Split Sections + trackViewportOnly
+            }
+            bar.css('width', sectionProgressWidth + '%');
+            // <-- Split Sections functionality
 
             scrollHorStops.children('.spt-stop' + sectionId).css('left', sectionStop + '%');
             scrollVerStops.children('.spt-stop' + sectionId).css('top', sectionStop + '%');

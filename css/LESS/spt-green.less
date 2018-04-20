@@ -16,7 +16,7 @@
 
 .spt-green {
     .spt-scrollStopContainer,
-    .spt-vertScrollStopContainer {
+    .spt-verScrollStopContainer {
         .spt-stopCircle,
         .spt-finalStopCircle {
             &.spt-reached,
@@ -42,6 +42,15 @@
             color: @color-green;
             .spt-scrollProgressBar {
                 .spt-gradient3Stops ();
+            }
+        }
+    }
+}
+.spt-splitSections {
+    &.spt-green {
+        .spt-sectionProgress {
+            .spt-sectionProgressBar {
+                .spt-gradient2Stops ();
             }
         }
     }
