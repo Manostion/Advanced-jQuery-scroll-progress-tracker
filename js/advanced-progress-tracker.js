@@ -79,11 +79,14 @@
 //                  cleaned up the whole section of the code that is used for generating the layout of the horizontal
 //                  tracker(s), so that all cross-dependencies between regular horizontal trackers and/or Split Section
 //                  horizontal trackers work as intended while at the same time readability gets maintained;
-//                  added the actual functionality for each progress bar for "horSplitSections";
-//                  added new option "horSide" to give users the ability to position the "horSplitSections" tracker;
+//                  added the actual functionality for each progress bar for "horSplitSections"
 // 2018-04-20 DW    turned the comments for each of the script's settings into actual JSDoc documentation comments;
-//                  added the functionality of "horSplitSections" + "trackViewportOnly"
-//                  ToDo: implement section titles in the "horSplitSections" tracker -> account for title settings!
+//                  added the functionality of the combination "horSplitSections" + "trackViewportOnly"
+// 2018-04-21 DW    implemented the existing "horTitles" and "linking" settings into the "horSplitSections" tracker
+//                  ToDo: implement "horPosition" for the "horSplitSections" tracker
+//                  ToDo: implement "horStyle" for the "horSplitSections" tracker
+//                  ToDo: implement "hovering" for the "horSplitSections" tracker(?)
+//                  ToDo: add "horSide" specifically for the "horSplitSections" tracker
 //----------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2016 - 2018
 //----------------------------------------------------------------------------------------------------------------------
@@ -92,7 +95,7 @@ $.fn.progressTracker = function(options) {
     // Default Options -->
     let settings = $.extend({
         // HORIZONTAL tracker -->
-        /***
+        /**
          * Displays a **horizontal** scroll progress tracker
          *  
          * default: ***true***
@@ -179,7 +182,7 @@ $.fn.progressTracker = function(options) {
          *  
          * default: ***false***
          */
-        horSplitSections: false,
+        horSplitSections: true,
         /**
          * Positions the **horizontal** tracker on either the left or the right side of the content
          * --> this **ONLY** affects horizontal trackers with the 'horSplitSections' layout and will be ignored by the regular layout. It is thus superfluous if 'horSplitSections' isn't used
@@ -554,6 +557,10 @@ $.fn.progressTracker = function(options) {
                 // <-- Split Sections
             }
 
+            if (settings.linking) {
+                $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-linking');
+            }
+
             if (settings.horColor === 'blue') {
                 $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-blue');
             } else if (settings.horColor === 'green') {
@@ -594,6 +601,10 @@ $.fn.progressTracker = function(options) {
             }
             if (settings.verStyle === 'fill') {
                 $('.spt-verticalScrollProgress').addClass('spt-styleFill');
+            }
+
+            if (settings.linking) {
+                $('.spt-verticalScrollProgress').addClass('spt-linking');
             }
 
             if (settings.verColor === 'blue') {
@@ -774,7 +785,7 @@ $.fn.progressTracker = function(options) {
                     $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
                     $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
                 }
-                if (settings.horTracker && !settings.horMobileOnly) {
+                if (settings.horTracker && !settings.horMobileOnly && !settings.horSplitSections) {
                     head = $('.spt-horizontalScrollProgress').outerHeight();
                 } else {
                     head = 0;
@@ -796,7 +807,8 @@ $.fn.progressTracker = function(options) {
         // Create bullets and titles -->
         function setScrollStops() {
             trackedArea.find('.spt-trackThis').each(function(index) {
-                let sectionHeadline = $(this).children('.spt-sectionTitle:first'),
+                let section = $(this),
+                    sectionHeadline = section.children('.spt-sectionTitle:first'),
                     sectionTitle,
                     sectionId = index + 1,
                     scrollHorStops = $('.spt-scrollStopContainer'),
@@ -810,14 +822,14 @@ $.fn.progressTracker = function(options) {
                     sectionTitle = sectionHeadline.text();
                 }
 
-                $(this).attr('id', 'Section' + sectionId);
-                $(this).children('.spt-sectionTitle:first').attr({ id: 'SectionHeadline' + sectionId});
+                section.attr('id', 'Section' + sectionId);
+                section.children('.spt-sectionTitle:first').attr({ id: 'SectionHeadline' + sectionId});
 
                 scrollHorStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '" title="' + sectionHeadline.text() + '"></div>');
                 scrollVerStops.append('<div class="spt-stopCircle spt-stop' + sectionId + '" data-index="' + sectionId + '"></div>');
                 scrollStopTitles.append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
                 scrollVerStopTitles.append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
-
+                $('#SectionProgress' + sectionId).append('<div class="spt-stopTitle spt-stop' + sectionId + '" data-index="' + sectionId + '">' + sectionTitle + '</div>');
 
                 if (settings.horNumbering) {
                     scrollHorStops.children('.spt-stopCircle.spt-stop' + sectionId).append(sectionId);

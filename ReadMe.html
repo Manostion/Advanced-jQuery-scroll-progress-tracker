@@ -86,7 +86,7 @@
             });
             $('body').progressTracker({
                 horStops: false,
-                horMobileOnly: true,
+//                horMobileOnly: true,
                 verTracker: true,
                 verPosition: 'right',
                 verColor: 'blue',
@@ -120,7 +120,8 @@
                     <p><b>horSplitSections</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the horizontal tracker will be split up into an individual tracker for each tracked section.</p>
                     <p class="smaller">This option is useful for creating an interactive table of contents but will be automatically disabled on small devices for obvious reasons.<br />
-                    It is advised to use this option in combination with <b>horTitles: true</b> and <b>horOnlyActiveTitle: false</b> but it is also possible to just show the progress of each section without titles or to have the progress of inactive sections be blank/without a title.</p>
+                    It is advised to use this option in combination with <b>horTitles: true</b> but it is also possible to just show the progress of each section without titles.<br />
+                        Note that (at least for now) <b>horOnlyActiveTitle</b> will not have an effect on this kind of tracker (it will still work for a mobile horizontal tracker if there is one, of course - but since <b>horOnlyActiveTitle</b> is the forced default setting for mobile devices anyway, you can neglect that setting whenever you use <b>horSplitSections</b>).</p>
                     <hr />
                     <p><b>horSide</b> - <i>default: <b>'left'</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     This setting positions the horizontal Split Sections tracker (see above) on either the left or the right side of the content.</p>

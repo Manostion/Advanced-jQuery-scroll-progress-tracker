@@ -144,23 +144,43 @@
     width: 400px;
     top: 0;
     left: 0;
+    margin: 0 20px;
     .spt-sectionProgress {
         display: block;
         position: relative;
-        border-top: 1px solid fade(@color-foreground, 20%);
+        border: 1px solid fade(@color-foreground, 20%);
+        border-bottom-width: 0;
         width: 100%;
         height: 28px;
-        background-color: fade(@color-foreground, 15%);
+        background-color: fade(@color-foreground, 30%);
         overflow: hidden;
         &:last-of-type {
             border-bottom: 1px solid fade(@color-foreground, 20%);
         }
-        .spt-sectionProgressBar {
+        .spt-sectionProgressBar,
+        .spt-stopTitle {
             display: block;
             position: absolute;
-            width: 0;
             height: inherit;
+        }
+        .spt-sectionProgressBar {
+            width: 0;
             .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+        }
+        .spt-stopTitle {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 4px 8px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            color: #ffffff;
+            cursor: default;
+            &.spt-reached {
+                font-weight: bold;
+            }
         }
     }
 }
@@ -218,7 +238,7 @@
         line-height: 16px;
         color: fade(@color-foreground, 50%);
         background-color: @color-background;
-        cursor: pointer;
+        cursor: default;
         &.spt-reached,
         &.spt-hover {
             color: @color-foreground;
@@ -278,7 +298,7 @@
     .spt-finalStopTitle {
         position: absolute;
         color: fade(@color-foreground, 50%);
-        cursor: pointer;
+        cursor: default;
         &.spt-reached,
         &.spt-hover {
             color: @color-foreground;
@@ -420,3 +440,14 @@
     }
 }
 /* <-- FAKE RESPONSIVE WEB DESIGN */
+
+/* LINKING --> */
+.spt-linking {
+    .spt-stopTitle,
+    .spt-finalStopTitle,
+    .spt-stopCircle,
+    .spt-finalStopCircle {
+        cursor: pointer !important;
+    }
+}
+/* <-- LINKING */

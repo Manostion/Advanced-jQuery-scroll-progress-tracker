@@ -182,24 +182,29 @@
   width: 400px;
   top: 0;
   left: 0;
+  margin: 0 20px;
 }
 .spt-splitSections .spt-sectionProgress {
   display: block;
   position: relative;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom-width: 0;
   width: 100%;
   height: 28px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 .spt-splitSections .spt-sectionProgress:last-of-type {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
-.spt-splitSections .spt-sectionProgress .spt-sectionProgressBar {
+.spt-splitSections .spt-sectionProgress .spt-sectionProgressBar,
+.spt-splitSections .spt-sectionProgress .spt-stopTitle {
   display: block;
   position: absolute;
-  width: 0;
   height: inherit;
+}
+.spt-splitSections .spt-sectionProgress .spt-sectionProgressBar {
+  width: 0;
   background: #810000;
   /* Old browsers */
   background: -moz-linear-gradient(left, #810000 0%, #e70000 100%);
@@ -210,6 +215,21 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=1);
   /* IE6-8 */
+}
+.spt-splitSections .spt-sectionProgress .spt-stopTitle {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 4px 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: default;
+}
+.spt-splitSections .spt-sectionProgress .spt-stopTitle.spt-reached {
+  font-weight: bold;
 }
 /* <-- split sections */
 /* <-- HORIZONTAL SCROLL PROGRESS TRACKER */
@@ -275,7 +295,7 @@
   line-height: 16px;
   color: rgba(0, 0, 0, 0.5);
   background-color: #ffffff;
-  cursor: pointer;
+  cursor: default;
 }
 .spt-scrollStopContainer .spt-stopCircle.spt-reached,
 .spt-verScrollStopContainer .spt-stopCircle.spt-reached,
@@ -341,7 +361,7 @@
 .spt-verScrollStopTitles .spt-finalStopTitle {
   position: absolute;
   color: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  cursor: default;
 }
 .spt-scrollStopTitles .spt-stopTitle.spt-reached,
 .spt-verScrollStopTitles .spt-stopTitle.spt-reached,
@@ -488,3 +508,11 @@
   right: -6px;
 }
 /* <-- FAKE RESPONSIVE WEB DESIGN */
+/* LINKING --> */
+.spt-linking .spt-stopTitle,
+.spt-linking .spt-finalStopTitle,
+.spt-linking .spt-stopCircle,
+.spt-linking .spt-finalStopCircle {
+  cursor: pointer !important;
+}
+/* <-- LINKING */
