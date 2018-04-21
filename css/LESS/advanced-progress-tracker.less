@@ -145,6 +145,14 @@
     top: 0;
     left: 0;
     margin: 0 20px;
+    &.spt-bottom {
+        top: auto;
+        bottom: 0;
+    }
+    &.spt-right {
+        right: 0;
+        left: auto;
+    }
     .spt-sectionProgress {
         display: block;
         position: relative;
@@ -152,7 +160,6 @@
         border-bottom-width: 0;
         width: 100%;
         height: 28px;
-        background-color: fade(@color-foreground, 30%);
         overflow: hidden;
         &:last-of-type {
             border-bottom: 1px solid fade(@color-foreground, 20%);
@@ -161,11 +168,12 @@
         .spt-stopTitle {
             display: block;
             position: absolute;
-            height: inherit;
         }
         .spt-sectionProgressBar {
+            margin-top: 13px;
             width: 0;
-            .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+            height: 2px;
+            .spt-gradient3Stops (left, to right, 1, 0%, calc(~'100% - 10px'), 100%, darken(@color-highlight, 20%), @color-highlight, @color-foreground);
         }
         .spt-stopTitle {
             top: 0;
@@ -173,11 +181,18 @@
             bottom: 0;
             left: 0;
             padding: 4px 8px;
+            height: inherit;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
-            color: #ffffff;
+            text-shadow: 0 0 2px @color-background, 0 0 4px @color-background, 0 0 6px @color-background;
+            color: fade(@color-foreground, 70%);
             cursor: default;
+            &.spt-reached,
+            &:hover {
+                font-weight: bold;
+                color: @color-foreground;
+            }
             &.spt-reached {
                 font-weight: bold;
             }
@@ -388,6 +403,42 @@
     }
 }
 /* <-- HORIZONTAL STYLES */
+
+/* SPLIT SECTIONS STYLES --> */
+.spt-splitSections {
+    &.spt-styleFill {
+        .spt-sectionProgress {
+/*
+            border: 1px solid fade(@color-foreground, 20%);
+            border-bottom-width: 0;
+*/
+            background-color: fade(@color-foreground, 15%);
+/*
+            &:last-of-type {
+                border-bottom: 1px solid fade(@color-foreground, 20%);
+            }
+*/
+            .spt-sectionProgressBar {
+                margin-top: 0;
+                height: inherit;
+                .spt-gradient2Stops (left, to right, 1, 0%, 100%, darken(@color-highlight, 20%), @color-highlight);
+            }
+            .spt-stopTitle {
+                text-shadow: none;
+                color: fade(@color-foreground, 60%);
+                &.spt-reached {
+                    color: @color-background;
+                }
+                /*
+                &:hover {
+                    color: @color-background;
+                }
+                */
+            }
+        }
+    }
+}
+/* <-- SPLIT SECTION STYLES */
 
 /* VERTICAL STYLES --> */
 .spt-verticalScrollProgress {

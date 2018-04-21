@@ -184,6 +184,14 @@
   left: 0;
   margin: 0 20px;
 }
+.spt-splitSections.spt-bottom {
+  top: auto;
+  bottom: 0;
+}
+.spt-splitSections.spt-right {
+  right: 0;
+  left: auto;
+}
 .spt-splitSections .spt-sectionProgress {
   display: block;
   position: relative;
@@ -191,7 +199,6 @@
   border-bottom-width: 0;
   width: 100%;
   height: 28px;
-  background-color: rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 .spt-splitSections .spt-sectionProgress:last-of-type {
@@ -201,19 +208,20 @@
 .spt-splitSections .spt-sectionProgress .spt-stopTitle {
   display: block;
   position: absolute;
-  height: inherit;
 }
 .spt-splitSections .spt-sectionProgress .spt-sectionProgressBar {
+  margin-top: 13px;
   width: 0;
-  background: #810000;
+  height: 2px;
+  background: #e70000;
   /* Old browsers */
-  background: -moz-linear-gradient(left, #810000 0%, #e70000 100%);
+  background: -moz-linear-gradient(left, #810000 0%, #e70000 calc(100% - 10px), #000000 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, #810000 0%, #e70000 100%);
+  background: -webkit-linear-gradient(left, #810000 0%, #e70000 calc(100% - 10px), #000000 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #810000 0%, #e70000 100%);
+  background: linear-gradient(to right, #810000 0%, #e70000 calc(100% - 10px), #000000 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color2', endColorstr='@color3', GradientType=1);
   /* IE6-8 */
 }
 .spt-splitSections .spt-sectionProgress .spt-stopTitle {
@@ -222,11 +230,18 @@
   bottom: 0;
   left: 0;
   padding: 4px 8px;
+  height: inherit;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  color: #ffffff;
+  text-shadow: 0 0 2px #ffffff, 0 0 4px #ffffff, 0 0 6px #ffffff;
+  color: rgba(0, 0, 0, 0.7);
   cursor: default;
+}
+.spt-splitSections .spt-sectionProgress .spt-stopTitle.spt-reached,
+.spt-splitSections .spt-sectionProgress .spt-stopTitle:hover {
+  font-weight: bold;
+  color: #000000;
 }
 .spt-splitSections .spt-sectionProgress .spt-stopTitle.spt-reached {
   font-weight: bold;
@@ -473,6 +488,46 @@
   color: #ffffff;
 }
 /* <-- HORIZONTAL STYLES */
+/* SPLIT SECTIONS STYLES --> */
+.spt-splitSections.spt-styleFill .spt-sectionProgress {
+  /*
+            border: 1px solid fade(@color-foreground, 20%);
+            border-bottom-width: 0;
+*/
+  background-color: rgba(0, 0, 0, 0.15);
+  /*
+            &:last-of-type {
+                border-bottom: 1px solid fade(@color-foreground, 20%);
+            }
+*/
+}
+.spt-splitSections.spt-styleFill .spt-sectionProgress .spt-sectionProgressBar {
+  margin-top: 0;
+  height: inherit;
+  background: #810000;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, #810000 0%, #e70000 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #810000 0%, #e70000 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #810000 0%, #e70000 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color2', GradientType=1);
+  /* IE6-8 */
+}
+.spt-splitSections.spt-styleFill .spt-sectionProgress .spt-stopTitle {
+  text-shadow: none;
+  color: rgba(0, 0, 0, 0.6);
+  /*
+                &:hover {
+                    color: @color-background;
+                }
+                */
+}
+.spt-splitSections.spt-styleFill .spt-sectionProgress .spt-stopTitle.spt-reached {
+  color: #ffffff;
+}
+/* <-- SPLIT SECTION STYLES */
 /* VERTICAL STYLES --> */
 .spt-verticalScrollProgress.spt-styleFill .spt-verticalScrollProgressContainer {
   border: 2px solid rgba(0, 0, 0, 0.5);

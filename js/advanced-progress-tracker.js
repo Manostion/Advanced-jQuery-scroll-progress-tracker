@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2018-04-20
+// Changed          2018-04-21
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //----------------------------------------------------------------------------------------------------------------------
@@ -82,11 +82,11 @@
 //                  added the actual functionality for each progress bar for "horSplitSections"
 // 2018-04-20 DW    turned the comments for each of the script's settings into actual JSDoc documentation comments;
 //                  added the functionality of the combination "horSplitSections" + "trackViewportOnly"
-// 2018-04-21 DW    implemented the existing "horTitles" and "linking" settings into the "horSplitSections" tracker
-//                  ToDo: implement "horPosition" for the "horSplitSections" tracker
-//                  ToDo: implement "horStyle" for the "horSplitSections" tracker
-//                  ToDo: implement "hovering" for the "horSplitSections" tracker(?)
-//                  ToDo: add "horSide" specifically for the "horSplitSections" tracker
+// 2018-04-21 DW    implemented the existing "horTitles", "horPosition", "linking" and "hovering" settings into the
+//                  "horSplitSections" tracker;
+//                  added the functionality for the "horSide" setting specifically for the "horSplitSections" tracker;
+//                  implemented the existing "horStyle" setting for the "horSplitSections" tracker, recreating the
+//                  "beam" style for it
 //----------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2016 - 2018
 //----------------------------------------------------------------------------------------------------------------------
@@ -182,14 +182,14 @@ $.fn.progressTracker = function(options) {
          *  
          * default: ***false***
          */
-        horSplitSections: true,
+        horSplitSections: false,
         /**
          * Positions the **horizontal** tracker on either the left or the right side of the content
          * --> this **ONLY** affects horizontal trackers with the 'horSplitSections' layout and will be ignored by the regular layout. It is thus superfluous if 'horSplitSections' isn't used
          *  
-         * default: ***'left'***
+         * default: ***'right'***
          */
-        horSide: 'left',
+        horSide: 'right',
         /**
          * Adds the first headline (h3 by default) of each section to the **horizontal** tracker if true
          *  
@@ -554,6 +554,16 @@ $.fn.progressTracker = function(options) {
                     i ++;
                     $('.spt-splitSections').append('<div class="spt-sectionProgress" id="SectionProgress' + i + '"><div class="spt-sectionProgressBar"></div></div>');
                 });
+                console.log('horPosition: ' + settings.horPosition + '\nhorSplitSections: ' + settings.horSplitSections);
+                if (settings.horPosition === 'bottom') {
+                    $('.spt-splitSections').addClass('spt-bottom');
+                }
+                if (settings.horSide === 'right') {
+                    $('.spt-splitSections').addClass('spt-right');
+                }
+                if (settings.horStyle === 'fill') {
+                    $('.spt-splitSections').addClass('spt-styleFill');
+                }
                 // <-- Split Sections
             }
 
