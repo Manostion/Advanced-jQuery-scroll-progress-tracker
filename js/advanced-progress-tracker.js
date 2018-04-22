@@ -2,7 +2,7 @@
 // Advanced Scroll Progress Tracker
 //----------------------------------------------------------------------------------------------------------------------
 // Created          2016-08-10
-// Changed          2018-04-21
+// Changed          2018-04-22
 // Authors          David Whitworth | David@Whitworth.de
 // Contributors     Rene Mansveld | R.Mansveld@Spider-IT.de
 //----------------------------------------------------------------------------------------------------------------------
@@ -87,6 +87,9 @@
 //                  added the functionality for the "horSide" setting specifically for the "horSplitSections" tracker;
 //                  implemented the existing "horStyle" setting for the "horSplitSections" tracker, recreating the
 //                  "beam" style for it
+// 2018-04-22 DW    added the settings "horInContainer" and "verInContainer" to grant even more customizability;
+//                  cleaned up the code some more by declaring variables for some duplicate selectors
+//                  ToDo: finish working on "horEqualSpacing" and "verEqualSpacing"
 //----------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2016 - 2018
 //----------------------------------------------------------------------------------------------------------------------
@@ -109,6 +112,14 @@ $.fn.progressTracker = function(options) {
          * default: ***false***
          */
         horInHeader: false,
+        /**
+         * Similar to the way horInHeader places the **horizontal** tracker inside an existing <header>, this setting allows you to put it inside any custom container by entering an ID
+         * --> to prevent conflicts and/or multiple instances of the same tracker, it is advised to use a unique ID instead of a Class (horInContainer: '#myId')
+         * --> this setting overwrites horInHeader and ignores horPosition and horSide
+         *  
+         * default: ***false***
+         */
+        horInContainer: false,
         /**
          * Creates the **horizontal** tracker at the top of the page if set to 'top' and at the bottom if set to 'bottom'
          *  
@@ -225,6 +236,14 @@ $.fn.progressTracker = function(options) {
          * default: ***false***
          */
         verTracker: false,
+        /**
+         * This setting allows you to put the **vertical** tracker inside a custom container by entering an ID
+         * --> to prevent conflicts and/or multiple instances of the same tracker, it is advised to use a unique ID instead of a Class (verInContainer: '#myId')
+         * --> this setting ignores verPosition
+         *  
+         * default: ***false***
+         */
+        verInContainer: '',
         /**
          * Creates the **vertical** tracker left of your content if set to 'left' and right of it if set to 'right'
          *  
@@ -383,7 +402,8 @@ $.fn.progressTracker = function(options) {
         trackerSize,
         headlineMargin,
         horizontalCenter, horizontalTop, horizontalBottom,
-        horizontalTitlesHeight;
+        horizontalTitlesHeight,
+        scrollStopTitles;
 
     // Calculate 'max' and current 'value' for the progress-tag -->
     getScrollProgressMax = function() {
@@ -406,7 +426,6 @@ $.fn.progressTracker = function(options) {
         horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
         horizontalTop = horizontalCenter - $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
         horizontalBottom = horizontalCenter + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
-        horizontalTitlesHeight = parseFloat($('.spt-scrollStopTitles').css('line-height'));
 
         if (parseFloat($('.spt-centerAll').css('max-width')) > (settings.mobileThreshold - 400)) {
             $('.spt-centerAll').css('max-width', settings.mobileThreshold - 400 + 'px');
@@ -509,12 +528,13 @@ $.fn.progressTracker = function(options) {
                         $('body').css('padding-top', $('.spt-horizontalScrollProgress').height());
                     }
                 }
-                if ($('.spt-scrollProgress').length) {
-                    $('.spt-scrollProgress').attr('value', '0');
+                if (horizontalTracker.length) {
+                    horizontalTracker.attr('value', '0');
                 }
                 if (settings.horTitles) {
                     $('<div class="spt-scrollStopTitles"></div>').insertAfter(horizontalTracker);
-                    $('.spt-scrollStopTitles').append('<div class="spt-stopTitle spt-onlyActive" style="font-weight: bold;"></div>');
+                    scrollStopTitles = $('.spt-scrollStopTitles');
+                    scrollStopTitles.append('<div class="spt-stopTitle spt-onlyActive" style="font-weight: bold;"></div>');
                 } else {
                     horizontalTracker.addClass('spt-untitled');
                 }
@@ -524,7 +544,7 @@ $.fn.progressTracker = function(options) {
                 if (settings.addFinalStop) {
                     $('.spt-scrollStopContainer').append('<div class="spt-finalStopCircle" title="' + settings.finalStopTitle + '"></div>');
                     if (!settings.horOnlyActiveTitle) {
-                        $('.spt-scrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
+                        scrollStopTitles.append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
                     }
                 }
                 if (!settings.horMobile) {
@@ -539,9 +559,8 @@ $.fn.progressTracker = function(options) {
 
                 if (settings.horCenter) {
                     horizontalTracker.addClass('spt-centerAll');
-                    $('.spt-scrollStopTitles').addClass('spt-centerAll');
+                    scrollStopTitles.addClass('spt-centerAll');
                     $('.spt-scrollStopContainer').addClass('spt-centerAll');
-
                 }
                 // <-- Regular layout
             }
@@ -549,26 +568,49 @@ $.fn.progressTracker = function(options) {
                 // Split Sections -->
                 $('.spt-horizontalScrollProgress').addClass('spt-mobileOnly');
                 $('body').append('<div class="spt-splitSections spt-desktopOnly"></div>');
+                horizontalTracker = $('.spt-splitSections');
                 let i = 0;
                 $('.spt-trackThis').each(function() {
                     i ++;
-                    $('.spt-splitSections').append('<div class="spt-sectionProgress" id="SectionProgress' + i + '"><div class="spt-sectionProgressBar"></div></div>');
+                    horizontalTracker.append('<div class="spt-sectionProgress" id="SectionProgress' + i + '"><div class="spt-sectionProgressBar"></div></div>');
                 });
-                console.log('horPosition: ' + settings.horPosition + '\nhorSplitSections: ' + settings.horSplitSections);
-                if (settings.horPosition === 'bottom') {
-                    $('.spt-splitSections').addClass('spt-bottom');
-                }
-                if (settings.horSide === 'right') {
-                    $('.spt-splitSections').addClass('spt-right');
-                }
                 if (settings.horStyle === 'fill') {
-                    $('.spt-splitSections').addClass('spt-styleFill');
+                    horizontalTracker.addClass('spt-styleFill');
                 }
                 // <-- Split Sections
             }
 
+            if (settings.horInContainer && settings.horInContainer !== '') {
+                let horContainer =  $('#' + settings.horInContainer);
+
+                if (horContainer.length) {
+                    horContainer.append(horizontalTracker);
+                    horizontalTracker.addClass('spt-inContainer');
+                } else {
+                    let splitSectionsActive = ' ';
+
+                    if (settings.horSplitSections) {
+                        splitSectionsActive = ' and "horSide" ';
+                    }
+                    console.log('The setting "horInContainer" is currently used with the id "' + settings.horInContainer + '", however no element with that id could be found in your layout. The default layout with "horPosition"' + splitSectionsActive + 'is applied instead.');
+                    if (settings.horPosition === 'bottom') {
+                        horizontalTracker.addClass('spt-bottom');
+                    }
+                    if (settings.horSide === 'right') {
+                        horizontalTracker.addClass('spt-right');
+                    }
+                }
+            } else {
+                if (settings.horPosition === 'bottom') {
+                    horizontalTracker.addClass('spt-bottom');
+                }
+                if (settings.horSide === 'right') {
+                    horizontalTracker.addClass('spt-right');
+                }
+            }
+
             if (settings.linking) {
-                $('.spt-horizontalScrollProgress, .spt-splitSections').addClass('spt-linking');
+                horizontalTracker.addClass('spt-linking');
             }
 
             if (settings.horColor === 'blue') {
@@ -586,11 +628,8 @@ $.fn.progressTracker = function(options) {
         if (settings.verTracker) {
             // VERTICAL tracker -->
             $('body').append('<div class="spt-verticalScrollProgress"><div class="spt-verticalScrollProgressContainer"><div class="spt-verticalScrollProgressBar"></div></div></div>');
-            if (settings.verPosition === 'right') {
-                $('.spt-verticalScrollProgress').addClass('spt-verRight');
-            }
-
             let verticalTracker = $('.spt-verticalScrollProgress');
+
             if (!settings.verMobile) {
                 verticalTracker.addClass('spt-desktopOnly');
             }
@@ -610,21 +649,37 @@ $.fn.progressTracker = function(options) {
                 $('.spt-verScrollStopTitles').append('<div class="spt-finalStopTitle">' + settings.finalStopTitle + '</div>');
             }
             if (settings.verStyle === 'fill') {
-                $('.spt-verticalScrollProgress').addClass('spt-styleFill');
+                verticalTracker.addClass('spt-styleFill');
             }
+            if (settings.verInContainer && settings.verInContainer !== '') {
+                let verContainer =  $('#' + settings.verInContainer);
 
+                if (verContainer.length) {
+                    verContainer.append(verticalTracker);
+                    verticalTracker.addClass('spt-inContainer');
+                } else {
+                    console.log('The setting "verInContainer" is currently used with the id "' + settings.verInContainer + '", however no element with that id could be found in your layout. The default layout with "verPosition" is applied instead.');
+                    if (settings.verPosition === 'right') {
+                        verticalTracker.addClass('spt-verRight');
+                    }
+                }
+            } else {
+                if (settings.verPosition === 'right') {
+                    verticalTracker.addClass('spt-verRight');
+                }
+            }
             if (settings.linking) {
-                $('.spt-verticalScrollProgress').addClass('spt-linking');
+                verticalTracker.addClass('spt-linking');
             }
 
             if (settings.verColor === 'blue') {
-                $('.spt-verticalScrollProgress').addClass('spt-blue');
+                verticalTracker.addClass('spt-blue');
             } else if (settings.verColor === 'green') {
-                $('.spt-verticalScrollProgress').addClass('spt-green');
+                verticalTracker.addClass('spt-green');
             } else if (settings.verColor === 'orange') {
-                $('.spt-verticalScrollProgress').addClass('spt-orange');
+                verticalTracker.addClass('spt-orange');
             } else if (settings.verColor === 'custom') {
-                $('.spt-verticalScrollProgress').addClass('spt-custom');
+                verticalTracker.addClass('spt-custom');
             }
             // <-- VERTICAL tracker
         }
@@ -705,9 +760,9 @@ $.fn.progressTracker = function(options) {
             getScrollProgressHeight = function() {
                 scrollProgressValue = getScrollProgressValue();
                 if (!settings.trackViewportOnly) {
-                    scrollProgressHeight = (scrollProgressValue/scrollProgressMax) * 100;
+                    scrollProgressHeight = (scrollProgressValue / scrollProgressMax) * 100;
                 } else {
-                    scrollProgressHeight = ($(window).height()/scrollProgressMax) * 100;
+                    scrollProgressHeight = ($(window).height() / scrollProgressMax) * 100;
                 }
                 if (scrollProgressHeight > 100) {
                     scrollProgressHeight = 100;
@@ -719,7 +774,7 @@ $.fn.progressTracker = function(options) {
                 verticalScrollProgress.css('height', getScrollProgressHeight());
             },
             getScrollProgressTop = function() {
-                scrollProgressTop = (($(window).scrollTop() - head)/scrollProgressMax) * 100;
+                scrollProgressTop = (($(window).scrollTop() - head) / scrollProgressMax) * 100;
                 if (scrollProgressTop > 100) {
                     scrollProgressTop = 100;
                 }
@@ -738,20 +793,20 @@ $.fn.progressTracker = function(options) {
             }
             if ($(window).width() <= settings.mobileThreshold) {
                 if (settings.horTitles) {
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').addClass('spt-ellipsis');
+                    scrollStopTitles.children('.spt-onlyActive').addClass('spt-ellipsis');
                 }
                 if (!settings.horOnlyActiveTitle) {
-                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
+                    scrollStopTitles.children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    scrollStopTitles.children('.spt-onlyActive').css('display', 'block');
                 }
             } else {
-                $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-onlyActive').removeClass('spt-ellipsis');
+                scrollStopTitles.children('.spt-stopTitle, .spt-onlyActive').removeClass('spt-ellipsis');
                 if (settings.horOnlyActiveTitle) {
-                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
+                    scrollStopTitles.children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    scrollStopTitles.children('.spt-onlyActive').css('display', 'block');
                 } else {
-                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
+                    scrollStopTitles.children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
+                    scrollStopTitles.children('.spt-onlyActive').css('display', 'none');
                 }
             }
             updateElements();
@@ -760,7 +815,7 @@ $.fn.progressTracker = function(options) {
             horizontalCenter = $('.spt-horizontalScrollProgress').outerHeight(true) - $('.spt-horizontalScrollProgress').height() + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
             horizontalTop = horizontalCenter - $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
             horizontalBottom = horizontalCenter + $('.spt-horizontalScrollProgress').children(':first-child').height() / 2;
-            $('.spt-scrollStopTitles').append('<div class="spt-placeholder">&nbsp;</div>');
+            scrollStopTitles.append('<div class="spt-placeholder">&nbsp;</div>');
             horizontalTitlesHeight = parseFloat($('.spt-placeholder').height());
             $('.spt-placeholder').remove();
 
@@ -774,11 +829,11 @@ $.fn.progressTracker = function(options) {
                 // is mobile
                 $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress, .spt-splitSections').addClass('spt-smallDevice');
                 if (!settings.horOnlyActiveTitle) {
-                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
+                    scrollStopTitles.children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    scrollStopTitles.children('.spt-onlyActive').css('display', 'block');
                 }
                 if (!settings.horTitlesOffset) {
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('margin-top', horizontalBottom + 5 + 'px').css('margin-left', '8px');
+                    scrollStopTitles.children('.spt-onlyActive').css('margin-top', horizontalBottom + 5 + 'px').css('margin-left', '8px');
                 }
                 if (settings.horTracker && settings.horMobile || settings.horTracker && settings.horMobileOnly) {
                     head = $('.spt-horizontalScrollProgress').outerHeight();
@@ -789,11 +844,11 @@ $.fn.progressTracker = function(options) {
                 // is not mobile
                 $('.spt-horizontalScrollProgress, .spt-scrollProgress, .spt-scrollProgressContainer, .spt-scrollStopContainer, .spt-scrollStopTitles, .spt-verticalScrollProgress, .spt-splitSections').removeClass('spt-smallDevice');
                 if (settings.horOnlyActiveTitle) {
-                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'block');
+                    scrollStopTitles.children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'none');
+                    scrollStopTitles.children('.spt-onlyActive').css('display', 'block');
                 } else {
-                    $('.spt-scrollStopTitles').children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
-                    $('.spt-scrollStopTitles').children('.spt-onlyActive').css('display', 'none');
+                    scrollStopTitles.children('.spt-stopTitle, .spt-finalStopTitle').css('display', 'block');
+                    scrollStopTitles.children('.spt-onlyActive').css('display', 'none');
                 }
                 if (settings.horTracker && !settings.horMobileOnly && !settings.horSplitSections) {
                     head = $('.spt-horizontalScrollProgress').outerHeight();
@@ -823,7 +878,6 @@ $.fn.progressTracker = function(options) {
                     sectionId = index + 1,
                     scrollHorStops = $('.spt-scrollStopContainer'),
                     scrollVerStops = $('.spt-verScrollStopContainer'),
-                    scrollStopTitles = $('.spt-scrollStopTitles'),
                     scrollVerStopTitles = $('.spt-verScrollStopTitles');
 
                 if (sectionHeadline.attr('data-name')) {

@@ -11,7 +11,7 @@
             // Scroll Progress Tracker ReadMe.html Stylesheet
             //----------------------------------------------------------------------------------------------------------
             // Created          2016-08-22
-            // Changed          2018-04-17
+            // Changed          2018-04-22
             // Authors          David Whitworth | David@Whitworth.de
             //----------------------------------------------------------------------------------------------------------
             // 2016-08-22       Created
@@ -19,6 +19,7 @@
             // 2016-09-02 DW    removed the sourcecode styling from this readme
             // 2018-02-14 DW    removed some misplaced LESS variables from the readme's style-block
             // 2018-04-17 DW    added styles for h4 headlines, so that each subsection can be easily recognized
+            // 2018-04-22 DW    added styles for the custom container #MyTableOfContents
             //----------------------------------------------------------------------------------------------------------
             // Copyright (c) 2016 - 2018
             //----------------------------------------------------------------------------------------------------------
@@ -67,6 +68,18 @@
             .historyVersion:last-of-type {
               margin: 0;
             }
+            #MyTableOfContents {
+                position: fixed;
+                top: 0;
+                left: 0;
+                border-right: 1px solid #888888;
+                padding: 0 20px;
+                height: 100%;
+            }
+            @media only screen and (max-width: 1299px) {
+                #MyTableOfContents { left: auto; border: none; padding: 0; height: 30px; }
+                #MyTableOfContents > h2 { display: none; }
+            }
         </style>
 
         <link href="css/advanced-progress-tracker.min.css" rel="stylesheet" />
@@ -85,11 +98,9 @@
                 animationSpeed: 500
             });
             $('body').progressTracker({
-                horSplitSections: true,
-                horSide: 'left',
-
+                horInContainer: 'MyTableOfContents',
                 horStops: false,
-//                horMobileOnly: true,
+                horSplitSections: true,
                 verTracker: true,
                 verPosition: 'right',
                 verColor: 'blue',
@@ -121,19 +132,33 @@
     <!-- New! in current version -->
                     <h4>New in current version</h4>
                     <p><b>horSplitSections</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
-                    If set to true, the horizontal tracker will be split up into an individual tracker for each tracked section.</p>
+                    If set to true, the horizontal tracker will be split up into one individual tracker for each tracked section.</p>
                     <p class="smaller">This option is useful for creating an interactive table of contents but will be automatically disabled on small devices for obvious reasons.<br />
                     It is advised to use this option in combination with <b>horTitles: true</b> but it is also possible to just show the progress of each section without titles.<br />
                     Note that (at least for now) <b>horOnlyActiveTitle</b> will not have an effect on this kind of tracker (it will still work for a mobile horizontal tracker if there is one, of course - but since <b>horOnlyActiveTitle</b> is the forced default setting for mobile devices anyway, you can neglect that setting whenever you use <b>horSplitSections</b>).<br /><br />
                     <img src="http://whitworth.de/ProgressTracker/1.3/images/horSplitSections-Beam.png" title="The new tracker using horStyle: 'beam'" alt="" /> <img src="http://whitworth.de/ProgressTracker/1.3/images/horSplitSections.png" title="The new tracker using the default style horStyle: 'fill'" alt="" /></p>
                     <hr />
-                    <p><b>horSide</b> - <i>default: <b>'right'</b></i><span class="hot">New!</span><br />
+                    <p><b>horSide</b> - <i>default: <b>"right"</b></i><span class="hot">New!</span><br />
                     This setting positions the horizontal Split Sections tracker (see above) on either the left or the right side of the content.</p>
                     <p class="smaller">Since this only affects horizontal trackers with the <b>horSplitSections</b> layout it will be ignored by the regular layout. For that reason you can leave it as it is if <b>horSplitSections</b> isn't used.</p>
+                    <hr />
+                    <p><b>horInContainer</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
+                    This setting allows you to put the horizontal tracker inside any custom container by entering an ID.</p>
+                    <p class="smaller">If you want to use this setting, enter the ID of the target container without "#" as a string (<b>horInContainer: 'MyTableOfContents'</b>).<br />
+                    Also make sure that there is a container with that ID in your layout (&lt;div id="MyTableOfContents"&gt;&lt;/div&gt;), or this setting will not work.<br />
+                    If this setting is set to true, it overwrites <b>horInHeader</b> and ignores <b>horPosition</b> and <b>horSide</b>.<br />
+                    While this setting gives you a lot more freedom it also puts more of the responsibility in your hands, since you have to make sure that the tracker is in a meaningful position, remains visible etc., so if you don't know how to achieve that, it is advised to stick to the default layout, leaving this option untouched.</p>
                     <hr />
                     <p><b>horEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the gaps between all stops on the horizontal tracker will be equally wide.</p>
                     <p class="smaller">Naturally, the progress bar cannot represent the percental progress of each section with this setting activated (since their lengths may differ but the sections are equally long). For that reason, each section will be represented by an opaque rectangle that can be modified via the stylesheet.</p>
+                    <hr />
+                    <p><b>verInContainer</b> - <i>default: <b>false</b></i><span class="hot">New!</span><br />
+                    This setting allows you to put the vertical tracker inside any custom container by entering an ID.</p>
+                    <p class="smaller">If you want to use this setting, enter the ID of the target container without "#" as a string (<b>horInContainer: 'MyVerticalContainer'</b>).<br />
+                    Also make sure that there is a container with that ID in your layout (&lt;div id="MyVerticalContainer"&gt;&lt;/div&gt;), or this setting will not work.<br />
+                    If this setting is set to true, it ignores <b>horPosition</b>.<br />
+                    While this setting gives you a lot more freedom it also puts more of the responsibility in your hands, since you have to make sure that the tracker is in a meaningful position, remains visible etc., so if you don't know how to achieve that, it is advised to stick to the default layout, leaving this option untouched.</p>
                     <hr />
                     <p><b>verEqualSpacing</b> - <i>default: <b>false</b></i><span class="hot">New! <span class="smaller">(wip)</span></span><br />
                     If set to true, the gaps between all stops on the vertical tracker will be equally high.</p>
@@ -147,10 +172,10 @@
                     If you activate this and have a header-tag on your website, the horizontal tracker will be created within your header¹. There are three options:</p>
                     <ul>
                         <li>
-                            <i><b>'top'</b></i> - Creates the tracker at the top of your header (i.e. before all other content).
+                            <i><b>"top"</b></i> - Creates the tracker at the top of your header (i.e. before all other content).
                         </li>
                         <li>
-                            <i><b>'bottom'</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).
+                            <i><b>"bottom"</b></i> - Creates the tracker at the bottom of your header (i.e. after all other content).
                         </li>
                         <li>
                             <i><b>false</b></i> - Creates the tracker at the end of the site's layout in a fixed container (default behavior).
@@ -158,47 +183,47 @@
                     </ul>
                     <p class="smaller">¹If you use this setting, you should make sure your header is set to position: fixed.</p>
                     <hr />
-                    <p><b>horPosition</b> - <i>default: <b>'top'</b></i><br />
+                    <p><b>horPosition</b> - <i>default: <b>"top"</b></i><br />
                     Defines where to display the <i>horizontal</i> tracker. There are two options:</p>
                     <ul>
                         <li>
-                            <i><b>'top'</b></i> - Displays the tracker above the content.
+                            <i><b>"top"</b></i> - Displays the tracker above the content.
                         </li>
                         <li>
-                            <i><b>'bottom'</b></i> - Displays the tracker below the content.
+                            <i><b>"bottom"</b></i> - Displays the tracker below the content.
                         </li>
                     </ul>
                     <hr />
                     <p><b>horCenter</b> - <i>default: <b>true</b></i><br />
                     Setting this to false allows you to stretch the <i>horizontal</i> tracker to the width of the viewport.<br />This is the default behavior on small screens (and will thus be ignored if <b>horMobileOnly</b> is set to true)</p>
                     <hr />
-                    <p><b>horStyle</b> - <i>default: <b>'fill'</b></i><br />
+                    <p><b>horStyle</b> - <i>default: <b>"fill"</b></i><br />
                     This option enables you to change the way the <i>horizontal</i> tracker looks. There are two options (more may be added later):</p>
                     <ul>
                         <li>
-                            <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
+                            <i><b>"beam"</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
                             <br /><img src="http://whitworth.de/ProgressTracker/1.1/images/horStyle-Beam.png" alt="" />
                         </li>
                         <li>
-                            <i><b>'fill'</b></i> - The tracker will be displayed as a thick bar that contains titles within and has the bullets slightly overlapping it.
+                            <i><b>"fill"</b></i> - The tracker will be displayed as a thick bar that contains titles within and has the bullets slightly overlapping it.
                             <br /><img src="http://whitworth.de/ProgressTracker/1.1/images/horStyle-Fill.png" alt="" />
                         </li>
                     </ul>
                     <hr />
-                    <p><b>horColor</b> - <i>default: <b>'red'</b></i><br />
+                    <p><b>horColor</b> - <i>default: <b>"red"</b></i><br />
                         Using this option the color of the <i>horizontal</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
                     <ul>
                         <li>
-                            <i><b>'red'</b></i>
+                            <i><b>"red"</b></i>
                         </li>
                         <li>
-                            <i><b>'blue'</b></i>
+                            <i><b>"blue"</b></i>
                         </li>
                         <li>
-                            <i><b>'green'</b></i>
+                            <i><b>"green"</b></i>
                         </li>
                         <li>
-                            <i><b>'orange'</b></i>
+                            <i><b>"orange"</b></i>
                         </li>
                     </ul>
                     <p class="smaller">If you want to adjust the tracker(s) beyond picking a color with this option, you can do so in the stylesheet files.</p>
@@ -218,20 +243,20 @@
                     If set to true the bullets of the <i>horizontal</i> tracker will be numbered. Naturally this only works while <b>horStops</b> is true.</p>
                     <hr />
                     <p><b>horTitles</b> - <i>default: <b>true</b></i><br />
-                    Adds the text of each section's headline (h2) to the <i>horizontal</i> progress tracker if set to true. The way these titles are displayed can be further adjusted with additional settings (see below).</p>
+                    Adds the text of each section's headline (h3 by default) to the <i>horizontal</i> progress tracker if set to true. The way these titles are displayed can be further adjusted with additional settings (see below).</p>
                     <hr />
-                    <p><b>horTitlesOffset</b> - <i>default: <b>'bottom'</b></i><br />
+                    <p><b>horTitlesOffset</b> - <i>default: <b>"bottom"</b></i><br />
                     Defines if and how the titles of the <i>horizontal</i> progress tracker should be offset from the tracker itself. There are three options:</p>
                     <ul>
                         <li>
-                            <i><b>'top'</b></i> - Displays the titles above the tracker.
+                            <i><b>"top"</b></i> - Displays the titles above the tracker.
                         </li>
                         <li>
-                            <i><b>'bottom'</b></i> - Displays the titles below the tracker.
+                            <i><b>"bottom"</b></i> - Displays the titles below the tracker.
                         </li>
                         <li>
                             <i><b>false</b></i> - Displays the titles on top of the tracker.¹<br /><br />
-                            <span class="smaller">¹<b>false</b> will automatically be overridden with <b>'bottom'</b> on small screens ('top' and 'bottom' still work normally on small screens)!</span>
+                            <span class="smaller">¹<b>false</b> will automatically be overridden with <b>"bottom"</b> on small screens ('top' and 'bottom' still work normally on small screens)!</span>
                         </li>
                     </ul>
                     <hr />
@@ -242,44 +267,44 @@
                     <p><b>verTracker</b> - <i>default: <b>false</b></i><br />
                     Displays a <i>vertical</i> Scroll Progress Tracker if set to true.</p>
                     <hr />
-                    <p><b>verPosition</b> - <i>default: <b>'left'</b></i><br />
+                    <p><b>verPosition</b> - <i>default: <b>"left"</b></i><br />
                     Defines where to display the <i>vertical</i> tracker. There are two options:</p>
                     <ul>
                         <li>
-                            <i><b>'left'</b></i> - Displays the tracker on the far left of the viewport.
+                            <i><b>"left"</b></i> - Displays the tracker on the far left of the viewport.
                         </li>
                         <li>
-                            <i><b>'right'</b></i> - Displays the tracker on the far right of the viewport.
+                            <i><b>"right"</b></i> - Displays the tracker on the far right of the viewport.
                         </li>
                     </ul>
                     <hr />
-                    <p><b>verStyle</b> - <i>default: <b>'beam'</b></i><br />
+                    <p><b>verStyle</b> - <i>default: <b>"beam"</b></i><br />
                     This option enables you to change the way the <i>vertical</i> tracker looks. There are two options (more may be added later):</p>
                     <ul>
                         <li>
-                            <i><b>'beam'</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
+                            <i><b>"beam"</b></i> - The tracker will be displayed as a thin line with the bullets overlaying it.
                             <br /><img src="http://whitworth.de/ProgressTracker/1.1/images/verStyle-Beam.png" alt="" />
                         </li>
                         <li>
-                            <i><b>'fill'</b></i> - The tracker will be displayed as a thick bar that contains the bullets within.
+                            <i><b>"fill"</b></i> - The tracker will be displayed as a thick bar that contains the bullets within.
                             <br /><img src="http://whitworth.de/ProgressTracker/1.1/images/verStyle-Fill.png" alt="" />
                         </li>
                     </ul>
                     <hr />
-                    <p><b>verColor</b> - <i>default: <b>'red'</b></i><br />
+                    <p><b>verColor</b> - <i>default: <b>"red"</b></i><br />
                         Using this option the color of the <i>vertical</i> tracker's default gradient can easily be adjusted. There are four options (more might be added):</p>
                     <ul>
                         <li>
-                            <i><b>'red'</b></i>
+                            <i><b>"red"</b></i>
                         </li>
                         <li>
-                            <i><b>'blue'</b></i>
+                            <i><b>"blue"</b></i>
                         </li>
                         <li>
-                            <i><b>'green'</b></i>
+                            <i><b>"green"</b></i>
                         </li>
                         <li>
-                            <i><b>'orange'</b></i>
+                            <i><b>"orange"</b></i>
                         </li>
                     </ul>
                     <p class="smaller">If you want to adjust the tracker(s) beyond picking a color with this option, you can do so in the stylesheet files.</p>
@@ -297,7 +322,7 @@
                     If set to true the bullets of the <i>vertical</i> tracker will be numbered. Naturally this only works while <b>verStops</b> is true.</p>
                     <hr />
                     <p><b>verTitles</b> - <i>default: <b>true</b></i><br />
-                    Adds the text of each section's headline (h2) to the <i>vertical</i> progress tracker if set to true. They will be displayed to the right of the progress bar and the bullets (if <b>verStops</b> is true) per default. This can be changed via the stylesheet.</p>
+                        Adds the text of each section's first headline (h3 unless <b>trackAllHeadlines</b> is used) to the <i>vertical</i> progress tracker if set to true. They will be displayed to the right of the progress bar and the bullets (if <b>verStops</b> is true) per default. This can be changed via the stylesheet.</p>
     <!-- General -->
                     <h4>General settings (affects all trackers)</h4>
                     <p><b>mobileThreshold</b> - <i>default: <b>1300</b></i><br />
@@ -305,15 +330,15 @@
                     This setting affects <b>horMobile</b>, <b>horMobileOnly</b>, <b>verMobile</b>, <b>verMobileOnly</b> and others.</p>
                     <hr />
                     <p><b>trackAllHeadlines</b> - <i>default: <b>false</b></i><br />
-                    If set to true, any first headline tag (h1, h2, h3,...) inside '.spt-trackThis'¹ will be used as a section title on the tracker(s) instead of h3 only.</p>
+                    If this is true any type of headline (h1, h2, h3, ...) will be viable to serve as the section's title, instead of just h3-headlines. Of course this doesn't change the fact that only the first headline within a section will be used.</p>
                     <p class="smaller">¹or with the class "spt-trackThis" - see the last point under "Setup" for further information.</p>
                     <hr />
                     <p><b>addFinalStop</b> - <i>default: <b>false</b></i><br />
                     If set to true this option adds an additional bullet to the very end of the tracker(s). By default this final bullet is a little bigger than the others but this can be changed via the stylesheet.<br />
                     This option is compatible with <b>horNumbering</b> and <b>verNumbering</b>.</p>
                     <hr />
-                    <p><b>finalStopTitle</b> - <i>default: <b>''</b></i><br />
-                    Allows you to add a custom title to the additioanl bullet of <b>addFinalStop</b>. Usually this only works if <b>addFinalStop</b> and either <b>horTitles</b>, <b>verTitles</b> or both are true; however this also works without <b>addFinalStop</b> if either <b>horOnlyActiveTitle</b> is true or on small screens if <b>horTtiles</b> is true.</p>
+                    <p><b>finalStopTitle</b> - <i>default: <b>""</b></i><br />
+                    Allows you to add a custom title to the additional bullet of <b>addFinalStop</b>. Usually this only works if <b>addFinalStop</b> and either <b>horTitles</b>, <b>verTitles</b> or both are true; however this also works without <b>addFinalStop</b> if either <b>horOnlyActiveTitle</b> is true or on small screens if <b>horTitles</b> is true.</p>
                     <hr />
                     <p><b>hovering</b> - <i>default: <b>true</b></i><br />
                     Adds a hover effect to both the bullets and the titles if set to true. Naturally for this to take effect, at least one of <b>horStops</b>, <b>verStops</b>, <b>horTitles</b> and <b>verTitles</b> needs to be true. However if <b>horStops</b>, <b>verStops</b> and <b>verTitles</b> are set to false and only <b>horTitles</b> is set to true <i>and</i> <b>horOnlyActiveTitle</b> is also set to true, this still won't take effect.</p>
@@ -367,14 +392,15 @@
                         <span class="htmlTag">&lt;script&gt;</span>
                         <div class="javascript">
                             &nbsp;&nbsp;&nbsp;&nbsp;$(<span class="jsQuote">'body'</span>).progressTracker({<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horInContainer: <span class="jsQuote">'MyTableOfContents'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horStops: <span class="jsConst">false</span>,<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horMobileOnly: <span class="jsConst">true</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horSplitSections: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verTracker: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verPosition: <span class="jsQuote">'right'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verColor: <span class="jsQuote">'blue'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trackAllHeadlines: <span class="jsConst">true</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addFinalStop: <span class="jsConst">true</span>,<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Credits, Questions & Feedback'</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finalStopTitle: <span class="jsQuote">'Miscellaneous, Questions & Feedback'</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skipHeadlines: <span class="jsConst">false</span>,<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scrollSpeed: <span class="jsVal">1200</span><br />
                             &nbsp;&nbsp;&nbsp;&nbsp;});
@@ -389,7 +415,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="htmlComment">&lt;!-- insert content here --&gt;</span><br />
                         <span class="htmlTag">&lt;/div&gt;</span>
                     </div>
-                    <p>In order for <b>horStops</b>/<b>verStops</b> to work, you need to define sections with the class "spt-trackThis".</p>
+                    <p>In order for <b>horStops</b>/<b>verStops</b> to work, you need to define sections with the class "spt-trackThis" (within your tracked area, i.e. either &lt;body&gt; or #TrackScrollProgress).</p>
                     <div class="sourcecode">
                         <span class="htmlTag">&lt;div</span>
                         <span class="htmlAttr">class</span>=<span class="htmlVal">"spt-trackThis"</span><span class="htmlTag">&gt;</span><br />
@@ -683,7 +709,7 @@
                     <hr />
                     <p>I'd also like to address my sincere thanks to <a href="http://www.jsclasses.org/">JSClasses</a> user Herb Walsh for asking lots and lots and <b>lots</b> of questions and thus pointing out some flaws in the plugin and inspiring me to write the "Tips &amp; Tricks" section.</p>
                     <hr />
-                    <p>Additionally I want to extend my sincere thanks to [insert name] for inspiring me to add the <i>Equal Spacing</i> options.</p>
+                    <p>Additionally I want to extend my sincere thanks to Jonas Marnell for inspiring me to add the <i>Equal Spacing</i> options.</p>
                 </div>
                 <hr />
 <!-- Miscellaneous -->
@@ -699,6 +725,9 @@
                     <p>Also, please, feel free to send me links to websites where you used this! <span class="larger">☺</span></p>
                 </div>
             </div>
+        </div>
+        <div id="MyTableOfContents">
+            <h2>Table of contents:</h2>
         </div>
     </body>
 </html>

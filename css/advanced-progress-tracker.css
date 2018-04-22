@@ -49,6 +49,9 @@
 //----------------------------------------------------------------------------------------------------------------------
 // 2018-04-20 DW    renamed all classes with the "vert" prefix to now start with "ver" instead Version 1.3;
 //                  cleaned up this comment section
+// 2018-04-22 DW    fixed the calculation for the width of ".spt-ellipsis" so that it actually cuts off overflow text;
+//                  added a text-shadow to section titles on the horizontal trackers for the "fill" style, to improve
+//                  their readability when the progress bars aren't behind them, yet
 //----------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2016 - 2018
 //----------------------------------------------------------------------------------------------------------------------
@@ -180,6 +183,7 @@
 .spt-splitSections {
   position: fixed;
   width: 400px;
+  max-width: 100%;
   top: 0;
   left: 0;
   margin: 0 20px;
@@ -191,6 +195,12 @@
 .spt-splitSections.spt-right {
   right: 0;
   left: auto;
+}
+.spt-splitSections.spt-inContainer {
+  position: static;
+  top: auto;
+  left: auto;
+  margin: 0;
 }
 .spt-splitSections .spt-sectionProgress {
   display: block;
@@ -392,7 +402,7 @@
 .spt-verScrollStopTitles .spt-stopTitle.spt-ellipsis,
 .spt-scrollStopTitles .spt-finalStopTitle.spt-ellipsis,
 .spt-verScrollStopTitles .spt-finalStopTitle.spt-ellipsis {
-  max-width: calc(100%);
+  max-width: calc(100% - 16px);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -485,21 +495,13 @@
 }
 .spt-horizontalScrollProgress.spt-styleFill .spt-scrollStopTitles .spt-onlyActive {
   line-height: 28px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35);
   color: #ffffff;
 }
 /* <-- HORIZONTAL STYLES */
 /* SPLIT SECTIONS STYLES --> */
 .spt-splitSections.spt-styleFill .spt-sectionProgress {
-  /*
-            border: 1px solid fade(@color-foreground, 20%);
-            border-bottom-width: 0;
-*/
   background-color: rgba(0, 0, 0, 0.15);
-  /*
-            &:last-of-type {
-                border-bottom: 1px solid fade(@color-foreground, 20%);
-            }
-*/
 }
 .spt-splitSections.spt-styleFill .spt-sectionProgress .spt-sectionProgressBar {
   margin-top: 0;
@@ -518,13 +520,9 @@
 .spt-splitSections.spt-styleFill .spt-sectionProgress .spt-stopTitle {
   text-shadow: none;
   color: rgba(0, 0, 0, 0.6);
-  /*
-                &:hover {
-                    color: @color-background;
-                }
-                */
 }
 .spt-splitSections.spt-styleFill .spt-sectionProgress .spt-stopTitle.spt-reached {
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35);
   color: #ffffff;
 }
 /* <-- SPLIT SECTION STYLES */
